@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.amcolingenieria.com/sitemap.xml
+
+# Block admin / private paths (add any as needed)
+Disallow: /cgi-bin/

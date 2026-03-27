@@ -1,0 +1,405 @@
+/* ============================================================
+   AMCOL INGENIERÍA LTDA — main.css
+   Aesthetic: "Precision in Darkness" — Industrial Editorial
+   Fonts: Barlow Condensed (display) + DM Sans (body) + DM Mono (data)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+/* ─── Brand Tokens ─────────────────────────────────────────── */
+:root {
+  /* Core palette */
+  --red:          #CC1414;
+  --red-hot:      #E01818;
+  --red-dim:      rgba(204, 20, 20, 0.10);
+  --red-glow:     rgba(204, 20, 20, 0.20);
+  --ink:          #FFFFFF;
+  --ink-90:       rgba(255, 255, 255, 0.92);
+  --ink-70:       rgba(255, 255, 255, 0.7);
+  --steel:        #F4F4F5;
+  --steel-light:  #EBEBEB;
+  --wire:         #E0E0E0;
+  --ash:          #B8B8B8;
+  --smoke:        #5A5A5A;
+  --mist:         #333333;
+  --chalk:        #111111;
+  --white:        #FFFFFF;
+
+  /* Semantic aliases */
+  --color-primary:      var(--red);
+  --color-bg:           var(--ink);
+  --color-surface:      var(--steel);
+  --color-surface-2:    var(--steel-light);
+  --color-border:       var(--wire);
+  --color-text:         var(--chalk);
+  --color-text-muted:   var(--smoke);
+  --color-heading:      var(--chalk);
+
+  /* Typography */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  /* Type scale */
+  --fs-2xs:  0.625rem;   /* 10px */
+  --fs-xs:   0.75rem;    /* 12px */
+  --fs-sm:   0.875rem;   /* 14px */
+  --fs-base: 1rem;       /* 16px */
+  --fs-md:   1.125rem;   /* 18px */
+  --fs-lg:   1.25rem;    /* 20px */
+  --fs-xl:   1.5rem;     /* 24px */
+  --fs-2xl:  2rem;       /* 32px */
+  --fs-3xl:  2.75rem;    /* 44px */
+  --fs-4xl:  3.5rem;     /* 56px */
+  --fs-5xl:  5rem;       /* 80px */
+  --fs-6xl:  7rem;       /* 112px */
+
+  /* Spacing */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+
+  /* Structural */
+  --navbar-h:   68px;
+  --max-w:      1280px;
+  --max-w-text: 720px;
+
+  /* Radii */
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 8px;
+
+  /* Shadows */
+  --shadow-red:  0 0 40px rgba(204,20,20,0.2);
+  --shadow-deep: 0 24px 64px rgba(0,0,0,0.12);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
+
+  /* Transitions */
+  --ease:      cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out:  cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-in:   cubic-bezier(0.4, 0.0, 1, 1);
+  --t-fast:    160ms;
+  --t-base:    280ms;
+  --t-slow:    480ms;
+}
+
+/* ─── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--ink);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  color: var(--color-text);
+  background-color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Subtle noise texture on entire page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
+
+/* ─── Typography ────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--color-heading);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: var(--fs-5xl);  font-weight: 900; }
+h2 { font-size: var(--fs-4xl);  font-weight: 800; }
+h3 { font-size: var(--fs-2xl);  font-weight: 700; }
+h4 { font-size: var(--fs-lg);   font-weight: 700; }
+h5 { font-size: var(--fs-base); font-weight: 600; font-family: var(--font-body); text-transform: none; letter-spacing: 0; }
+
+p {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Layout ────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+
+.section {
+  padding: var(--sp-24) 0;
+  position: relative;
+}
+
+section[id] {
+  scroll-margin-top: var(--navbar-h);
+}
+
+/* ─── Eyebrow / Labels ──────────────────────────────────────── */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.label::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--red);
+  flex-shrink: 0;
+}
+
+/* ─── Section Header ─────────────────────────────────────────── */
+.section-header {
+  margin-bottom: var(--sp-16);
+}
+
+.section-header.centered {
+  text-align: center;
+}
+
+.section-header.centered .label {
+  justify-content: center;
+}
+
+.section-header.centered .label::before {
+  display: none;
+}
+
+.section-header.centered .label::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background-color: var(--red);
+  flex-shrink: 0;
+}
+
+.section-header .label {
+  margin-bottom: var(--sp-4);
+}
+
+.section-header h2 {
+  margin-bottom: var(--sp-4);
+}
+
+.section-header p {
+  max-width: 600px;
+  font-size: var(--fs-md);
+}
+
+.section-header.centered p {
+  margin: 0 auto;
+}
+
+/* ─── Red accent line ────────────────────────────────────────── */
+.accent-line {
+  width: 48px;
+  height: 3px;
+  background: var(--red);
+  margin: var(--sp-4) 0 var(--sp-6);
+}
+
+.accent-line.center {
+  margin: var(--sp-4) auto var(--sp-6);
+}
+
+/* ─── Buttons ────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0.875rem 1.875rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--r-sm);
+  transition: all var(--t-base) var(--ease-out);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.06);
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+
+.btn:hover::after { opacity: 1; }
+
+.btn-primary {
+  background-color: var(--red);
+  color: var(--white);
+  border: 1px solid var(--red);
+}
+
+.btn-primary:hover {
+  background-color: var(--red-hot);
+  border-color: var(--red-hot);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(204,20,20,0.4);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--wire);
+}
+
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-2px);
+}
+
+.btn-outline-red {
+  background: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+.btn-outline-red:hover {
+  background: var(--red);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(204,20,20,0.3);
+}
+
+/* ─── Animated entry ─────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--t-slow) var(--ease-out),
+              transform var(--t-slow) var(--ease-out);
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 80ms; }
+.reveal-delay-2 { transition-delay: 160ms; }
+.reveal-delay-3 { transition-delay: 240ms; }
+.reveal-delay-4 { transition-delay: 320ms; }
+.reveal-delay-5 { transition-delay: 400ms; }
+
+/* ─── Technical decorative grid (background pattern) ─────────── */
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* ─── Diagonal section clip ─────────────────────────────────── */
+.clip-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+}
+
+.clip-top {
+  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+  margin-top: -4rem;
+  padding-top: calc(var(--sp-24) + 4rem);
+}
+
+/* ─── Horizontal rule ────────────────────────────────────────── */
+.hr {
+  border: none;
+  border-top: 1px solid var(--wire);
+  margin: var(--sp-8) 0;
+}
+
+/* ─── Tag chip ───────────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid rgba(204,20,20,0.3);
+  border-radius: var(--r-sm);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--steel); }
+::-webkit-scrollbar-thumb { background: var(--ash); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
+
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: rgba(204,20,20,0.35);
+  color: var(--white);
+}
+
+/* ─── Focus visible ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}

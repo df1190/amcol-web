@@ -1,0 +1,294 @@
+/* ============================================================
+   AMCOL INGENIERÍA LTDA — responsive.css
+   Mobile-first breakpoints: 480 | 768 | 1024 | 1280
+   ============================================================ */
+
+/* ─── Tablet (≤ 1024px) ──────────────────────────────────────── */
+@media (max-width: 1024px) {
+
+  .qsa-grid { grid-template-columns: 1fr; }
+  .qsa-sources { grid-template-columns: 1fr; }
+
+  /* Navbar */
+  .navbar__nav,
+  .navbar__cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* Hero */
+  .hero__h1 {
+    font-size: clamp(3rem, 7vw, 5rem);
+  }
+
+  .hero__stats-row {
+    flex-wrap: wrap;
+  }
+
+  .hero__stat {
+    flex: 1 1 50%;
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .hero__stat:nth-child(2),
+  .hero__stat:nth-child(4) {
+    border-right: none;
+  }
+
+  /* Services */
+  .services-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* About */
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: var(--sp-12);
+  }
+
+  .about-visual {
+    order: -1;
+  }
+
+  .about-visual__frame {
+    aspect-ratio: 16/9;
+  }
+
+  .about-visual__num {
+    display: none;
+  }
+
+  /* Why */
+  .why-section::before {
+    font-size: 14rem;
+  }
+
+  .why-layout {
+    grid-template-columns: 1fr;
+    gap: var(--sp-12);
+  }
+
+  .why-left {
+    position: static;
+  }
+
+  /* Sectors */
+  .sectors-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Contact */
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: var(--sp-12);
+  }
+
+  /* Footer */
+  .footer__main {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ─── Mobile (≤ 768px) ──────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  :root {
+    --sp-24: 4rem;
+    --sp-16: 3rem;
+  }
+
+  /* Type scale down */
+  h1 { font-size: var(--fs-4xl); }
+  h2 { font-size: var(--fs-3xl); }
+  h3 { font-size: var(--fs-xl); }
+
+  .container {
+    padding: 0 var(--sp-5);
+  }
+
+  /* Hero */
+  .hero__h1 {
+    font-size: clamp(2.5rem, 9vw, 4rem);
+  }
+
+  .hero__sub {
+    font-size: var(--fs-base);
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn {
+    justify-content: center;
+  }
+
+  .hero__stats-row {
+    flex-direction: column;
+  }
+
+  .hero__stat {
+    flex: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--wire);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+  }
+
+  .hero__stat:last-child {
+    border-bottom: none;
+  }
+
+  .hero__stat-num {
+    font-size: var(--fs-2xl);
+    min-width: 64px;
+  }
+
+  /* Services */
+  .services-list {
+    grid-template-columns: 1fr;
+  }
+
+  .svc-card {
+    min-height: 320px;
+  }
+
+  /* Sectors */
+  .sectors-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+  }
+
+  .sector-card {
+    display: flex;
+    gap: var(--sp-5);
+    align-items: flex-start;
+  }
+
+  .sector-card__icon {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  /* Why */
+  .why-section::before {
+    display: none;
+  }
+
+  /* Contact form */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-box {
+    padding: var(--sp-6);
+  }
+
+  /* Footer */
+  .footer__main {
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+  }
+
+  .footer-brand {
+    grid-column: auto;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+
+  /* About */
+  .about-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .about-tabs::-webkit-scrollbar { display: none; }
+}
+
+/* ─── Small Mobile (≤ 480px) ─────────────────────────────────── */
+@media (max-width: 480px) {
+
+  :root {
+    --sp-24: 3rem;
+    --sp-16: 2.5rem;
+  }
+
+  .hero__h1 {
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+  }
+
+  .navbar__logo img {
+    height: 32px;
+  }
+
+  .btn {
+    font-size: var(--fs-sm);
+    padding: 0.75rem 1.25rem;
+  }
+
+  .hero__stat-num {
+    font-size: var(--fs-xl);
+    min-width: 50px;
+  }
+
+  .svc-card {
+    min-height: 280px;
+  }
+
+  .about-visual__badge strong {
+    font-size: var(--fs-base);
+  }
+}
+
+/* ─── Accessibility: reduced motion ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html { scroll-behavior: auto; }
+}
+
+/* ─── Print ──────────────────────────────────────────────────── */
+@media print {
+  .navbar, .scroll-top, .hero__scan, .mobile-menu,
+  .contact-form-box, .footer__strip {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+  }
+
+  a { color: black; text-decoration: underline; }
+
+  .hero {
+    min-height: auto;
+    padding: 2rem 0;
+    background: white;
+    color: black;
+  }
+
+  .hero__photo,
+  .hero__vignette,
+  .hero__grid { display: none; }
+}
