@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Herramientas API 653 | Amcol Ingeniería Ltda</title>
+  <meta name="description" content="Calculadoras técnicas API 653 para inspección de tanques de almacenamiento. Espesor mínimo de fondo §4.4 y tasa de corrosión §4.3. Amcol Ingeniería Ltda, Colombia." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.amcolingenieria.com/herramientas.html" />
+  <link rel="icon" type="image/png" href="img/logo/amcol-logo-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   HERRAMIENTAS PAGE — estilos propios
+   Prefijo .ct- (calc-tool) para evitar conflictos con main.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Hero de la página ───────────────────────────────────────── */
+.tools-hero {
+  background: var(--chalk);
+  padding: 80px 0 48px;
+  margin-top: var(--navbar-h);
+  border-bottom: 3px solid var(--red);
+}
+.tools-hero .container { max-width: 1000px; }
+.tools-hero__eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: .08em;
+  color: var(--red); text-transform: uppercase; margin-bottom: 14px;
+}
+.tools-hero__title {
+  font-family: var(--font-display); font-size: 3rem; font-weight: 800;
+  color: #fff; line-height: 1.05; letter-spacing: .02em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.tools-hero__title span { color: var(--red); }
+.tools-hero__sub {
+  font-family: var(--font-body); font-size: 1rem; color: rgba(255,255,255,.7);
+  max-width: 580px; line-height: 1.7;
+}
+
+/* ─── Tab switcher ────────────────────────────────────────────── */
+.tools-tabs-wrap {
+  background: #F8F8FA;
+  border-bottom: 1px solid #E0E0E0;
+  position: sticky; top: var(--navbar-h); z-index: 40;
+}
+.tools-tabs {
+  max-width: 1000px; margin: 0 auto; padding: 0 24px;
+  display: flex; gap: 0;
+}
+.tools-tab {
+  padding: 15px 28px;
+  font-family: var(--font-display); font-size: .92rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: none; border: none; cursor: pointer;
+  color: #888; border-bottom: 3px solid transparent;
+  transition: color .18s, border-color .18s;
+}
+.tools-tab:hover { color: var(--chalk); }
+.tools-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+/* ─── Sección de herramientas ─────────────────────────────────── */
+.tools-section {
+  background: #F5F5F7;
+  padding: 36px 0 64px;
+}
+.tools-section .container { max-width: 1000px; }
+
+.ct-panel { display: none; }
+.ct-panel.active { display: block; }
+
+/* ─── Nota normativa superior ─────────────────────────────────── */
+.ct-norm-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em;
+  background: #FFF0F0; border: 1px solid #FFCCCC; color: var(--red);
+  border-radius: 4px; padding: 4px 12px; margin-bottom: 22px;
+  text-transform: uppercase;
+}
+
+/* ─── Cards ───────────────────────────────────────────────────── */
+.ct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.ct-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+@media(max-width:700px){ .ct-grid,.ct-grid-3 { grid-template-columns: 1fr; } }
+
+.ct-card {
+  background: #FFFFFF; border: 1px solid #DEDEDE;
+  border-radius: 6px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+}
+.ct-card__head {
+  background: #F8F8FA; padding: 10px 18px;
+  font-family: var(--font-mono); font-size: .78rem; font-weight: 500;
+  color: #666; letter-spacing: .07em; text-transform: uppercase;
+  border-bottom: 2px solid var(--red);
+}
+.ct-card__body { padding: 18px; }
+
+/* ─── Campos de formulario ────────────────────────────────────── */
+.ct-field { margin-bottom: 14px; }
+.ct-field:last-child { margin-bottom: 0; }
+.ct-field label {
+  display: block; font-family: var(--font-body); font-size: .85rem;
+  color: #555; font-weight: 500; margin-bottom: 4px;
+}
+.ct-field input, .ct-field select {
+  width: 100%; padding: 9px 13px;
+  background: #F0F4FF; border: 1px solid #C5D0F0; border-radius: 4px;
+  color: #1A3A80; font-family: var(--font-mono); font-size: .95rem; font-weight: 500;
+  outline: none; transition: border-color .18s, box-shadow .18s;
+}
+.ct-field input:focus, .ct-field select:focus {
+  border-color: #3A6ACA; box-shadow: 0 0 0 3px rgba(58,106,202,.15);
+}
+.ct-field .ct-unit {
+  font-family: var(--font-mono); font-size: .73rem; color: #666; margin-top: 3px;
+}
+.ct-field .ct-hint {
+  font-family: var(--font-body); font-size: .73rem; color: #888; margin-top: 3px; font-style: italic;
+}
+
+/* ─── Filas de resultado ──────────────────────────────────────── */
+.ct-result-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-radius: 4px; border-left: 3px solid #E0E0E0;
+  margin-bottom: 7px; background: #F8F8FA; gap: 10px;
+}
+.ct-result-row.hi { border-left-color: var(--red); background: #FFF5F5; }
+.ct-result-row__label {
+  font-family: var(--font-body); font-size: .84rem; color: #555; flex: 1; font-weight: 500;
+}
+.ct-result-row__val {
+  font-family: var(--font-mono); font-size: 1.1rem; font-weight: 600;
+  color: #111; min-width: 72px; text-align: right;
+}
+.ct-result-row__unit {
+  font-family: var(--font-mono); font-size: .73rem; color: #666;
+  min-width: 42px; text-align: left; margin-left: 5px;
+}
+.ct-result-row.hi .ct-result-row__val { font-size: 1.2rem; }
+
+/* ─── Cajas de tasa ───────────────────────────────────────────── */
+.ct-rate-box {
+  border: 1px solid #DEDEDE; border-radius: 6px; padding: 18px;
+  background: #FAFAFA; text-align: center;
+}
+.ct-rate-box__label {
+  font-family: var(--font-mono); font-size: .7rem; color: #777;
+  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 5px;
+}
+.ct-rate-box__val {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 800;
+  color: #111; line-height: 1;
+}
+.ct-rate-box__unit { font-family: var(--font-mono); font-size: .78rem; color: #666; margin-top: 3px; }
+.ct-rate-box__sub { font-family: var(--font-body); font-size: .73rem; color: #888; margin-top: 5px; }
+.ct-rate-box.dominant {
+  border-color: var(--red); background: #FFF5F5;
+}
+.ct-rate-box.dominant .ct-rate-box__val { color: var(--red); }
+.ct-rate-box.dominant .ct-rate-box__label { color: var(--red); }
+
+/* ─── Veredicto ───────────────────────────────────────────────── */
+.ct-veredicto {
+  margin-top: 22px; padding: 22px 26px; border-radius: 6px;
+  text-align: center; border: 2px solid #E0E0E0;
+  background: #F8F8FA; transition: background .18s, border-color .18s;
+}
+.ct-veredicto__icon { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+.ct-veredicto__text {
+  font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
+  letter-spacing: .04em; text-transform: uppercase; color: #555;
+}
+.ct-veredicto__sub {
+  font-family: var(--font-body); font-size: .88rem; margin-top: 7px; font-weight: 500; color: #777;
+}
+.ct-veredicto.ok   { background: #E6F7EE; border-color: #0A7A3A; }
+.ct-veredicto.warn { background: #FFF8E0; border-color: #C49800; }
+.ct-veredicto.fail { background: #FFF0F0; border-color: #CC1414; }
+.ct-veredicto.ok   .ct-veredicto__text { color: #0A7A3A; }
+.ct-veredicto.warn .ct-veredicto__text { color: #8A6000; }
+.ct-veredicto.fail .ct-veredicto__text { color: #B00000; }
+.ct-veredicto.ok   .ct-veredicto__sub  { color: #157A3A; }
+.ct-veredicto.warn .ct-veredicto__sub  { color: #7A5500; }
+.ct-veredicto.fail .ct-veredicto__sub  { color: #990000; }
+
+/* ─── Nota normativa inline ───────────────────────────────────── */
+.ct-nota {
+  margin-top: 22px; padding: 15px 18px;
+  background: #FFF8F8; border: 1px solid #EDD; border-radius: 6px;
+  border-left: 4px solid var(--red);
+}
+.ct-nota p {
+  font-family: var(--font-body); font-size: .84rem; color: #444;
+  line-height: 1.7; margin-bottom: 7px;
+}
+.ct-nota p:last-child { margin-bottom: 0; }
+.ct-nota strong { color: #111; }
+
+/* ─── Tabla de proyección ─────────────────────────────────────── */
+.ct-tbl-wrap { overflow-x: auto; margin-top: 6px; }
+.ct-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: .82rem; }
+.ct-table th {
+  background: #F0F0F5; color: #666; padding: 9px 13px;
+  text-align: left; letter-spacing: .04em; border-bottom: 2px solid var(--red);
+  font-size: .75rem;
+}
+.ct-table td { padding: 8px 13px; border-bottom: 1px solid #E0E0E0; color: #111; }
+.ct-table tr:hover td { background: #F5F5FA; }
+.ct-td-esp.low  { font-weight: 600; color: #B00000; background: #FFF0F0; }
+.ct-td-esp.warn { font-weight: 600; color: #7A5500; background: #FFF8E0; }
+.ct-td-esp.ok   { font-weight: 600; color: #0A7A3A; background: #E6F7EE; }
+
+/* ─── Ref tag ─────────────────────────────────────────────────── */
+.ct-ref {
+  display: inline-block; font-family: var(--font-mono); font-size: .65rem; font-weight: 500;
+  background: #F0F0F5; border: 1px solid #DDD; color: #666;
+  border-radius: 3px; padding: 1px 6px; letter-spacing: .04em; vertical-align: middle;
+}
+
+/* ─── Section divider ─────────────────────────────────────────── */
+.ct-section-title {
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+  color: #111; letter-spacing: .06em; text-transform: uppercase;
+  margin: 30px 0 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.ct-section-title::after { content: ''; flex: 1; height: 2px; background: #DEDEDE; }
+
+/* ─── Botones de calculadora ──────────────────────────────────── */
+.ct-btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.ct-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 20px; border-radius: 4px; border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: .88rem; font-weight: 600;
+  letter-spacing: .02em; transition: background .18s, transform 80ms;
+}
+.ct-btn:active { transform: scale(.97); }
+.ct-btn-primary { background: var(--red); color: #fff; }
+.ct-btn-primary:hover { background: #B01010; }
+.ct-btn-ghost { background: transparent; color: #555; border: 1px solid #DEDEDE; }
+.ct-btn-ghost:hover { background: #EBEBEB; color: #111; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ═══════════════════════════════════════════════════ -->
+<header>
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container navbar__inner">
+      <a href="/" class="navbar__logo" aria-label="Amcol Ingeniería – Inicio">
+        <img src="img/logo/amcol-logo-no-background.png" alt="Amcol Ingeniería Ltda" width="110" height="38" />
+      </a>
+      <ul class="navbar__nav" role="list">
+        <li><a href="/"                   class="navbar__link">Inicio</a></li>
+        <li><a href="/#servicios"         class="navbar__link">Servicios</a></li>
+        <li><a href="/nosotros.html"       class="navbar__link">Nosotros</a></li>
+        <li><a href="/herramientas.html"   class="navbar__link active">Herramientas</a></li>
+        <li><a href="/#sectores"          class="navbar__link">Sectores</a></li>
+        <li><a href="/#contacto"          class="navbar__link">Contacto</a></li>
+      </ul>
+      <div class="navbar__right">
+        <div class="lang-switch">
+          <a href="/herramientas.html" class="active">ES</a>
+          <a href="/en/">EN</a>
+        </div>
+        <a href="/#contacto" class="btn btn-primary navbar__cta">Cotizar</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-drawer" aria-hidden="true">
+      <a href="/"                 class="navbar__link">Inicio</a>
+      <a href="/#servicios"       class="navbar__link">Servicios</a>
+      <a href="/nosotros.html"     class="navbar__link">Nosotros</a>
+      <a href="/herramientas.html" class="navbar__link">Herramientas</a>
+      <a href="/#sectores"        class="navbar__link">Sectores</a>
+      <a href="/#contacto"        class="navbar__link">Contacto</a>
+      <div class="mobile-menu__footer">
+        <div class="lang-switch">
+          <a href="/herramientas.html" class="active">ES</a>
+          <a href="/en/">EN</a>
+        </div>
+        <a href="/#contacto" class="btn btn-primary">Cotizar</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════ -->
+<section class="tools-hero">
+  <div class="container">
+    <div class="tools-hero__eyebrow">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Calculadoras técnicas · API 653
+    </div>
+    <h1 class="tools-hero__title">Herramientas<br><span>de Inspección</span></h1>
+    <p class="tools-hero__sub">
+      Calculadoras basadas en API 653 para evaluación de integridad de tanques de almacenamiento aboveground. Úsalas como apoyo al criterio del inspector certificado.
+    </p>
+  </div>
+</section>
+
+<!-- ══ TABS ══════════════════════════════════════════════════════ -->
+<div class="tools-tabs-wrap">
+  <div class="tools-tabs">
+    <button class="tools-tab active" onclick="switchTab('fondo', this)">
+      §4.4 — Espesor Mínimo de Fondo
+    </button>
+    <button class="tools-tab" onclick="switchTab('corr', this)">
+      §4.3 — Tasa de Corrosión
+    </button>
+  </div>
+</div>
+
+<!-- ══ CALCULADORAS ═══════════════════════════════════════════════ -->
+<section class="tools-section">
+<div class="container">
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 1 — ESPESOR MÍNIMO DE FONDO  API 653 §4.4
+     ══════════════════════════════════════════════════════════════ -->
+<div id="panel-fondo" class="ct-panel active">
+
+  <div class="ct-norm-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    API 653 §4.4.4 — Espesor Mínimo de Fondo
+  </div>
+
+  <div class="ct-grid">
+
+    <!-- DATOS DEL TANQUE -->
+    <div class="ct-card">
+      <div class="ct-card__head">Datos del Tanque</div>
+      <div class="ct-card__body">
+        <div class="ct-field">
+          <label>Nombre / ID del tanque</label>
+          <input type="text" id="f-nombre" placeholder="TK-001" oninput="calcFondo()">
+        </div>
+        <div class="ct-field">
+          <label>Diámetro</label>
+          <input type="number" id="f-diametro" value="12" step="0.1" oninput="calcFondo()">
+          <div class="ct-unit">metros</div>
+        </div>
+        <div class="ct-field">
+          <label>Altura nominal</label>
+          <input type="number" id="f-altura" value="9" step="0.1" oninput="calcFondo()">
+          <div class="ct-unit">metros</div>
+        </div>
+        <div class="ct-field">
+          <label>Año de construcción</label>
+          <input type="number" id="f-anio" value="2005" min="1900" max="2100" oninput="calcFondo()">
+        </div>
+        <div class="ct-field">
+          <label>Material del fondo</label>
+          <select id="f-material" onchange="calcFondo()">
+            <option value="A36">A36</option>
+            <option value="A283C">A283 Gr. C</option>
+            <option value="A516-70">A516 Gr. 70</option>
+          </select>
+        </div>
+        <div class="ct-field">
+          <label>Gravedad específica del producto (G)</label>
+          <input type="number" id="f-gravedad" value="0.85" step="0.01" min="0.1" max="2" oninput="calcFondo()">
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDICIONES -->
+    <div class="ct-card">
+      <div class="ct-card__head">Mediciones de Espesor</div>
+      <div class="ct-card__body">
+        <div class="ct-field">
+          <label>Espesor nominal original — t<sub>nom</sub></label>
+          <input type="number" id="f-tnom" value="6.0" step="0.1" oninput="calcFondo()">
+          <div class="ct-unit">mm</div>
+        </div>
+        <div class="ct-field">
+          <label>Espesor medido ACTUAL — t<sub>act</sub></label>
+          <input type="number" id="f-tact" value="4.8" step="0.01" oninput="calcFondo()">
+          <div class="ct-unit">mm</div>
+        </div>
+        <div class="ct-field">
+          <label>Espesor inspección ANTERIOR — t<sub>prev</sub></label>
+          <input type="number" id="f-tprev" value="5.4" step="0.01" oninput="calcFondo()">
+          <div class="ct-unit">mm</div>
+        </div>
+        <div class="ct-field">
+          <label>Fecha inspección anterior</label>
+          <input type="date" id="f-fprev" value="2020-01-01" oninput="calcFondo()">
+        </div>
+        <div class="ct-field">
+          <label>Fecha inspección actual</label>
+          <input type="date" id="f-fact" value="2025-01-01" oninput="calcFondo()">
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /ct-grid -->
+
+  <!-- RESULTADOS -->
+  <div class="ct-card" style="margin-top:20px">
+    <div class="ct-card__head">Resultados — API 653 §4.4</div>
+    <div class="ct-card__body">
+      <div class="ct-grid" style="gap:8px">
+        <div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Años entre inspecciones</span>
+            <span class="ct-result-row__val" id="f-r-anos">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Tasa de corrosión (C<sub>rate</sub>)</span>
+            <span class="ct-result-row__val" id="f-r-tasa">—</span>
+            <span class="ct-result-row__unit">mm/año</span>
+          </div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">t<sub>min</sub> API 653 §4.4.4</span>
+            <span class="ct-result-row__val" id="f-r-tmin">—</span>
+            <span class="ct-result-row__unit">mm</span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Margen sobre t<sub>min</sub></span>
+            <span class="ct-result-row__val" id="f-r-margen">—</span>
+            <span class="ct-result-row__unit">mm</span>
+          </div>
+        </div>
+        <div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">Vida remanente</span>
+            <span class="ct-result-row__val" id="f-r-vida">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">Intervalo máx. de inspección</span>
+            <span class="ct-result-row__val" id="f-r-intervalo">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">Próxima inspección recomendada</span>
+            <span class="ct-result-row__val" id="f-r-proxima" style="font-size:.92rem">—</span>
+            <span class="ct-result-row__unit"></span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">% espesor restante vs. nominal</span>
+            <span class="ct-result-row__val" id="f-r-pct">—</span>
+            <span class="ct-result-row__unit">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ct-veredicto" id="f-veredicto">
+        <span class="ct-veredicto__icon" id="f-v-icon">—</span>
+        <div class="ct-veredicto__text" id="f-v-text">Ingresa los datos para calcular</div>
+        <div class="ct-veredicto__sub"  id="f-v-sub"></div>
+      </div>
+
+      <div class="ct-btn-row">
+        <button class="ct-btn ct-btn-primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+        <button class="ct-btn ct-btn-ghost" onclick="limpiarFondo()">Limpiar campos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTA NORMATIVA -->
+  <div class="ct-nota">
+    <p>
+      <strong>Base normativa:</strong> API 653 §4.4.4 — t<sub>min</sub> = MAX(2.5 mm, t<sub>nom</sub> × 0.50).
+      Para el <strong>anillo anular</strong> (primer 0.9 m desde el cuerpo): t<sub>min</sub> = 6 mm cuando G &gt; 1.0.
+      Intervalo máximo = MIN(vida remanente / 2, 10 años) según §6.4.
+    </p>
+    <p><strong>Esta calculadora es de apoyo — el inspector API 653 certificado es responsable del criterio final.</strong></p>
+  </div>
+
+</div><!-- /panel-fondo -->
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL 2 — TASA DE CORROSIÓN  API 653 §4.3
+     ══════════════════════════════════════════════════════════════ -->
+<div id="panel-corr" class="ct-panel">
+
+  <div class="ct-norm-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    API 653 §4.3.2 / §4.3.3 — Tasa de Corrosión y Vida Remanente
+  </div>
+
+  <div class="ct-grid">
+
+    <!-- DATOS -->
+    <div class="ct-card">
+      <div class="ct-card__head">Datos del Tanque</div>
+      <div class="ct-card__body">
+        <div class="ct-field">
+          <label>Nombre / ID del tanque</label>
+          <input type="text" id="c-nombre" placeholder="TK-001" oninput="calcCorr()">
+        </div>
+        <div class="ct-field">
+          <label>Año de construcción / puesta en servicio</label>
+          <input type="number" id="c-anio" value="2005" min="1900" max="2100" oninput="calcCorr()">
+        </div>
+        <div class="ct-field">
+          <label>Material</label>
+          <select id="c-material" onchange="calcCorr()">
+            <option value="A36">A36</option>
+            <option value="A283C">A283 Gr. C</option>
+            <option value="A516-70">A516 Gr. 70</option>
+            <option value="Otro">Otro / desconocido</option>
+          </select>
+        </div>
+        <div class="ct-field">
+          <label>Componente evaluado</label>
+          <select id="c-comp" onchange="calcCorr()">
+            <option value="fondo">Fondo (bottom plate)</option>
+            <option value="cuerpo">Cuerpo (shell)</option>
+            <option value="techo">Techo (roof)</option>
+            <option value="tuberia">Tubería / nozzle</option>
+          </select>
+        </div>
+        <div class="ct-field">
+          <label>Espesor nominal original — t<sub>nom</sub></label>
+          <input type="number" id="c-tnom" value="8.0" step="0.1" oninput="calcCorr()">
+          <div class="ct-unit">mm</div>
+        </div>
+        <div class="ct-field">
+          <label>Espesor mínimo requerido — t<sub>min</sub></label>
+          <input type="number" id="c-tmin" value="3.0" step="0.1" oninput="calcCorr()">
+          <div class="ct-unit">mm &nbsp;·&nbsp; ver nota normativa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDICIONES -->
+    <div class="ct-card">
+      <div class="ct-card__head">Mediciones de Espesor</div>
+      <div class="ct-card__body">
+        <div class="ct-field">
+          <label>Espesor inspección ANTERIOR — t<sub>prev</sub></label>
+          <input type="number" id="c-tprev" value="7.0" step="0.01" oninput="calcCorr()">
+          <div class="ct-unit">mm</div>
+        </div>
+        <div class="ct-field">
+          <label>Fecha inspección anterior</label>
+          <input type="date" id="c-fprev" value="2019-06-01" oninput="calcCorr()">
+        </div>
+        <div class="ct-field">
+          <label>Espesor inspección ACTUAL — t<sub>act</sub></label>
+          <input type="number" id="c-tact" value="6.2" step="0.01" oninput="calcCorr()">
+          <div class="ct-unit">mm</div>
+        </div>
+        <div class="ct-field">
+          <label>Fecha inspección actual</label>
+          <input type="date" id="c-fact" value="2025-03-01" oninput="calcCorr()">
+        </div>
+        <div class="ct-field">
+          <label>Punto de medición</label>
+          <input type="text" id="c-punto" placeholder="Fondo centro, E-3…" oninput="calcCorr()">
+          <div class="ct-hint">Opcional — para identificación</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /ct-grid -->
+
+  <!-- CAJAS DE TASA -->
+  <div class="ct-section-title">Tasas de Corrosión <span class="ct-ref">API 653 §4.3.2</span></div>
+
+  <div class="ct-grid-3">
+    <div class="ct-rate-box" id="c-box-st">
+      <div class="ct-rate-box__label">Corto plazo (ST)</div>
+      <div class="ct-rate-box__val" id="c-r-cst">—</div>
+      <div class="ct-rate-box__unit">mm / año</div>
+      <div class="ct-rate-box__sub" id="c-r-cst-sub">últimas dos inspecciones</div>
+    </div>
+    <div class="ct-rate-box" id="c-box-lt">
+      <div class="ct-rate-box__label">Largo plazo (LT)</div>
+      <div class="ct-rate-box__val" id="c-r-clt">—</div>
+      <div class="ct-rate-box__unit">mm / año</div>
+      <div class="ct-rate-box__sub" id="c-r-clt-sub">desde construcción</div>
+    </div>
+    <div class="ct-rate-box dominant" id="c-box-dis">
+      <div class="ct-rate-box__label">Tasa de diseño ★ MAX(ST, LT)</div>
+      <div class="ct-rate-box__val" id="c-r-cdis">—</div>
+      <div class="ct-rate-box__unit">mm / año</div>
+      <div class="ct-rate-box__sub">conservadora — usada en cálculos</div>
+    </div>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div class="ct-section-title">Resultados <span class="ct-ref">API 653 §4.3.3 / §6.4</span></div>
+
+  <div class="ct-card">
+    <div class="ct-card__head">Vida Remanente e Intervalos de Inspección</div>
+    <div class="ct-card__body">
+      <div class="ct-grid" style="gap:8px">
+        <div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Años entre inspecciones (ST)</span>
+            <span class="ct-result-row__val" id="c-r-ist">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Años desde construcción (LT)</span>
+            <span class="ct-result-row__val" id="c-r-ilt">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Pérdida total de espesor</span>
+            <span class="ct-result-row__val" id="c-r-perdida">—</span>
+            <span class="ct-result-row__unit">mm</span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">% del espesor nominal consumido</span>
+            <span class="ct-result-row__val" id="c-r-pct">—</span>
+            <span class="ct-result-row__unit">%</span>
+          </div>
+        </div>
+        <div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">Vida remanente <span class="ct-ref">§4.3.3</span></span>
+            <span class="ct-result-row__val" id="c-r-vida">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">Máx. intervalo próxima insp. <span class="ct-ref">§6.4</span></span>
+            <span class="ct-result-row__val" id="c-r-maxinsp">—</span>
+            <span class="ct-result-row__unit">años</span>
+          </div>
+          <div class="ct-result-row hi">
+            <span class="ct-result-row__label">Próxima inspección recomendada</span>
+            <span class="ct-result-row__val" id="c-r-proxima" style="font-size:.92rem">—</span>
+            <span class="ct-result-row__unit"></span>
+          </div>
+          <div class="ct-result-row">
+            <span class="ct-result-row__label">Margen sobre t<sub>min</sub></span>
+            <span class="ct-result-row__val" id="c-r-margen">—</span>
+            <span class="ct-result-row__unit">mm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ct-veredicto" id="c-veredicto">
+        <span class="ct-veredicto__icon" id="c-v-icon">—</span>
+        <div class="ct-veredicto__text" id="c-v-text">Ingresa los datos para calcular</div>
+        <div class="ct-veredicto__sub"  id="c-v-sub"></div>
+      </div>
+
+      <div class="ct-btn-row">
+        <button class="ct-btn ct-btn-primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+        <button class="ct-btn ct-btn-ghost" onclick="limpiarCorr()">Limpiar campos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROYECCIÓN -->
+  <div class="ct-section-title">Proyección de Espesor Futuro</div>
+
+  <div class="ct-card">
+    <div class="ct-card__head">Espesor proyectado según tasa de diseño — mm</div>
+    <div class="ct-card__body" style="padding:12px">
+      <div class="ct-tbl-wrap">
+        <table class="ct-table" id="c-tabla-proy">
+          <thead>
+            <tr>
+              <th>Año</th>
+              <th>Años desde hoy</th>
+              <th>Espesor proyectado (mm)</th>
+              <th>Estado</th>
+              <th>Nota</th>
+            </tr>
+          </thead>
+          <tbody id="c-proy-body"></tbody>
+        </table>
+      </div>
+      <p style="font-family:var(--font-mono);font-size:.68rem;color:#888;margin-top:8px">
+        Rojo = por debajo de t<sub>min</sub> &nbsp;·&nbsp; Amarillo = margen &lt; 1 mm &nbsp;·&nbsp; Verde = sobre t<sub>min</sub>
+      </p>
+    </div>
+  </div>
+
+  <!-- NOTA -->
+  <div class="ct-nota">
+    <p>
+      <strong>API 653 §4.3.2 — Tasa de corrosión:</strong>
+      C<sub>ST</sub> = (t<sub>prev</sub> − t<sub>act</sub>) / intervalo.
+      C<sub>LT</sub> = (t<sub>nom</sub> − t<sub>act</sub>) / años desde construcción.
+      Se usa la <strong>mayor</strong> como tasa de diseño.
+    </p>
+    <p>
+      <strong>API 653 §4.3.3 — Vida remanente:</strong>
+      RL = (t<sub>act</sub> − t<sub>min</sub>) / C<sub>diseño</sub>.
+      Intervalo máximo siguiente = MIN(RL / 2, 10 años) según §6.4.
+    </p>
+    <p>
+      <strong>t<sub>min</sub> de referencia:</strong>
+      Fondo general §4.4.4 → MAX(2.5 mm, t<sub>nom</sub> × 0.50).
+      Anillo anular → 6 mm (si G &gt; 1.0). Cuerpo → calculado por presión hidrostática.
+    </p>
+    <p><strong>Esta calculadora es de apoyo — el inspector API 653 certificado es responsable del criterio final.</strong></p>
+  </div>
+
+</div><!-- /panel-corr -->
+
+</div><!-- /container -->
+</section>
+
+</main>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__main">
+
+      <div class="footer-brand">
+        <img src="img/logo/amcol-logo-no-background.png" alt="Amcol Ingeniería Ltda"
+             class="footer-brand__logo" width="140" height="48" loading="lazy" />
+        <p>Empresa colombiana especializada en Ensayos No Destructivos (END/NDT),
+           prestando servicios de inspección industrial desde Bogotá para los
+           sectores industrial, aeronáutico y petroquímico.</p>
+        <div class="footer-brand__nit">NIT: 830.012.045-4</div>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Servicios</h5>
+        <nav class="footer-links" aria-label="Servicios">
+          <a href="/#servicios">Medición de Espesores</a>
+          <a href="/#servicios">Radiografía Digital</a>
+          <a href="/#servicios">Partículas Magnéticas</a>
+          <a href="/#servicios">Tintas Penetrantes</a>
+          <a href="/#servicios">Phased Array</a>
+          <a href="/#servicios">Metalografía</a>
+          <a href="/#servicios">Inspección Visual Remota</a>
+          <a href="/#servicios">Mapeo de Corrosión</a>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <h5>Empresa</h5>
+        <nav class="footer-links" aria-label="Empresa">
+          <a href="/nosotros.html">Sobre Nosotros</a>
+          <a href="/herramientas.html">Herramientas API 653</a>
+          <a href="/#sectores">Sectores</a>
+          <a href="/#qsa">Distribución QSA</a>
+          <a href="/#contacto">Contacto</a>
+          <a href="/en/">English Version</a>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <address class="footer-contact-list" style="font-style:normal;">
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Cra 49B #91-54<br />Bogotá, Colombia</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.6a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/></svg>
+            <a href="tel:+5716218934">57 6218934</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:gerencia@amcolingenieria.com">gerencia@amcolingenieria.com</a>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            <a href="https://wa.me/573102124939" target="_blank" rel="noopener noreferrer">+57 310 212 4939</a>
+          </div>
+        </address>
+      </div>
+
+    </div>
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> Amcol Ingeniería Ltda. Todos los derechos reservados.</p>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="/#contacto">Contacto</a>
+      </nav>
+    </div>
+  </div>
+  <div class="footer__strip" aria-hidden="true"></div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   TAB SWITCHER
+   ═══════════════════════════════════════════════════════════════ */
+function switchTab(which, btn) {
+  document.querySelectorAll('.ct-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tools-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + which).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CALCULADORA 1 — ESPESOR MÍNIMO DE FONDO  API 653 §4.4
+   ═══════════════════════════════════════════════════════════════ */
+function fVal(id){ return parseFloat(document.getElementById(id).value) || 0; }
+function fSet(id,v){ document.getElementById(id).textContent = v; }
+
+function calcFondo() {
+  const tnom   = fVal('f-tnom');
+  const tact   = fVal('f-tact');
+  const tprev  = fVal('f-tprev');
+  const gravedad = fVal('f-gravedad');
+
+  const fprevStr = document.getElementById('f-fprev').value;
+  const factStr  = document.getElementById('f-fact').value;
+  if (!fprevStr || !factStr || tnom <= 0) return;
+
+  const fprev = new Date(fprevStr);
+  const fact  = new Date(factStr);
+  const anos  = (fact - fprev) / (365.25 * 24 * 3600 * 1000);
+  if (anos <= 0) return;
+
+  // Tasa de corrosión
+  const crate = Math.max(0, (tprev - tact) / anos);
+
+  // t_min API 653 §4.4.4
+  const tminGeneral = Math.max(2.5, tnom * 0.50);
+  const tminAnular  = gravedad > 1.0 ? 6.0 : tminGeneral;
+  const tmin        = Math.max(tminGeneral, tminAnular);
+
+  const margen = tact - tmin;
+  const pct    = tnom > 0 ? (tact / tnom * 100) : 0;
+  const vida   = crate > 0 ? Math.max(0, margen / crate) : (margen > 0 ? 999 : 0);
+  const intervalo = vida > 0 ? Math.min(vida / 2, 10) : 0;
+
+  const proximaDate = new Date(fact);
+  proximaDate.setFullYear(proximaDate.getFullYear() + Math.floor(intervalo));
+  const proximaStr = intervalo > 0
+    ? proximaDate.toLocaleDateString('es-CO', {year:'numeric', month:'long'})
+    : 'INMEDIATA';
+
+  fSet('f-r-anos',     anos.toFixed(2));
+  fSet('f-r-tasa',     crate.toFixed(3));
+  fSet('f-r-tmin',     tmin.toFixed(2));
+  fSet('f-r-margen',   margen.toFixed(2));
+  fSet('f-r-vida',     vida < 999 ? vida.toFixed(1) : '>50');
+  fSet('f-r-intervalo',intervalo > 0 ? intervalo.toFixed(1) : '0.0');
+  fSet('f-r-proxima',  proximaStr);
+  fSet('f-r-pct',      pct.toFixed(1));
+
+  const vEl  = document.getElementById('f-veredicto');
+  const icon = document.getElementById('f-v-icon');
+  const vtxt = document.getElementById('f-v-text');
+  const vsub = document.getElementById('f-v-sub');
+
+  if (tact <= tmin) {
+    vEl.className = 'ct-veredicto fail'; icon.textContent = '⛔';
+    vtxt.textContent = 'REEMPLAZAR / REPARAR';
+    vsub.textContent = `t_act (${tact} mm) ≤ t_min (${tmin.toFixed(2)} mm). Fuera de servicio según API 653 §4.4.4.`;
+  } else if (vida < 2) {
+    vEl.className = 'ct-veredicto fail'; icon.textContent = '⛔';
+    vtxt.textContent = 'ACCIÓN INMEDIATA';
+    vsub.textContent = `Vida remanente < 2 años (${vida.toFixed(1)} a). Programar inspección y reparación urgente.`;
+  } else if (vida < 5) {
+    vEl.className = 'ct-veredicto warn'; icon.textContent = '⚠️';
+    vtxt.textContent = 'MONITOREAR';
+    vsub.textContent = `Vida remanente ${vida.toFixed(1)} años. Reducir intervalo de inspección.`;
+  } else {
+    vEl.className = 'ct-veredicto ok'; icon.textContent = '✅';
+    vtxt.textContent = 'APTO';
+    vsub.textContent = `Vida remanente ${vida < 999 ? vida.toFixed(1) : '>50'} años. Próxima inspección: ${proximaStr}.`;
+  }
+}
+
+function limpiarFondo() {
+  ['f-tnom','f-tact','f-tprev','f-nombre','f-diametro','f-altura'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  ['f-r-anos','f-r-tasa','f-r-tmin','f-r-margen','f-r-vida','f-r-intervalo','f-r-proxima','f-r-pct'].forEach(id => fSet(id,'—'));
+  const vEl = document.getElementById('f-veredicto');
+  vEl.className = 'ct-veredicto';
+  document.getElementById('f-v-icon').textContent = '—';
+  document.getElementById('f-v-text').textContent = 'Ingresa los datos para calcular';
+  document.getElementById('f-v-sub').textContent = '';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CALCULADORA 2 — TASA DE CORROSIÓN  API 653 §4.3
+   ═══════════════════════════════════════════════════════════════ */
+function cVal(id){ return parseFloat(document.getElementById(id).value) || 0; }
+function cSet(id,v){ document.getElementById(id).textContent = v; }
+
+function calcCorr() {
+  const tnom  = cVal('c-tnom');
+  const tmin  = cVal('c-tmin');
+  const tprev = cVal('c-tprev');
+  const tact  = cVal('c-tact');
+  const anio  = parseInt(document.getElementById('c-anio').value) || 2000;
+
+  const fprevStr = document.getElementById('c-fprev').value;
+  const factStr  = document.getElementById('c-fact').value;
+  if (!fprevStr || !factStr || tnom <= 0) return;
+
+  const fprev = new Date(fprevStr);
+  const fact  = new Date(factStr);
+  const intST = (fact - fprev) / (365.25 * 24 * 3600 * 1000);
+  const intLT = (fact.getFullYear() - anio) + (fact.getMonth() / 12);
+
+  if (intST <= 0 || intLT <= 0) return;
+
+  const cST  = Math.max(0, (tprev - tact) / intST);
+  const cLT  = Math.max(0, (tnom  - tact) / intLT);
+  const cDis = Math.max(cST, cLT, 0.001);
+
+  const perdida = tnom - tact;
+  const pct     = tnom > 0 ? (perdida / tnom * 100) : 0;
+  const margen  = tact - tmin;
+  const vida    = margen > 0 ? (margen / cDis) : 0;
+  const maxInsp = vida > 0 ? Math.min(vida / 2, 10) : 0;
+
+  const proximaDate = new Date(fact);
+  proximaDate.setFullYear(proximaDate.getFullYear() + Math.floor(maxInsp));
+  const proximaStr = maxInsp > 0
+    ? proximaDate.toLocaleDateString('es-CO', {year:'numeric', month:'long'})
+    : 'INMEDIATA';
+
+  cSet('c-r-cst',  cST.toFixed(3));
+  cSet('c-r-clt',  cLT.toFixed(3));
+  cSet('c-r-cdis', cDis.toFixed(3));
+  cSet('c-r-cst-sub', `${intST.toFixed(1)} años entre insp.`);
+  cSet('c-r-clt-sub', `${intLT.toFixed(1)} años desde constr.`);
+  cSet('c-r-ist',     intST.toFixed(2));
+  cSet('c-r-ilt',     intLT.toFixed(1));
+  cSet('c-r-perdida', perdida.toFixed(2));
+  cSet('c-r-pct',     pct.toFixed(1));
+  cSet('c-r-vida',    vida.toFixed(1));
+  cSet('c-r-maxinsp', maxInsp.toFixed(1));
+  cSet('c-r-proxima', proximaStr);
+  cSet('c-r-margen',  margen.toFixed(2));
+
+  document.getElementById('c-box-st').className = 'ct-rate-box' + (cST >= cLT ? ' dominant' : '');
+  document.getElementById('c-box-lt').className = 'ct-rate-box' + (cLT > cST  ? ' dominant' : '');
+  document.getElementById('c-box-dis').className = 'ct-rate-box dominant';
+
+  const vEl  = document.getElementById('c-veredicto');
+  const icon = document.getElementById('c-v-icon');
+  const vtxt = document.getElementById('c-v-text');
+  const vsub = document.getElementById('c-v-sub');
+
+  if (tact <= tmin) {
+    vEl.className = 'ct-veredicto fail'; icon.textContent = '⛔';
+    vtxt.textContent = 'REEMPLAZAR / REPARAR';
+    vsub.textContent = `t_act (${tact} mm) ≤ t_min (${tmin} mm). El componente está fuera de servicio.`;
+  } else if (vida < 2) {
+    vEl.className = 'ct-veredicto fail'; icon.textContent = '⛔';
+    vtxt.textContent = 'ACCIÓN INMEDIATA';
+    vsub.textContent = `Vida remanente < 2 años (${vida.toFixed(1)} a). Inspección y reparación urgente.`;
+  } else if (vida < 4) {
+    vEl.className = 'ct-veredicto warn'; icon.textContent = '⚠️';
+    vtxt.textContent = 'MONITOREO INTENSIVO';
+    vsub.textContent = `Vida remanente ${vida.toFixed(1)} años. Reducir intervalo, evaluar revestimiento.`;
+  } else if (vida < 10) {
+    vEl.className = 'ct-veredicto warn'; icon.textContent = '⚠️';
+    vtxt.textContent = 'MONITOREAR';
+    vsub.textContent = `Vida remanente ${vida.toFixed(1)} años. Próxima inspección: ${proximaStr}.`;
+  } else {
+    vEl.className = 'ct-veredicto ok'; icon.textContent = '✅';
+    vtxt.textContent = 'APTO';
+    vsub.textContent = `Vida remanente ${vida.toFixed(1)} años. Próxima inspección: ${proximaStr}.`;
+  }
+
+  // Tabla proyección
+  const tbody = document.getElementById('c-proy-body');
+  tbody.innerHTML = '';
+  const añoBase = fact.getFullYear();
+  [1, 2, 3, 5, 7, 10, 15, 20].forEach(delta => {
+    const espFut    = +(tact - cDis * delta).toFixed(2);
+    const margenFut = +(espFut - tmin).toFixed(2);
+    let cls = 'ok', estado = 'APTO', nota = '';
+    if (espFut <= tmin) { cls = 'low'; estado = 'BAJO t_min'; nota = 'Reemplazar / reparar'; }
+    else if (margenFut < 1) { cls = 'warn'; estado = 'CRÍTICO'; nota = 'Margen < 1 mm'; }
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${añoBase + delta}</td>
+      <td>+${delta} años</td>
+      <td class="ct-td-esp ${cls}">${espFut > 0 ? espFut : '&lt;0'}</td>
+      <td class="ct-td-esp ${cls}">${estado}</td>
+      <td style="font-size:.75rem;color:#888">${nota}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function limpiarCorr() {
+  ['c-tnom','c-tmin','c-tprev','c-tact','c-nombre','c-punto'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  ['c-r-cst','c-r-clt','c-r-cdis','c-r-ist','c-r-ilt','c-r-perdida','c-r-pct',
+   'c-r-vida','c-r-maxinsp','c-r-proxima','c-r-margen'].forEach(id => cSet(id,'—'));
+  const vEl = document.getElementById('c-veredicto');
+  vEl.className = 'ct-veredicto';
+  document.getElementById('c-v-icon').textContent = '—';
+  document.getElementById('c-v-text').textContent = 'Ingresa los datos para calcular';
+  document.getElementById('c-v-sub').textContent = '';
+  document.getElementById('c-proy-body').innerHTML = '';
+}
+
+// ── Calcular al cargar ──────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => { calcFondo(); calcCorr(); });
+</script>
+</body>
+</html>
