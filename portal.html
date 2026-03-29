@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Cliente RBI — Amcol Ingeniería Ltda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== VARIABLES ===== */
+:root {
+  --red:           #CC1414;
+  --red-hot:       #E01818;
+  --red-dim:       rgba(204,20,20,0.10);
+  --ink:           #0D0D0D;
+  --steel:         #1C1C1C;
+  --steel-light:   #242424;
+  --wire:          #2E2E2E;
+  --chalk:         #E8E8E8;
+  --smoke:         #888888;
+  --white:         #FFFFFF;
+  --risk-critical: #CC1414;
+  --risk-high:     #E05C14;
+  --risk-medium:   #E0B014;
+  --risk-low:      #14A84A;
+  --risk-vlow:     #1480A8;
+  --sidebar-w:     240px;
+  --sidebar-col-w: 60px;
+  --topbar-h:      56px;
+  --tr:            200ms ease;
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+#root { height: 100vh; display: flex; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--steel); }
+::-webkit-scrollbar-thumb { background: var(--wire); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--smoke); }
+
+/* ===== LAYOUT ===== */
+.app-shell { display: flex; height: 100vh; width: 100%; overflow: hidden; }
+.main      { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.content   { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--steel);
+  border-right: 1px solid var(--wire);
+  display: flex;
+  flex-direction: column;
+  transition: width var(--tr), min-width var(--tr);
+  overflow: hidden;
+  z-index: 100;
+  flex-shrink: 0;
+}
+.sidebar.collapsed {
+  width: var(--sidebar-col-w);
+  min-width: var(--sidebar-col-w);
+}
+
+.sb-logo {
+  padding: 0 16px;
+  height: 64px;
+  min-height: 64px;
+  border-bottom: 1px solid var(--wire);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sb-logo-icon {
+  width: 32px; height: 32px; min-width: 32px;
+  background: var(--red);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sb-logo-text { overflow: hidden; }
+.sb-logo-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 18px;
+  color: var(--white); white-space: nowrap; line-height: 1.1;
+}
+.sb-logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: var(--smoke);
+  text-transform: uppercase; letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.sb-nav { flex: 1; overflow-y: auto; padding: 6px 0; }
+
+.sb-group-label {
+  padding: 14px 16px 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  color: var(--smoke);
+  letter-spacing: .10em; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden;
+  transition: opacity var(--tr), height var(--tr), padding var(--tr);
+}
+.sidebar.collapsed .sb-group-label {
+  opacity: 0; height: 0; padding: 0;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 16px;
+  cursor: pointer;
+  color: var(--smoke);
+  transition: background var(--tr), color var(--tr), border-color var(--tr);
+  border-left: 2px solid transparent;
+  white-space: nowrap; overflow: hidden;
+  user-select: none;
+}
+.nav-item:hover  { background: var(--steel-light); color: var(--chalk); }
+.nav-item.active { background: var(--red-dim); color: var(--white); border-left-color: var(--red); }
+.nav-icon        { width: 18px; height: 18px; min-width: 18px; flex-shrink: 0; }
+.nav-label       { font-size: 13px; }
+
+.sb-footer {
+  border-top: 1px solid var(--wire);
+  padding: 12px 0;
+}
+.sb-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  overflow: hidden;
+}
+.sb-avatar {
+  width: 30px; height: 30px; min-width: 30px;
+  background: var(--wire);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--chalk);
+}
+.sb-user-info { overflow: hidden; }
+.sb-user-name { font-size: 12px; font-weight: 500; color: var(--chalk); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-user-role { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--smoke); text-transform: uppercase; }
+
+/* ===== TOPBAR ===== */
+.topbar {
+  height: var(--topbar-h);
+  min-height: var(--topbar-h);
+  background: var(--steel);
+  border-bottom: 1px solid var(--wire);
+  display: flex; align-items: center;
+  padding: 0 20px; gap: 12px;
+}
+.topbar-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--chalk); flex: 1;
+}
+.topbar-badge {
+  padding: 3px 10px;
+  border: 1px solid var(--wire);
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--smoke);
+  white-space: nowrap;
+}
+.topbar-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--smoke);
+  white-space: nowrap;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 7px 14px;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; border: none;
+  transition: background var(--tr), color var(--tr);
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--red); color: var(--white); }
+.btn-primary:hover { background: var(--red-hot); }
+.btn-ghost {
+  background: transparent; color: var(--smoke);
+  border: 1px solid var(--wire);
+}
+.btn-ghost:hover { background: var(--steel-light); color: var(--chalk); border-color: var(--smoke); }
+.btn-icon {
+  background: transparent; color: var(--smoke);
+  padding: 6px; border-radius: 4px; border: none;
+  cursor: pointer; display: flex; align-items: center;
+  transition: background var(--tr), color var(--tr);
+}
+.btn-icon:hover { background: var(--steel-light); color: var(--chalk); }
+.btn-sm { padding: 4px 10px; font-size: 11px; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--steel);
+  border: 1px solid var(--wire);
+  border-radius: 6px; padding: 20px;
+}
+.card-sm { padding: 14px; }
+
+/* KPI Card */
+.kpi-card {
+  background: var(--steel);
+  border: 1px solid var(--wire);
+  border-left: 3px solid var(--red);
+  border-radius: 6px; padding: 18px 20px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.kpi-icon-wrap {
+  width: 38px; height: 38px; min-width: 38px;
+  background: var(--red-dim);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.kpi-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 34px; font-weight: 900;
+  color: var(--white); line-height: 1;
+}
+.kpi-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--smoke);
+  text-transform: uppercase; letter-spacing: .05em;
+  margin-top: 3px;
+}
+
+/* ===== TABLES ===== */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: var(--ink);
+  padding: 9px 12px;
+  text-align: left;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--smoke);
+  text-transform: uppercase; letter-spacing: .05em;
+  border-bottom: 1px solid var(--wire);
+  white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid var(--wire); transition: background var(--tr); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--steel-light); }
+tbody td { padding: 9px 12px; color: var(--chalk); vertical-align: middle; }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .04em;
+  white-space: nowrap;
+}
+/* Risk */
+.b-critical  { background: rgba(204,20,20,.20);  color:#FF6666; border:1px solid rgba(204,20,20,.40); }
+.b-high      { background: rgba(224,92,20,.20);  color:#FF9966; border:1px solid rgba(224,92,20,.40); }
+.b-med-high  { background: rgba(224,176,20,.15); color:#FFD044; border:1px solid rgba(224,176,20,.40); }
+.b-medium    { background: rgba(224,176,20,.15); color:#CCAA22; border:1px solid rgba(224,176,20,.30); }
+.b-low       { background: rgba(20,168,74,.15);  color:#44DD88; border:1px solid rgba(20,168,74,.30); }
+.b-vlow      { background: rgba(20,128,168,.15); color:#44AADD; border:1px solid rgba(20,128,168,.30); }
+/* Status */
+.b-aceptable  { background: rgba(20,168,74,.15); color:#44DD88; border:1px solid rgba(20,168,74,.30); }
+.b-observ     { background: rgba(224,176,20,.15); color:#CCAA22; border:1px solid rgba(224,176,20,.30); }
+.b-rechazo    { background: rgba(204,20,20,.20); color:#FF6666; border:1px solid rgba(204,20,20,.40); }
+.b-activo     { background: rgba(20,168,74,.15); color:#44DD88; border:1px solid rgba(20,168,74,.30); }
+.b-maint      { background: rgba(224,176,20,.15); color:#CCAA22; border:1px solid rgba(224,176,20,.30); }
+.b-fuera      { background: rgba(204,20,20,.20); color:#FF6666; border:1px solid rgba(204,20,20,.40); }
+.b-programada { background: rgba(20,128,168,.15); color:#44AADD; border:1px solid rgba(20,128,168,.30); }
+.b-vencida    { background: rgba(204,20,20,.20); color:#FF6666; border:1px solid rgba(204,20,20,.40); }
+.b-por-prog   { background: rgba(136,136,136,.15); color:var(--smoke); border:1px solid rgba(136,136,136,.30); }
+.b-info       { background: rgba(20,128,168,.15); color:#44AADD; border:1px solid rgba(20,128,168,.30); }
+/* Techniques */
+.b-ut-esp  { background: rgba(20,128,168,.20); color:#44AADD; border:1px solid rgba(20,128,168,.40); }
+.b-rt-dig  { background: rgba(224,92,20,.20);  color:#FF9966; border:1px solid rgba(224,92,20,.40); }
+.b-mt      { background: rgba(128,20,224,.20); color:#BB66FF; border:1px solid rgba(128,20,224,.40); }
+.b-pt      { background: rgba(20,168,74,.20);  color:#44DD88; border:1px solid rgba(20,168,74,.40); }
+.b-paut    { background: rgba(20,200,224,.20); color:#22DDEE; border:1px solid rgba(20,200,224,.40); }
+.b-met     { background: rgba(224,176,20,.20); color:#FFD044; border:1px solid rgba(224,176,20,.40); }
+.b-vt-rem  { background: rgba(160,160,160,.20); color:#CCCCCC; border:1px solid rgba(160,160,160,.40); }
+.b-ut-map  { background: rgba(80,128,224,.20); color:#7799FF; border:1px solid rgba(80,128,224,.40); }
+.b-pmi-xrf { background: rgba(224,20,128,.20); color:#FF66BB; border:1px solid rgba(224,20,128,.40); }
+
+/* ===== PULSE ANIMATION ===== */
+@keyframes pulse-anim {
+  0%,100% { opacity:1; }
+  50%      { opacity:0.45; }
+}
+.pulse { animation: pulse-anim 1.8s ease-in-out infinite; }
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap { width:80px; height:5px; background:var(--wire); border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:3px; }
+
+/* ===== FILTERS ===== */
+.filter-bar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+select, input[type="text"] {
+  background: var(--steel);
+  border: 1px solid var(--wire);
+  border-radius: 4px;
+  color: var(--chalk);
+  padding: 7px 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; outline: none;
+  transition: border-color var(--tr);
+  cursor: pointer;
+}
+select:focus, input[type="text"]:focus { border-color: var(--smoke); }
+input[type="text"]::placeholder { color: var(--smoke); }
+option { background: var(--steel); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.72);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+}
+.modal {
+  background: var(--steel);
+  border: 1px solid var(--wire);
+  border-radius: 8px;
+  width: 100%; max-width: 700px;
+  max-height: 88vh; overflow-y: auto;
+}
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--wire);
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 16px;
+  position: sticky; top: 0;
+  background: var(--steel); z-index: 1;
+}
+.modal-body { padding: 24px; }
+
+/* ===== TYPOGRAPHY HELPERS ===== */
+.h1 { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; color:var(--white); line-height:1.1; }
+.h2 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; color:var(--white); }
+.h3 { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; color:var(--chalk); }
+.mono { font-family:'DM Mono',monospace; font-size:12px; }
+.label-sm {
+  font-family:'DM Mono',monospace; font-size:10px;
+  color:var(--smoke); text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.sec-title {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:18px; font-weight:700; color:var(--white);
+  margin-bottom:14px;
+}
+.sep { height:1px; background:var(--wire); margin:18px 0; }
+
+/* ===== GRIDS ===== */
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+@media(max-width:1280px){ .g4{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:900px) { .g4,.g3{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:640px) { .g4,.g3,.g2{ grid-template-columns:1fr; } }
+
+/* ===== LOGIN ===== */
+.login-page {
+  width:100%; min-height:100vh;
+  background:var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+}
+.login-card {
+  background:var(--steel);
+  border:1px solid var(--wire);
+  border-radius:8px;
+  width:100%; max-width:400px;
+  padding:40px;
+}
+.login-input {
+  width:100%;
+  background:var(--ink);
+  border:1px solid var(--wire);
+  border-radius:4px;
+  color:var(--chalk);
+  padding:11px 14px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px; outline:none;
+  transition:border-color var(--tr);
+}
+.login-input:focus { border-color:var(--red); }
+.login-error {
+  background:rgba(204,20,20,.12);
+  border:1px solid rgba(204,20,20,.30);
+  border-radius:4px; padding:10px 14px;
+  font-size:13px; color:#FF8888;
+}
+
+/* ===== TABS ===== */
+.tab-bar {
+  display:flex; gap:0;
+  border-bottom:1px solid var(--wire);
+  margin-bottom:18px;
+  overflow-x:auto;
+}
+.tab {
+  padding:9px 18px;
+  cursor:pointer; color:var(--smoke);
+  border-bottom:2px solid transparent;
+  font-size:13px; font-weight:500;
+  transition:color var(--tr), border-color var(--tr);
+  white-space:nowrap;
+}
+.tab:hover  { color:var(--chalk); }
+.tab.active { color:var(--white); border-bottom-color:var(--red); }
+
+/* ===== DETAIL GRID ===== */
+.detail-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.detail-item {}
+.detail-label { font-family:'DM Mono',monospace; font-size:10px; color:var(--smoke); text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+.detail-value { font-size:13px; color:var(--chalk); }
+
+/* ===== ALERT ITEMS ===== */
+.alert-item {
+  display:flex; gap:14px;
+  padding:14px 16px;
+  border-radius:6px;
+  border-left:3px solid var(--wire);
+  margin-bottom:8px;
+  background:var(--steel);
+  transition:background var(--tr);
+}
+.alert-item:hover { background:var(--steel-light); }
+.alert-critica    { border-left-color:var(--risk-critical); }
+.alert-advertencia{ border-left-color:var(--risk-high); }
+.alert-info       { border-left-color:var(--risk-vlow); }
+.alert-resuelta   { border-left-color:var(--risk-low); opacity:.65; }
+
+/* ===== ACTIVITY FEED ===== */
+.activity-item {
+  display:flex; gap:12px;
+  padding:11px 0;
+  border-bottom:1px solid var(--wire);
+}
+.activity-item:last-child { border-bottom:none; }
+.act-dot {
+  width:8px; height:8px; min-width:8px;
+  border-radius:50%; margin-top:5px;
+}
+
+/* ===== MATRIX ===== */
+.matrix-cell {
+  border:1px solid rgba(0,0,0,.35);
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  flex-wrap:wrap; gap:3px; padding:4px;
+  cursor:default; min-height:60px;
+  transition:filter var(--tr);
+}
+.matrix-cell:hover { filter:brightness(1.25); }
+.asset-dot {
+  width:22px; height:22px;
+  background:rgba(255,255,255,.88);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-size:7px; font-weight:500;
+  color:var(--ink); cursor:pointer;
+  position:relative;
+}
+.asset-dot:hover .dot-tip {
+  display:block;
+}
+.dot-tip {
+  display:none;
+  position:absolute;
+  bottom:calc(100% + 6px); left:50%;
+  transform:translateX(-50%);
+  background:var(--ink);
+  border:1px solid var(--wire);
+  border-radius:4px; padding:6px 10px;
+  white-space:nowrap; font-size:11px;
+  font-family:'DM Sans',sans-serif;
+  color:var(--chalk); z-index:50;
+  pointer-events:none;
+}
+
+/* ===== FORM ===== */
+.form-group { margin-bottom:16px; }
+.form-label {
+  display:block;
+  font-family:'DM Mono',monospace;
+  font-size:10px; color:var(--smoke);
+  text-transform:uppercase; letter-spacing:.06em;
+  margin-bottom:5px;
+}
+.form-input {
+  width:100%;
+  background:var(--ink);
+  border:1px solid var(--wire);
+  border-radius:4px; color:var(--chalk);
+  padding:9px 12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:13px; outline:none;
+  transition:border-color var(--tr);
+}
+.form-input:focus { border-color:var(--smoke); }
+textarea.form-input { resize:vertical; min-height:80px; }
+
+/* ===== RECHARTS CUSTOM ===== */
+.recharts-cartesian-axis-tick-value {
+  fill:var(--smoke) !important;
+  font-family:'DM Mono',monospace !important;
+  font-size:10px !important;
+}
+.recharts-legend-item-text {
+  color:var(--chalk) !important;
+  font-family:'DM Mono',monospace !important;
+  font-size:10px !important;
+}
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background:var(--ink) !important;
+  border:1px solid var(--wire) !important;
+  border-radius:4px !important;
+}
+
+/* ===== MISC ===== */
+.page { min-height:100%; }
+.text-smoke { color:var(--smoke); }
+.text-red   { color:var(--red); }
+.text-white { color:var(--white); }
+.fw-7 { font-weight:700; }
+.mb-4 { margin-bottom:4px; }
+.mb-8 { margin-bottom:8px; }
+.mb-12{ margin-bottom:12px; }
+.mb-16{ margin-bottom:16px; }
+.mb-20{ margin-bottom:20px; }
+.mb-24{ margin-bottom:24px; }
+.flex  { display:flex; }
+.flex-col { display:flex; flex-direction:column; }
+.items-center { align-items:center; }
+.justify-between { justify-content:space-between; }
+.gap-8  { gap:8px; }
+.gap-12 { gap:12px; }
+.gap-16 { gap:16px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- CDN Dependencies -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- PART 2: Data + Helpers + Icons + Login + Sidebar + TopBar -->
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useContext, useRef, createContext, useCallback } = React;
+const {
+  LineChart, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip: ChartTooltip, Legend, ReferenceLine, ResponsiveContainer
+} = window.Recharts;
+
+/* ===================== CONTEXT ===================== */
+const AppCtx = createContext(null);
+
+/* ===================== DEMO DATA ===================== */
+const DEMO_USERS = {
+  'cliente@planta.com': { password:'demo123', role:'client', name:'Carlos Martínez', company:'Refinería del Norte S.A.', avatar:'CM' },
+  'admin@amcol.com':    { password:'admin123', role:'admin',  name:'Equipo Amcol',    company:'Amcol Ingeniería Ltda',       avatar:'EA' },
+};
+
+const ASSETS_INIT = [
+  { id:'TUB-001', desc:'Tubería vapor 6" SA-335 P11',          circuit:'L-100',        material:'SA-335 P11', type:'tuberia',        tNom:9.27,  tAct:7.10, tMin:6.5,  pof:3, cof:4, status:'activo',          fluid:'Vapor saturado',         temp:'280°C', pressure:'40 bar', nextInsp:'2024-08-15', lastInsp:'2024-01-15', technique:'UT-ESP', hasTrend:true  },
+  { id:'TUB-002', desc:'Tubería proceso 4" A-106 Gr.B',         circuit:'L-200',        material:'A-106 Gr.B', type:'tuberia',        tNom:6.02,  tAct:5.80, tMin:4.5,  pof:2, cof:3, status:'activo',          fluid:'Hidrocarburo líquido',   temp:'120°C', pressure:'15 bar', nextInsp:'2025-02-10', lastInsp:'2023-08-10', technique:'UT-ESP', hasTrend:false },
+  { id:'REC-001', desc:'Recipiente presión V-101',               circuit:'U-100',        material:'SA-516-70',  type:'recipiente',     tNom:12.00, tAct:10.20,tMin:9.0,  pof:4, cof:5, status:'activo',          fluid:'Mezcla gas-líquido',     temp:'200°C', pressure:'65 bar', nextInsp:'2024-06-01', lastInsp:'2023-12-01', technique:'RT-DIG', hasTrend:false },
+  { id:'REC-002', desc:'Recipiente presión V-205',               circuit:'U-200',        material:'SA-516-70',  type:'recipiente',     tNom:10.00, tAct:9.10, tMin:8.0,  pof:2, cof:3, status:'activo',          fluid:'Gas natural',            temp:'90°C',  pressure:'30 bar', nextInsp:'2025-06-15', lastInsp:'2024-06-15', technique:'UT-ESP', hasTrend:false },
+  { id:'CAL-001', desc:'Caldera recuperación KB-01',             circuit:'Área calderas',material:'SA-178 A',   type:'caldera',        tNom:4.50,  tAct:3.80, tMin:3.2,  pof:3, cof:4, status:'activo',          fluid:'Vapor / gases combustión',temp:'350°C',pressure:'55 bar', nextInsp:'2024-09-20', lastInsp:'2023-09-20', technique:'VT-REM', hasTrend:true  },
+  { id:'TUB-003', desc:'Tubería agua alimentación 8"',           circuit:'L-300',        material:'A-106 Gr.B', type:'tuberia',        tNom:8.18,  tAct:7.90, tMin:6.0,  pof:1, cof:2, status:'activo',          fluid:'Agua desmineralizada',   temp:'60°C',  pressure:'10 bar', nextInsp:'2025-11-05', lastInsp:'2024-05-05', technique:'UT-ESP', hasTrend:false },
+  { id:'ENC-001', desc:'Intercambiador calor E-101',             circuit:'U-300',        material:'SA-179',     type:'intercambiador', tNom:2.77,  tAct:2.50, tMin:2.0,  pof:2, cof:3, status:'activo',          fluid:'Vapor / agua proceso',   temp:'180°C', pressure:'25 bar', nextInsp:'2024-12-10', lastInsp:'2024-06-10', technique:'UT-MAP', hasTrend:false },
+  { id:'ENC-002', desc:'Intercambiador calor E-202',             circuit:'U-300',        material:'SA-179',     type:'intercambiador', tNom:3.05,  tAct:2.40, tMin:2.1,  pof:3, cof:4, status:'en-mantenimiento', fluid:'Condensado / vapor',     temp:'210°C', pressure:'35 bar', nextInsp:'2024-07-30', lastInsp:'2024-01-30', technique:'UT-MAP', hasTrend:true  },
+  { id:'TUB-004', desc:'Codo 6" r/w — L-100',                   circuit:'L-100',        material:'SA-335 P11', type:'tuberia',        tNom:9.27,  tAct:5.90, tMin:6.5,  pof:5, cof:5, status:'activo',          fluid:'Vapor saturado',         temp:'280°C', pressure:'40 bar', nextInsp:'2024-04-01', lastInsp:'2023-12-15', technique:'UT-ESP', hasTrend:true, isCritical:true },
+  { id:'SOL-001', desc:'Junta soldada brida 6" — L-100',         circuit:'L-100',        material:'E-7018',     type:'soldadura',      tNom:null,  tAct:null, tMin:null, pof:1, cof:2, status:'activo',          fluid:'Vapor saturado',         temp:'280°C', pressure:'40 bar', nextInsp:'2025-03-10', lastInsp:'2024-03-10', technique:'MT',     hasTrend:false },
+  { id:'EST-001', desc:'Estructura soporte rack tuberías',        circuit:'Área proceso', material:'A-36',       type:'estructura',     tNom:9.50,  tAct:8.90, tMin:7.0,  pof:1, cof:1, status:'activo',          fluid:'N/A',                    temp:'Ambiente',pressure:'N/A',  nextInsp:'2025-06-20', lastInsp:'2024-06-20', technique:'VT-REM', hasTrend:false },
+  { id:'TUB-005', desc:'Tubería combustible 2" A-333',           circuit:'L-400',        material:'A-333 Gr.6', type:'tuberia',        tNom:3.73,  tAct:3.40, tMin:2.8,  pof:2, cof:3, status:'activo',          fluid:'Gas combustible',        temp:'40°C',  pressure:'8 bar',  nextInsp:'2024-11-20', lastInsp:'2024-05-20', technique:'UT-ESP', hasTrend:false },
+];
+
+const INSPECTIONS_INIT = [
+  { id:'OT-2024-001', date:'2024-01-15', assetId:'TUB-001', technique:'UT-ESP',  technician:'Ing. Ricardo Vargas',    result:'aceptable',  norm:'API 570',       value:'7.10 mm' },
+  { id:'OT-2023-089', date:'2023-12-15', assetId:'TUB-004', technique:'UT-ESP',  technician:'Ing. Ricardo Vargas',    result:'rechazo',    norm:'API 570',       value:'5.90 mm (< t_min 6.5 mm)' },
+  { id:'OT-2023-087', date:'2023-12-01', assetId:'REC-001', technique:'RT-DIG',  technician:'Ing. Claudia Méndez',   result:'aceptable',  norm:'ASME VIII D.1', value:'Sin indicaciones relevantes' },
+  { id:'OT-2023-082', date:'2023-11-20', assetId:'TUB-005', technique:'UT-ESP',  technician:'Tec. Miguel Roa',        result:'observacion', norm:'API 570',      value:'3.40 mm (zona alerta)' },
+  { id:'OT-2023-075', date:'2023-11-05', assetId:'ENC-001', technique:'UT-MAP',  technician:'Ing. Claudia Méndez',   result:'aceptable',  norm:'API 510',       value:'Promedio 2.52 mm' },
+  { id:'OT-2023-068', date:'2023-10-20', assetId:'SOL-001', technique:'MT',      technician:'Ing. Andrés Gómez',     result:'aceptable',  norm:'API 570',       value:'Sin indicaciones' },
+  { id:'OT-2023-061', date:'2023-10-05', assetId:'EST-001', technique:'VT-REM',  technician:'Tec. Luz Marina Pérez', result:'observacion', norm:'AWS D1.1',     value:'Corrosión superficial zona E-4' },
+  { id:'OT-2023-055', date:'2023-09-22', assetId:'CAL-001', technique:'VT-REM',  technician:'Ing. Claudia Méndez',   result:'aceptable',  norm:'ASME I',        value:'Sin grietas, tubos limpios' },
+  { id:'OT-2023-049', date:'2023-09-10', assetId:'CAL-001', technique:'UT-ESP',  technician:'Ing. Ricardo Vargas',   result:'observacion', norm:'ASME I',       value:'3.80 mm (cercano a límite)' },
+  { id:'OT-2023-042', date:'2023-08-28', assetId:'REC-002', technique:'PAUT',    technician:'Ing. Claudia Méndez',   result:'aceptable',  norm:'ASME VIII',     value:'Sin discontinuidades' },
+  { id:'OT-2023-038', date:'2023-08-15', assetId:'TUB-003', technique:'UT-ESP',  technician:'Tec. Miguel Roa',        result:'aceptable',  norm:'API 570',       value:'7.92 mm' },
+  { id:'OT-2023-031', date:'2023-07-30', assetId:'ENC-002', technique:'UT-MAP',  technician:'Ing. Ricardo Vargas',   result:'observacion', norm:'API 510',      value:'Zona corrosión local 2.40 mm' },
+  { id:'OT-2023-025', date:'2023-07-15', assetId:'TUB-001', technique:'PAUT',    technician:'Ing. Claudia Méndez',   result:'aceptable',  norm:'API 570',       value:'Sin grietas detectadas' },
+  { id:'OT-2023-018', date:'2023-06-28', assetId:'TUB-002', technique:'PT',      technician:'Tec. Luz Marina Pérez', result:'aceptable',  norm:'ASME B31.3',    value:'Sin indicaciones abiertas' },
+  { id:'OT-2023-012', date:'2023-06-10', assetId:'REC-001', technique:'PMI-XRF', technician:'Ing. Andrés Gómez',     result:'aceptable',  norm:'ASME IX',       value:'Composición conforme SA-516-70' },
+  { id:'OT-2023-007', date:'2023-05-25', assetId:'CAL-001', technique:'MET',     technician:'Ing. Claudia Méndez',   result:'observacion', norm:'VGB TW-507',   value:'Creep incipiente zona caliente' },
+  { id:'OT-2023-003', date:'2023-05-10', assetId:'SOL-001', technique:'MT',      technician:'Ing. Andrés Gómez',     result:'aceptable',  norm:'AWS D1.1',      value:'Sin indicaciones lineales' },
+  { id:'OT-2022-098', date:'2022-12-20', assetId:'TUB-004', technique:'RT-DIG',  technician:'Ing. Claudia Méndez',   result:'observacion', norm:'API 570',      value:'Reducción espesor zona extradós' },
+  { id:'OT-2022-085', date:'2022-11-08', assetId:'ENC-001', technique:'PT',      technician:'Tec. Luz Marina Pérez', result:'aceptable',  norm:'API 510',       value:'Sin indicaciones relevantes' },
+  { id:'OT-2022-072', date:'2022-09-15', assetId:'REC-002', technique:'UT-ESP',  technician:'Ing. Ricardo Vargas',   result:'aceptable',  norm:'ASME VIII',     value:'Promedio 9.15 mm' },
+];
+
+const ALERTS_INIT = [
+  { id:'ALT-001', type:'critica',     assetId:'TUB-004', title:'Espesor por debajo de t_mín',   desc:'Codo 6" L-100: 5.90 mm < t_min 6.5 mm. Requiere intervención inmediata.',           date:'2023-12-15', technician:'Ing. Ricardo Vargas',   status:'activa'  },
+  { id:'ALT-002', type:'critica',     assetId:'REC-001', title:'Inspección interna vencida',     desc:'V-101 tiene inspección interna vencida desde 2024-06-01. Riesgo alto.',              date:'2024-06-02', technician:'Sistema',                status:'activa'  },
+  { id:'ALT-003', type:'advertencia', assetId:'CAL-001', title:'Creep incipiente detectado',     desc:'Metalografía indica inicio de creep en zona caliente de caldera KB-01.',             date:'2023-05-25', technician:'Ing. Claudia Méndez',   status:'activa'  },
+  { id:'ALT-004', type:'advertencia', assetId:'TUB-005', title:'Espesor en zona de alerta',      desc:'TUB-005: 3.40 mm — el límite de alerta es 3.36 mm (t_min + 20%). Vigilar.',        date:'2023-11-20', technician:'Tec. Miguel Roa',        status:'activa'  },
+  { id:'ALT-005', type:'advertencia', assetId:'ENC-002', title:'Inspección vencida — E-202',     desc:'Intercambiador E-202 tiene inspección UT-MAP vencida. Equipo en mantenimiento.',    date:'2024-07-30', technician:'Sistema',                status:'activa'  },
+  { id:'ALT-006', type:'info',        assetId:'TUB-001', title:'Próxima inspección programada',  desc:'TUB-001 tiene inspección UT-ESP programada para 2024-08-15.',                        date:'2024-07-15', technician:'Sistema',                status:'activa'  },
+  { id:'ALT-007', type:'resuelta',    assetId:'SOL-001', title:'Indicación MT evaluada y resuelta',desc:'Indicación en SOL-001 evaluada y aceptada bajo API 570.',                        date:'2023-05-10', technician:'Ing. Andrés Gómez',     status:'resuelta'},
+];
+
+const DOCUMENTS_INIT = [
+  { id:'DOC-001', name:'Informe UT-ESP TUB-001 — Ene 2024',       assetId:'TUB-001', type:'informe',       date:'2024-01-15', technique:'UT-ESP',  vigente:true  },
+  { id:'DOC-002', name:'Informe RT-DIG REC-001 — Dic 2023',        assetId:'REC-001', type:'informe',       date:'2023-12-01', technique:'RT-DIG',  vigente:true  },
+  { id:'DOC-003', name:'Informe UT-ESP TUB-004 — CRÍTICO',         assetId:'TUB-004', type:'informe',       date:'2023-12-15', technique:'UT-ESP',  vigente:true  },
+  { id:'DOC-004', name:'Informe MET CAL-001 — May 2023',           assetId:'CAL-001', type:'informe',       date:'2023-05-25', technique:'MET',     vigente:true  },
+  { id:'DOC-005', name:'Informe PAUT REC-002 — Ago 2023',          assetId:'REC-002', type:'informe',       date:'2023-08-28', technique:'PAUT',    vigente:true  },
+  { id:'DOC-006', name:'Certificado calibración UTG-M01',           assetId:'N/A',     type:'certificado',   date:'2024-01-01', technique:'UT-ESP',  vigente:true  },
+  { id:'DOC-007', name:'Certificado calibración SITE-20RT',        assetId:'N/A',     type:'certificado',   date:'2023-06-15', technique:'RT-DIG',  vigente:false },
+  { id:'DOC-008', name:'Hoja de Vida QSA 880 — SN 44821',         assetId:'N/A',     type:'hv-qsa',        date:'2022-03-10', technique:'RT-DIG',  vigente:true  },
+  { id:'DOC-009', name:'Procedimiento END-UT-001 v3',              assetId:'N/A',     type:'procedimiento', date:'2023-01-15', technique:'UT-ESP',  vigente:true  },
+  { id:'DOC-010', name:'Certificado ASNT SNT-TC-1A — R. Vargas',  assetId:'N/A',     type:'certificacion', date:'2023-07-01', technique:'Múltiple',vigente:true  },
+  { id:'DOC-011', name:'Informe VT-REM CAL-001 — Sep 2023',        assetId:'CAL-001', type:'informe',       date:'2023-09-22', technique:'VT-REM',  vigente:true  },
+  { id:'DOC-012', name:'Procedimiento END-RT-002 v2',              assetId:'N/A',     type:'procedimiento', date:'2022-08-10', technique:'RT-DIG',  vigente:false },
+];
+
+const PLAN_INIT = [
+  { assetId:'TUB-004', technique:'UT-ESP',       frequency:'Semestral (API 570)',  lastInsp:'2023-12-15', nextDate:'2024-04-01', status:'vencida',      priority:'critica' },
+  { assetId:'REC-001', technique:'RT-DIG + VT',  frequency:'Anual (ASME VIII)',    lastInsp:'2023-12-01', nextDate:'2024-06-01', status:'vencida',      priority:'critica' },
+  { assetId:'TUB-001', technique:'UT-ESP',        frequency:'Semestral (API 570)', lastInsp:'2024-01-15', nextDate:'2024-08-15', status:'programada',   priority:'alta'    },
+  { assetId:'CAL-001', technique:'VT-REM + UT',   frequency:'Anual (ASME I)',      lastInsp:'2023-09-20', nextDate:'2024-09-20', status:'programada',   priority:'alta'    },
+  { assetId:'ENC-002', technique:'UT-MAP',         frequency:'Semestral (API 510)', lastInsp:'2024-01-30', nextDate:'2024-07-30', status:'vencida',      priority:'alta'    },
+  { assetId:'TUB-005', technique:'UT-ESP',         frequency:'Semestral (API 570)', lastInsp:'2024-05-20', nextDate:'2024-11-20', status:'programada',   priority:'media'   },
+  { assetId:'ENC-001', technique:'UT-MAP',         frequency:'Semestral (API 510)', lastInsp:'2024-06-10', nextDate:'2024-12-10', status:'programada',   priority:'media'   },
+  { assetId:'TUB-002', technique:'UT-ESP',         frequency:'Anual (API 570)',     lastInsp:'2023-08-10', nextDate:'2025-02-10', status:'por-programar',priority:'media'   },
+  { assetId:'REC-002', technique:'PAUT + UT',      frequency:'Anual (ASME VIII)',   lastInsp:'2024-06-15', nextDate:'2025-06-15', status:'programada',   priority:'media'   },
+  { assetId:'SOL-001', technique:'MT',             frequency:'Anual (API 570)',     lastInsp:'2024-03-10', nextDate:'2025-03-10', status:'programada',   priority:'baja'    },
+  { assetId:'EST-001', technique:'VT-REM',         frequency:'Anual (AWS D1.1)',    lastInsp:'2024-06-20', nextDate:'2025-06-20', status:'programada',   priority:'baja'    },
+  { assetId:'TUB-003', technique:'UT-ESP',         frequency:'Anual (API 570)',     lastInsp:'2024-05-05', nextDate:'2025-11-05', status:'programada',   priority:'baja'    },
+];
+
+const THICKNESS_DATA = {
+  'TUB-001': {
+    points:[
+      {date:'Ene-22',actual:8.45},{date:'Jul-22',actual:8.12},
+      {date:'Ene-23',actual:7.78},{date:'Jul-23',actual:7.44},
+      {date:'Ene-24',actual:7.10,projected:7.10},
+      {date:'Jul-24',projected:6.73},{date:'Nov-24',projected:6.50},
+    ],
+    tMin:6.5, tAlert:7.8, rate:0.67, life:0.9, replaceDate:'Nov 2024', technique:'UT-ESP', norm:'API 570'
+  },
+  'TUB-004': {
+    points:[
+      {date:'Jun-21',actual:8.90},{date:'Jun-22',actual:7.80},
+      {date:'Jun-23',actual:6.80},{date:'Dic-23',actual:5.90},
+    ],
+    tMin:6.5, tAlert:7.8, rate:1.18, life:0, replaceDate:'¡INMEDIATO!', technique:'UT-ESP', norm:'API 570'
+  },
+  'ENC-002': {
+    points:[
+      {date:'Mar-21',actual:2.95},{date:'Sep-21',actual:2.80},
+      {date:'Mar-22',actual:2.68},{date:'Sep-22',actual:2.55},
+      {date:'Mar-23',actual:2.47},{date:'Ene-24',actual:2.40,projected:2.40},
+      {date:'Jul-24',projected:2.21},{date:'Ene-25',projected:2.10},
+    ],
+    tMin:2.1, tAlert:2.52, rate:0.19, life:1.6, replaceDate:'Ene 2025', technique:'UT-MAP', norm:'API 510'
+  },
+  'CAL-001': {
+    points:[
+      {date:'Sep-20',actual:4.45},{date:'Sep-21',actual:4.20},
+      {date:'Sep-22',actual:4.00},{date:'Sep-23',actual:3.80,projected:3.80},
+      {date:'Sep-24',projected:3.58},{date:'Mar-25',projected:3.47},
+      {date:'Mar-26',projected:3.20},
+    ],
+    tMin:3.2, tAlert:3.84, rate:0.22, life:2.7, replaceDate:'Mar 2026', technique:'UT-ESP', norm:'ASME I'
+  },
+};
+
+/* ===================== HELPERS ===================== */
+const MATRIX_ZONES = {
+  '1,1':'vlow','1,2':'low','1,3':'low','1,4':'medium','1,5':'medium',
+  '2,1':'low', '2,2':'low','2,3':'medium','2,4':'medium','2,5':'med-high',
+  '3,1':'low', '3,2':'medium','3,3':'medium','3,4':'med-high','3,5':'high',
+  '4,1':'medium','4,2':'medium','4,3':'med-high','4,4':'high','4,5':'critical',
+  '5,1':'medium','5,2':'med-high','5,3':'high','5,4':'critical','5,5':'critical',
+};
+const ZONE_BG = {
+  critical:'rgba(139,0,0,.70)', high:'rgba(204,20,20,.48)',
+  'med-high':'rgba(224,92,20,.42)', medium:'rgba(224,176,20,.35)',
+  low:'rgba(20,168,74,.28)', vlow:'rgba(20,128,168,.28)',
+};
+const ZONE_LABELS = {
+  critical:'Crítico', high:'Alto', 'med-high':'Medio-Alto',
+  medium:'Medio', low:'Bajo', vlow:'Muy Bajo'
+};
+
+function getZone(pof, cof) { return MATRIX_ZONES[`${pof},${cof}`] || 'low'; }
+
+function riskBadge(pof, cof) {
+  const z = getZone(pof, cof);
+  const cls = { critical:'b-critical', high:'b-high', 'med-high':'b-med-high', medium:'b-medium', low:'b-low', vlow:'b-vlow' };
+  return { cls: cls[z] || 'b-low', label: ZONE_LABELS[z] || 'Bajo' };
+}
+
+function techBadge(t) {
+  const m = {
+    'UT-ESP':'b-ut-esp','RT-DIG':'b-rt-dig','MT':'b-mt','PT':'b-pt',
+    'PAUT':'b-paut','MET':'b-met','VT-REM':'b-vt-rem','UT-MAP':'b-ut-map','PMI-XRF':'b-pmi-xrf'
+  };
+  return m[t] || 'b-ut-esp';
+}
+
+function statusBadge(s) {
+  return { activo:'b-activo', 'en-mantenimiento':'b-maint', 'fuera-de-servicio':'b-fuera' }[s] || 'b-activo';
+}
+function statusLabel(s) {
+  return { activo:'Activo', 'en-mantenimiento':'En mantenimiento', 'fuera-de-servicio':'Fuera de servicio' }[s] || s;
+}
+
+function resultBadge(r) {
+  return { aceptable:'b-aceptable', observacion:'b-observ', rechazo:'b-rechazo' }[r] || 'b-observ';
+}
+function resultLabel(r) {
+  return { aceptable:'Aceptable', observacion:'Observación', rechazo:'Rechazo' }[r] || r;
+}
+
+function pctRemaining(a) {
+  if (!a.tNom || !a.tAct || !a.tMin) return null;
+  return Math.max(0, Math.min(100, ((a.tAct - a.tMin) / (a.tNom - a.tMin)) * 100));
+}
+
+function pctColor(p) {
+  if (p === null) return '#888888';
+  if (p < 20)  return '#CC1414';
+  if (p < 45)  return '#E05C14';
+  if (p < 65)  return '#E0B014';
+  return '#14A84A';
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  const [y,m,day] = d.split('-');
+  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+function nowStr() {
+  const d = new Date();
+  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function greet() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Buenos días';
+  if (h < 18) return 'Buenas tardes';
+  return 'Buenas noches';
+}
+
+function useCounter(target, duration = 900) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    setN(0);
+    if (target === 0) return;
+    let start = 0;
+    const step = target / (duration / 16);
+    const t = setInterval(() => {
+      start += step;
+      if (start >= target) { setN(target); clearInterval(t); }
+      else setN(Math.floor(start));
+    }, 16);
+    return () => clearInterval(t);
+  }, [target]);
+  return n;
+}
+
+/* ===================== ICONS ===================== */
+const Ic = {
+  Menu: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/></svg>,
+  Home: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l7-6 7 6v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/><polyline points="7,20 7,12 13,12 13,20"/></svg>,
+  Box: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 2l8 4v8l-8 4-8-4V6l8-4z"/><polyline points="10,2 10,14"/><line x1="2" y1="6" x2="10" y2="10"/><line x1="18" y1="6" x2="10" y2="10"/></svg>,
+  Clock: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="10" cy="10" r="8"/><polyline points="10,5 10,10 14,12"/></svg>,
+  Grid: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="12" y="2" width="6" height="6" rx="1"/><rect x="2" y="12" width="6" height="6" rx="1"/><rect x="12" y="12" width="6" height="6" rx="1"/></svg>,
+  TrendUp: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="2,14 7,9 11,13 18,5"/><polyline points="13,5 18,5 18,10"/></svg>,
+  Calendar: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="3" width="16" height="16" rx="2"/><line x1="2" y1="8" x2="18" y2="8"/><line x1="6" y1="1" x2="6" y2="5"/><line x1="14" y1="1" x2="14" y2="5"/></svg>,
+  Bell: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M10 2a6 6 0 016 6v4l2 2H2l2-2V8a6 6 0 016-6z"/><path d="M8 17a2 2 0 004 0"/></svg>,
+  File: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 2H5a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V7L12 2z"/><polyline points="12,2 12,7 17,7"/></svg>,
+  Users: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="7" cy="7" r="3"/><path d="M1 17v-1a6 6 0 0112 0v1"/><circle cx="15" cy="6" r="2.5"/><path d="M19 17v-1a4 4 0 00-4-4"/></svg>,
+  Upload: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="16,6 10,1 4,6"/><line x1="10" y1="1" x2="10" y2="13"/><path d="M3 14v4h14v-4"/></svg>,
+  LogOut: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H4a1 1 0 00-1 1v12a1 1 0 001 1h4"/><polyline points="13,14 18,10 13,6"/><line x1="7" y1="10" x2="18" y2="10"/></svg>,
+  Eye: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M1 10S4 4 10 4s9 6 9 6-3 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="2.5"/></svg>,
+  X: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>,
+  Alert: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 2L1 18h18L10 2z"/><line x1="10" y1="8" x2="10" y2="12"/><circle cx="10" cy="15" r=".8" fill="currentColor"/></svg>,
+  Check: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="3,10 8,15 17,5"/></svg>,
+  Info: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="10" cy="10" r="8"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6.5" r=".8" fill="currentColor"/></svg>,
+  Activity: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1,10 5,10 7,5 9,15 11,8 13,12 15,10 19,10"/></svg>,
+  Download: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4,14 10,19 16,14"/><line x1="10" y1="19" x2="10" y2="6"/><path d="M3 5h14"/></svg>,
+  ChevronRight: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7,4 13,10 7,16"/></svg>,
+  Gauge: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 14a7 7 0 1114 0"/><line x1="10" y1="14" x2="14" y2="8"/><circle cx="10" cy="14" r="1.2" fill="currentColor"/></svg>,
+  ShieldAlert: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M10 2L3 6v5c0 4 3 7 7 8 4-1 7-4 7-8V6L10 2z"/><line x1="10" y1="8" x2="10" y2="11.5"/><circle cx="10" cy="14" r=".8" fill="currentColor"/></svg>,
+  Layers: () => <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="10,2 18,7 10,12 2,7"/><polyline points="2,12 10,17 18,12"/><polyline points="2,9.5 10,14.5 18,9.5"/></svg>,
+};
+
+function Icon({ name, size = 18, color }) {
+  const C = Ic[name];
+  if (!C) return null;
+  return <span style={{ display:'inline-flex', width:size, height:size, flexShrink:0, color:color||'currentColor' }}><C /></span>;
+}
+
+/* ===================== LOGIN ===================== */
+function LoginPage({ onLogin }) {
+  const [email, setEmail]   = useState('');
+  const [pass, setPass]     = useState('');
+  const [error, setError]   = useState('');
+  const [loading, setLoading] = useState(false);
+
+  function handleLogin(e) {
+    e.preventDefault(); setError('');
+    setLoading(true);
+    setTimeout(() => {
+      const u = DEMO_USERS[email.toLowerCase().trim()];
+      if (u && u.password === pass) { onLogin({ ...u, email: email.toLowerCase().trim() }); }
+      else { setError('Email o contraseña incorrectos. Usa las credenciales demo.'); }
+      setLoading(false);
+    }, 600);
+  }
+
+  function demoLogin(email) {
+    const u = DEMO_USERS[email];
+    onLogin({ ...u, email });
+  }
+
+  return (
+    <div className="login-page" style={{ height:'100vh' }}>
+      <div className="login-card">
+        {/* Logo */}
+        <div style={{ textAlign:'center', marginBottom:32 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', justifyContent:'center',
+            width:52, height:52, background:'var(--red)', borderRadius:8, marginBottom:16 }}>
+            <Icon name="ShieldAlert" size={26} color="#fff" />
+          </div>
+          <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:26, fontWeight:900, color:'var(--white)', lineHeight:1 }}>
+            AMCOL INGENIERÍA
+          </div>
+          <div style={{ fontFamily:"'DM Mono',monospace", fontSize:10, color:'var(--smoke)', textTransform:'uppercase', letterSpacing:'.12em', marginTop:4 }}>
+            Portal Cliente RBI
+          </div>
+        </div>
+
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input className="login-input" type="email" placeholder="correo@empresa.com"
+              value={email} onChange={e => setEmail(e.target.value)} required autoFocus />
+          </div>
+          <div className="form-group" style={{ marginBottom:20 }}>
+            <label className="form-label">Contraseña</label>
+            <input className="login-input" type="password" placeholder="••••••••"
+              value={pass} onChange={e => setPass(e.target.value)} required />
+          </div>
+          {error && <div className="login-error mb-16">{error}</div>}
+          <button className="btn btn-primary" type="submit"
+            style={{ width:'100%', justifyContent:'center', padding:'12px', fontSize:14 }}
+            disabled={loading}>
+            {loading ? 'Verificando...' : 'Iniciar Sesión'}
+          </button>
+        </form>
+
+        {/* Demo shortcuts */}
+        <div style={{ marginTop:24, paddingTop:20, borderTop:'1px solid var(--wire)' }}>
+          <div className="label-sm" style={{ marginBottom:10, textAlign:'center' }}>Acceso rápido (demo)</div>
+          <div style={{ display:'flex', gap:8, flexDirection:'column' }}>
+            <button className="btn btn-ghost" style={{ justifyContent:'space-between', fontSize:11 }}
+              onClick={() => demoLogin('cliente@planta.com')}>
+              <span>👤 cliente@planta.com</span><span className="label-sm">/ demo123</span>
+            </button>
+            <button className="btn btn-ghost" style={{ justifyContent:'space-between', fontSize:11 }}
+              onClick={() => demoLogin('admin@amcol.com')}>
+              <span>⚙️ admin@amcol.com</span><span className="label-sm">/ admin123</span>
+            </button>
+          </div>
+        </div>
+
+        <div style={{ textAlign:'center', marginTop:20, fontSize:11, color:'var(--smoke)' }}>
+          Portal exclusivo para clientes de Amcol Ingeniería Ltda
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== SIDEBAR ===================== */
+const NAV_ITEMS = [
+  { group: null,    id:'dashboard',      label:'Dashboard',             icon:'Home'     },
+  { group: null,    id:'assets',         label:'Mis Activos',           icon:'Box'      },
+  { group: null,    id:'inspections',    label:'Historial',             icon:'Clock'    },
+  { group:'Análisis RBI', id:'rbi-matrix', label:'Matriz de Riesgo',   icon:'Grid'     },
+  { group:false,    id:'thickness',      label:'Tendencia Espesores',   icon:'TrendUp'  },
+  { group:false,    id:'plan',           label:'Plan de Inspección',    icon:'Calendar' },
+  { group: null,    id:'alerts',         label:'Alertas',               icon:'Bell'     },
+  { group: null,    id:'documents',      label:'Documentos',            icon:'File'     },
+  { group:'Admin',  id:'admin-clients',  label:'Gestión Clientes',      icon:'Users',   adminOnly:true },
+  { group:false,    id:'admin-upload',   label:'Cargar Datos',          icon:'Upload',  adminOnly:true },
+];
+
+function Sidebar({ collapsed, onToggle, view, setView, user, onLogout }) {
+  let lastGroup = undefined;
+  const rows = [];
+
+  NAV_ITEMS.forEach(item => {
+    if (item.adminOnly && user.role !== 'admin') return;
+    if (item.group !== false && item.group !== lastGroup) {
+      if (item.group !== null) rows.push({ type:'label', label: item.group, key:'lbl-'+item.id });
+      lastGroup = item.group;
+    }
+    rows.push({ type:'item', ...item });
+  });
+
+  const alertCount = ALERTS_INIT.filter(a => a.status === 'activa' && a.type === 'critica').length;
+
+  return (
+    <div className={`sidebar${collapsed ? ' collapsed' : ''}`}>
+      {/* Logo */}
+      <div className="sb-logo">
+        <div className="sb-logo-icon">
+          <Icon name="Layers" size={18} color="#fff" />
+        </div>
+        <div className="sb-logo-text">
+          <div className="sb-logo-name">AMCOL</div>
+          <div className="sb-logo-sub">Ingeniería Ltda</div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="sb-nav">
+        {rows.map(row => {
+          if (row.type === 'label') {
+            return <div key={row.key} className="sb-group-label">{row.label}</div>;
+          }
+          const isActive = view === row.id;
+          return (
+            <div key={row.id} className={`nav-item${isActive ? ' active' : ''}`}
+              onClick={() => setView(row.id)}>
+              <span className="nav-icon"><Icon name={row.icon} size={18} /></span>
+              <span className="nav-label">
+                {row.label}
+                {row.id === 'alerts' && alertCount > 0 &&
+                  <span style={{
+                    marginLeft:6, background:'var(--red)', color:'#fff',
+                    borderRadius:10, padding:'1px 6px',
+                    fontSize:9, fontFamily:"'DM Mono',monospace"
+                  }}>{alertCount}</span>
+                }
+              </span>
+            </div>
+          );
+        })}
+      </nav>
+
+      {/* Footer */}
+      <div className="sb-footer">
+        <div className="sb-user">
+          <div className="sb-avatar">{user.avatar}</div>
+          <div className="sb-user-info">
+            <div className="sb-user-name">{user.name}</div>
+            <div className="sb-user-role">{user.role === 'admin' ? 'Administrador' : 'Cliente'}</div>
+          </div>
+        </div>
+        <div className="nav-item" onClick={onLogout}
+          style={{ color:'var(--smoke)' }}>
+          <span className="nav-icon"><Icon name="LogOut" size={18} /></span>
+          <span className="nav-label">Cerrar sesión</span>
+        </div>
+        <div className="nav-item" onClick={onToggle}
+          style={{ color:'var(--smoke)', marginTop:4 }}>
+          <span className="nav-icon"><Icon name="Menu" size={18} /></span>
+          <span className="nav-label">{collapsed ? 'Expandir' : 'Colapsar'}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== TOPBAR ===================== */
+const VIEW_TITLES = {
+  dashboard:'Dashboard',
+  assets:'Mis Activos',
+  inspections:'Historial de Inspecciones',
+  'rbi-matrix':'Matriz de Riesgo RBI',
+  thickness:'Tendencia de Espesores',
+  plan:'Plan de Inspección',
+  alerts:'Alertas y Notificaciones',
+  documents:'Documentos y Reportes',
+  'admin-clients':'Gestión de Clientes',
+  'admin-upload':'Cargar Datos',
+};
+
+function TopBar({ user, view, onToggle }) {
+  return (
+    <div className="topbar">
+      <button className="btn-icon" onClick={onToggle} title="Menú">
+        <Icon name="Menu" size={18} />
+      </button>
+      <div className="topbar-title">{VIEW_TITLES[view] || view}</div>
+      <div className="topbar-badge">{user.company}</div>
+      <div className="topbar-date">{nowStr()}</div>
+    </div>
+  );
+}
+
+/* ===== PART 3: Dashboard ===== */
+
+/* ===================== KPI CARD ===================== */
+function KpiCard({ value, label, icon, suffix = '' }) {
+  const n = useCounter(typeof value === 'number' ? value : 0);
+  return (
+    <div className="kpi-card">
+      <div className="kpi-icon-wrap">
+        <Icon name={icon} size={20} color="var(--red)" />
+      </div>
+      <div>
+        <div className="kpi-value">{typeof value === 'number' ? n + suffix : value}</div>
+        <div className="kpi-label">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== MINI MATRIX ===================== */
+function MiniMatrix({ assets }) {
+  // Build cell map: key = "pof,cof" → assets
+  const cells = {};
+  for (let p = 1; p <= 5; p++)
+    for (let c = 1; c <= 5; c++) {
+      cells[`${p},${c}`] = assets.filter(a => a.pof === p && a.cof === c);
+    }
+
+  return (
+    <div>
+      <div style={{ display:'flex', gap:4, marginBottom:4, paddingLeft:20 }}>
+        {[1,2,3,4,5].map(p => (
+          <div key={p} style={{ flex:1, textAlign:'center', fontFamily:"'DM Mono',monospace", fontSize:9, color:'var(--smoke)' }}>P{p}</div>
+        ))}
+      </div>
+      <div style={{ display:'flex', gap:4 }}>
+        {/* Y axis labels */}
+        <div style={{ display:'flex', flexDirection:'column', gap:4, justifyContent:'space-between' }}>
+          {[5,4,3,2,1].map(c => (
+            <div key={c} style={{ height:32, display:'flex', alignItems:'center',
+              fontFamily:"'DM Mono',monospace", fontSize:9, color:'var(--smoke)' }}>C{c}</div>
+          ))}
+        </div>
+        {/* Grid */}
+        <div style={{ flex:1, display:'grid', gridTemplateColumns:'repeat(5,1fr)', gridTemplateRows:'repeat(5,32px)', gap:3 }}>
+          {[5,4,3,2,1].map(c =>
+            [1,2,3,4,5].map(p => {
+              const z = getZone(p, c);
+              const astsHere = cells[`${p},${c}`] || [];
+              return (
+                <div key={`${p},${c}`}
+                  style={{
+                    background: ZONE_BG[z],
+                    border:'1px solid rgba(0,0,0,.25)',
+                    borderRadius:2,
+                    display:'flex', alignItems:'center', justifyContent:'center', flexWrap:'wrap',
+                    gap:2, padding:2, position:'relative',
+                  }}>
+                  {astsHere.map(a => (
+                    <div key={a.id} style={{
+                      width:8, height:8, borderRadius:'50%',
+                      background: a.isCritical ? '#FF5555' : 'rgba(255,255,255,.85)',
+                      flexShrink:0,
+                    }} title={`${a.id}: ${a.desc}`} />
+                  ))}
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+      {/* Legend */}
+      <div style={{ display:'flex', flexWrap:'wrap', gap:'6px 14px', marginTop:10 }}>
+        {Object.entries(ZONE_LABELS).map(([z, l]) => (
+          <div key={z} style={{ display:'flex', alignItems:'center', gap:5 }}>
+            <div style={{ width:10, height:10, borderRadius:2, background:ZONE_BG[z] }} />
+            <span style={{ fontFamily:"'DM Mono',monospace", fontSize:9, color:'var(--smoke)' }}>{l}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ===================== DASHBOARD ===================== */
+function Dashboard({ assets, inspections, alerts, setView, setSelectedAsset }) {
+  const totalAssets    = assets.length;
+  const nextMonth      = assets.filter(a => { try { const d=new Date(a.nextInsp); const now=new Date(); return d>now && (d-now)<(30*24*3600*1000); } catch(e){return false;} }).length;
+  const activeAlerts   = alerts.filter(a => a.status === 'activa').length;
+  const criticalAssets = assets.filter(a => getZone(a.pof,a.cof) === 'critical');
+  const sortedByRisk   = [...assets].sort((a,b) => (b.pof*b.cof)-(a.pof*a.cof)).slice(0,5);
+  const recentActivity = [...inspections].sort((a,b) => b.date.localeCompare(a.date)).slice(0,5);
+  const lastDate       = recentActivity[0]?.date ? fmtDate(recentActivity[0].date) : '—';
+
+  const ACT_COLORS = {
+    aceptable:'var(--risk-low)', observacion:'var(--risk-medium)',
+    rechazo:'var(--risk-critical)'
+  };
+
+  return (
+    <div className="page">
+      {/* Greeting */}
+      <div style={{ marginBottom:24 }}>
+        <div className="h1" style={{ marginBottom:4 }}>{greet()}, Carlos</div>
+        <div style={{ color:'var(--smoke)', fontSize:13 }}>
+          Resumen de integridad — <span style={{ color:'var(--chalk)' }}>Refinería del Norte S.A.</span>
+        </div>
+      </div>
+
+      {/* KPIs */}
+      <div className="g4 mb-24">
+        <KpiCard value={totalAssets}    label="Total de Activos"          icon="Box"      />
+        <KpiCard value={nextMonth}      label="Insp. próximos 30 días"    icon="Calendar" />
+        <KpiCard value={activeAlerts}   label="Alertas Activas"           icon="Bell"     />
+        <KpiCard value={lastDate}       label="Última Actividad"          icon="Clock"    />
+      </div>
+
+      {/* Matrix + Critical table */}
+      <div className="g2 mb-24" style={{ gridTemplateColumns:'1fr 2fr' }}>
+        {/* Mini matrix */}
+        <div className="card card-sm">
+          <div className="h3 mb-12">Distribución de Riesgo</div>
+          <MiniMatrix assets={assets} />
+          <div className="sep" />
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:8 }}>
+            {[
+              { label:'Críticos', z:'critical', cls:'b-critical' },
+              { label:'Altos',    z:'high',     cls:'b-high'     },
+              { label:'Medios',   z:'medium',   cls:'b-medium'   },
+            ].map(row => {
+              const cnt = assets.filter(a => {
+                const zone = getZone(a.pof,a.cof);
+                return row.z === 'medium'
+                  ? zone === 'medium' || zone === 'med-high'
+                  : zone === row.z;
+              }).length;
+              return (
+                <div key={row.z} style={{ textAlign:'center', padding:'8px 0' }}>
+                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:900, color:'var(--white)' }}>{cnt}</div>
+                  <div className="label-sm">{row.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Top 5 critical assets */}
+        <div className="card" style={{ padding:0 }}>
+          <div style={{ padding:'16px 20px', borderBottom:'1px solid var(--wire)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+            <div className="h3">Activos de Mayor Riesgo</div>
+            <button className="btn btn-ghost btn-sm" onClick={() => setView('assets')}>Ver todos</button>
+          </div>
+          <div className="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Descripción</th>
+                  <th>Últ. Inspección</th>
+                  <th>Prox. Inspección</th>
+                  <th>Riesgo</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedByRisk.map(a => {
+                  const rb = riskBadge(a.pof, a.cof);
+                  return (
+                    <tr key={a.id}>
+                      <td className="mono">{a.id}</td>
+                      <td style={{ maxWidth:180, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                        {a.isCritical && <span className="pulse" style={{ color:'var(--red)', marginRight:6 }}>●</span>}
+                        {a.desc}
+                      </td>
+                      <td className="mono">{fmtDate(a.lastInsp)}</td>
+                      <td className="mono">{fmtDate(a.nextInsp)}</td>
+                      <td><span className={`badge ${rb.cls}`}>{rb.label}</span></td>
+                      <td>
+                        <button className="btn-icon" onClick={() => setSelectedAsset(a)} title="Ver detalle">
+                          <Icon name="Eye" size={14} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent activity */}
+      <div className="card" style={{ maxWidth:800 }}>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14 }}>
+          <div className="h3">Actividad Reciente</div>
+          <button className="btn btn-ghost btn-sm" onClick={() => setView('inspections')}>Ver historial</button>
+        </div>
+        {recentActivity.map(insp => {
+          const asset = assets.find(a => a.id === insp.assetId);
+          return (
+            <div key={insp.id} className="activity-item">
+              <div className="act-dot" style={{ background: ACT_COLORS[insp.result] || 'var(--smoke)' }} />
+              <div style={{ flex:1 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:2, flexWrap:'wrap' }}>
+                  <span style={{ fontSize:13, fontWeight:500 }}>{asset?.desc || insp.assetId}</span>
+                  <span className={`badge ${techBadge(insp.technique)}`}>{insp.technique}</span>
+                  <span className={`badge ${resultBadge(insp.result)}`}>{resultLabel(insp.result)}</span>
+                </div>
+                <div style={{ fontSize:12, color:'var(--smoke)' }}>
+                  {insp.value} · {insp.technician}
+                </div>
+              </div>
+              <div className="mono" style={{ color:'var(--smoke)', fontSize:11, whiteSpace:'nowrap' }}>
+                {fmtDate(insp.date)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+</script>
+<!-- PART 4: AssetList + AssetDetail + InspectionHistory -->
+<script type="text/babel" data-presets="react">
+
+/* ===================== ASSET DETAIL MODAL ===================== */
+function AssetDetailModal({ asset, inspections, onClose }) {
+  const a = asset;
+  const rb = riskBadge(a.pof, a.cof);
+  const pct = pctRemaining(a);
+  const history = inspections
+    .filter(i => i.assetId === a.id)
+    .sort((x,y) => y.date.localeCompare(x.date))
+    .slice(0,3);
+  const thk = THICKNESS_DATA[a.id];
+
+  return (
+    <div className="modal-overlay" onClick={e => { if(e.target===e.currentTarget) onClose(); }}>
+      <div className="modal">
+        {/* Header */}
+        <div className="modal-header">
+          <div>
+            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+              <span className="mono" style={{ color:'var(--smoke)' }}>{a.id}</span>
+              <span className={`badge ${rb.cls}`}>
+                {a.isCritical && <span className="pulse">●</span>} {rb.label}
+              </span>
+              <span className={`badge ${statusBadge(a.status)}`}>{statusLabel(a.status)}</span>
+            </div>
+            <div className="h2">{a.desc}</div>
+            <div style={{ fontSize:12, color:'var(--smoke)', marginTop:2 }}>
+              Circuito: {a.circuit} · Técnica habitual: {a.technique}
+            </div>
+          </div>
+          <button className="btn-icon" onClick={onClose}><Icon name="X" size={18} /></button>
+        </div>
+
+        <div className="modal-body">
+          {/* Datos técnicos */}
+          <div className="label-sm mb-8">Datos Técnicos</div>
+          <div className="detail-grid mb-16">
+            <div className="detail-item"><div className="detail-label">Material</div><div className="detail-value">{a.material}</div></div>
+            <div className="detail-item"><div className="detail-label">Tipo de equipo</div><div className="detail-value" style={{ textTransform:'capitalize' }}>{a.type}</div></div>
+            <div className="detail-item"><div className="detail-label">Fluido contenido</div><div className="detail-value">{a.fluid}</div></div>
+            <div className="detail-item"><div className="detail-label">Temperatura operación</div><div className="detail-value">{a.temp}</div></div>
+            <div className="detail-item"><div className="detail-label">Presión operación</div><div className="detail-value">{a.pressure}</div></div>
+            <div className="detail-item"><div className="detail-label">Circuito / Unidad</div><div className="detail-value">{a.circuit}</div></div>
+          </div>
+
+          {/* Espesores */}
+          {a.tNom && (
+            <>
+              <div className="sep" />
+              <div className="label-sm mb-8">Espesores (mm)</div>
+              <div style={{ display:'flex', gap:20, flexWrap:'wrap', marginBottom:16 }}>
+                {[
+                  { label:'t Nominal', val:`${a.tNom} mm` },
+                  { label:'t Actual',  val:`${a.tAct} mm`, highlight: a.tAct <= a.tMin },
+                  { label:'t Mínimo',  val:`${a.tMin} mm` },
+                ].map(row => (
+                  <div key={row.label} style={{ textAlign:'center', padding:'10px 20px', background:'var(--ink)', borderRadius:4, border:'1px solid var(--wire)' }}>
+                    <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:900,
+                      color: row.highlight ? 'var(--risk-critical)' : 'var(--white)' }}>{row.val}</div>
+                    <div className="label-sm">{row.label}</div>
+                  </div>
+                ))}
+                {pct !== null && (
+                  <div style={{ textAlign:'center', padding:'10px 20px', background:'var(--ink)', borderRadius:4, border:'1px solid var(--wire)' }}>
+                    <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:900, color: pctColor(pct) }}>
+                      {pct.toFixed(0)}%
+                    </div>
+                    <div className="label-sm">Vida remanente</div>
+                  </div>
+                )}
+              </div>
+              {a.tAct <= a.tMin && (
+                <div style={{ background:'rgba(204,20,20,.12)', border:'1px solid rgba(204,20,20,.30)',
+                  borderRadius:4, padding:'10px 14px', marginBottom:16, display:'flex', gap:10, alignItems:'center' }}>
+                  <Icon name="Alert" size={16} color="var(--red)" />
+                  <span style={{ fontSize:13, color:'#FF8888' }}>
+                    <strong>Espesor crítico:</strong> El espesor actual ({a.tAct} mm) está por debajo del mínimo requerido ({a.tMin} mm). Requiere atención inmediata.
+                  </span>
+                </div>
+              )}
+              {thk && (
+                <div style={{ fontSize:12, color:'var(--smoke)', marginBottom:8 }}>
+                  Tasa de corrosión estimada: <span style={{ color:'var(--chalk)', fontFamily:"'DM Mono',monospace" }}>{thk.rate} mm/año</span> ·
+                  Vida útil remanente: <span style={{ color: thk.life < 1 ? 'var(--risk-critical)' : 'var(--risk-medium)', fontFamily:"'DM Mono',monospace" }}>{thk.life > 0 ? `~${thk.life} años` : 'VENCIDA'}</span> ·
+                  Reemplazo estimado: <span style={{ fontFamily:"'DM Mono',monospace" }}>{thk.replaceDate}</span>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Inspecciones recientes */}
+          <div className="sep" />
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:10 }}>
+            <div className="label-sm">Últimas Inspecciones</div>
+            {!history.length && <span style={{ color:'var(--smoke)', fontSize:12 }}>Sin registros</span>}
+          </div>
+          {history.map(insp => (
+            <div key={insp.id} style={{
+              display:'flex', alignItems:'center', gap:12, padding:'9px 0',
+              borderBottom:'1px solid var(--wire)', flexWrap:'wrap'
+            }}>
+              <span className="mono" style={{ color:'var(--smoke)' }}>{fmtDate(insp.date)}</span>
+              <span className={`badge ${techBadge(insp.technique)}`}>{insp.technique}</span>
+              <span className={`badge ${resultBadge(insp.result)}`}>{resultLabel(insp.result)}</span>
+              <span style={{ fontSize:12, color:'var(--smoke)', flex:1 }}>{insp.value}</span>
+              <span style={{ fontSize:11, color:'var(--smoke)' }}>{insp.norm}</span>
+            </div>
+          ))}
+
+          {/* Próxima */}
+          <div className="sep" />
+          <div style={{ display:'flex', gap:20, flexWrap:'wrap' }}>
+            <div>
+              <div className="label-sm mb-4">Última Inspección</div>
+              <div className="mono">{fmtDate(a.lastInsp)}</div>
+            </div>
+            <div>
+              <div className="label-sm mb-4">Próxima Inspección</div>
+              <div className="mono" style={{ color: new Date(a.nextInsp) < new Date() ? 'var(--risk-critical)' : 'var(--chalk)' }}>
+                {fmtDate(a.nextInsp)}
+                {new Date(a.nextInsp) < new Date() && <span style={{ marginLeft:6, color:'var(--risk-critical)' }}>⚠ VENCIDA</span>}
+              </div>
+            </div>
+            <div>
+              <div className="label-sm mb-4">Técnica recomendada</div>
+              <div><span className={`badge ${techBadge(a.technique)}`}>{a.technique}</span></div>
+            </div>
+            <div>
+              <div className="label-sm mb-4">Posición en Matriz RBI</div>
+              <div className="mono">PoF: {a.pof} · CoF: {a.cof}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== ASSET LIST ===================== */
+function AssetList({ assets, inspections, setSelectedAsset }) {
+  const [typeF,   setTypeF]   = useState('');
+  const [riskF,   setRiskF]   = useState('');
+  const [statusF, setStatusF] = useState('');
+  const [search,  setSearch]  = useState('');
+
+  const filtered = assets.filter(a => {
+    const zone = getZone(a.pof, a.cof);
+    const riskMatch = !riskF || riskF === zone ||
+      (riskF === 'high' && zone === 'med-high');
+    const typeMatch   = !typeF   || a.type === typeF;
+    const statusMatch = !statusF || a.status === statusF;
+    const s = search.toLowerCase();
+    const searchMatch = !s || a.id.toLowerCase().includes(s) || a.desc.toLowerCase().includes(s);
+    return riskMatch && typeMatch && statusMatch && searchMatch;
+  });
+
+  return (
+    <div className="page">
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16 }}>
+        <div className="h2">Activos Registrados <span style={{ color:'var(--smoke)', fontWeight:400, fontSize:16 }}>({filtered.length})</span></div>
+      </div>
+
+      {/* Filters */}
+      <div className="filter-bar">
+        <input type="text" placeholder="Buscar por ID o descripción..." value={search}
+          onChange={e => setSearch(e.target.value)} style={{ minWidth:240 }} />
+        <select value={typeF} onChange={e => setTypeF(e.target.value)}>
+          <option value="">Tipo: Todos</option>
+          <option value="tuberia">Tuberías</option>
+          <option value="recipiente">Recipientes a presión</option>
+          <option value="caldera">Calderas</option>
+          <option value="intercambiador">Intercambiadores</option>
+          <option value="estructura">Estructuras</option>
+          <option value="soldadura">Soldaduras</option>
+        </select>
+        <select value={riskF} onChange={e => setRiskF(e.target.value)}>
+          <option value="">Riesgo: Todos</option>
+          <option value="critical">Crítico</option>
+          <option value="high">Alto / Med-Alto</option>
+          <option value="medium">Medio</option>
+          <option value="low">Bajo</option>
+          <option value="vlow">Muy Bajo</option>
+        </select>
+        <select value={statusF} onChange={e => setStatusF(e.target.value)}>
+          <option value="">Estado: Todos</option>
+          <option value="activo">Activo</option>
+          <option value="en-mantenimiento">En mantenimiento</option>
+          <option value="fuera-de-servicio">Fuera de servicio</option>
+        </select>
+        {(typeF || riskF || statusF || search) &&
+          <button className="btn btn-ghost btn-sm"
+            onClick={() => { setTypeF(''); setRiskF(''); setStatusF(''); setSearch(''); }}>
+            Limpiar filtros
+          </button>
+        }
+      </div>
+
+      <div className="card" style={{ padding:0 }}>
+        <div className="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Circuito</th>
+                <th>Material</th>
+                <th>t nom.</th>
+                <th>t act.</th>
+                <th>% remanente</th>
+                <th>Riesgo RBI</th>
+                <th>Prox. Insp.</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(a => {
+                const rb  = riskBadge(a.pof, a.cof);
+                const pct = pctRemaining(a);
+                const isOverdue = a.nextInsp && new Date(a.nextInsp) < new Date();
+                return (
+                  <tr key={a.id}>
+                    <td>
+                      <span className="mono">{a.id}</span>
+                      {a.isCritical && <span className="pulse" style={{ color:'var(--red)', marginLeft:6 }}>●</span>}
+                    </td>
+                    <td style={{ maxWidth:200, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}
+                      title={a.desc}>{a.desc}</td>
+                    <td className="mono" style={{ color:'var(--smoke)' }}>{a.circuit}</td>
+                    <td style={{ fontSize:12, color:'var(--smoke)' }}>{a.material}</td>
+                    <td className="mono">{a.tNom ? `${a.tNom}` : '—'}</td>
+                    <td className="mono" style={{ color: a.tAct && a.tMin && a.tAct <= a.tMin ? 'var(--risk-critical)' : 'var(--chalk)' }}>
+                      {a.tAct ? `${a.tAct}` : '—'}
+                    </td>
+                    <td>
+                      {pct !== null ? (
+                        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                          <div className="progress-wrap">
+                            <div className="progress-fill" style={{ width:`${pct}%`, background:pctColor(pct) }} />
+                          </div>
+                          <span style={{ fontFamily:"'DM Mono',monospace", fontSize:11, color:pctColor(pct) }}>{pct.toFixed(0)}%</span>
+                        </div>
+                      ) : <span style={{ color:'var(--smoke)' }}>—</span>}
+                    </td>
+                    <td><span className={`badge ${rb.cls}`}>{rb.label}</span></td>
+                    <td className="mono" style={{ color: isOverdue ? 'var(--risk-critical)' : 'var(--smoke)', fontSize:11 }}>
+                      {fmtDate(a.nextInsp)}
+                      {isOverdue && <span style={{ marginLeft:4 }}>⚠</span>}
+                    </td>
+                    <td><span className={`badge ${statusBadge(a.status)}`}>{statusLabel(a.status)}</span></td>
+                    <td>
+                      <button className="btn-icon" onClick={() => setSelectedAsset(a)} title="Ver detalle">
+                        <Icon name="Eye" size={14} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+              {filtered.length === 0 && (
+                <tr><td colSpan={11} style={{ textAlign:'center', padding:32, color:'var(--smoke)' }}>
+                  No se encontraron activos con los filtros seleccionados.
+                </td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== INSPECTION HISTORY ===================== */
+function InspectionHistory({ assets, inspections }) {
+  const [techF,   setTechF]   = useState('');
+  const [resultF, setResultF] = useState('');
+  const [search,  setSearch]  = useState('');
+
+  const TECHNIQUES = ['UT-ESP','RT-DIG','MT','PT','PAUT','MET','VT-REM','UT-MAP','PMI-XRF'];
+
+  const filtered = [...inspections]
+    .sort((a,b) => b.date.localeCompare(a.date))
+    .filter(i => {
+      const techMatch   = !techF   || i.technique === techF;
+      const resultMatch = !resultF || i.result === resultF;
+      const s = search.toLowerCase();
+      const asset = assets.find(a => a.id === i.assetId);
+      const searchMatch = !s || i.id.toLowerCase().includes(s) ||
+        i.assetId.toLowerCase().includes(s) ||
+        (asset?.desc || '').toLowerCase().includes(s) ||
+        i.technician.toLowerCase().includes(s);
+      return techMatch && resultMatch && searchMatch;
+    });
+
+  const totals = {
+    aceptable:  inspections.filter(i => i.result === 'aceptable').length,
+    observacion:inspections.filter(i => i.result === 'observacion').length,
+    rechazo:    inspections.filter(i => i.result === 'rechazo').length,
+  };
+
+  return (
+    <div className="page">
+      {/* Summary */}
+      <div className="g3 mb-20" style={{ gridTemplateColumns:'repeat(3,1fr)', maxWidth:600 }}>
+        {[
+          { label:'Aceptables',   val:totals.aceptable,   cls:'b-aceptable' },
+          { label:'Observaciones',val:totals.observacion, cls:'b-observ'    },
+          { label:'Rechazos',     val:totals.rechazo,     cls:'b-rechazo'   },
+        ].map(row => (
+          <div key={row.label} className="card card-sm" style={{ textAlign:'center' }}>
+            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:28, fontWeight:900, color:'var(--white)' }}>{row.val}</div>
+            <div><span className={`badge ${row.cls}`} style={{ marginTop:4 }}>{row.label}</span></div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="filter-bar">
+        <input type="text" placeholder="Buscar por ID, activo, técnico..." value={search}
+          onChange={e => setSearch(e.target.value)} style={{ minWidth:240 }} />
+        <select value={techF} onChange={e => setTechF(e.target.value)}>
+          <option value="">Técnica: Todas</option>
+          {TECHNIQUES.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+        <select value={resultF} onChange={e => setResultF(e.target.value)}>
+          <option value="">Resultado: Todos</option>
+          <option value="aceptable">Aceptable</option>
+          <option value="observacion">Observación</option>
+          <option value="rechazo">Rechazo</option>
+        </select>
+        {(techF || resultF || search) &&
+          <button className="btn btn-ghost btn-sm"
+            onClick={() => { setTechF(''); setResultF(''); setSearch(''); }}>
+            Limpiar
+          </button>
+        }
+      </div>
+
+      <div className="card" style={{ padding:0 }}>
+        <div className="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>N° OT</th>
+                <th>Activo</th>
+                <th>Descripción</th>
+                <th>Técnica</th>
+                <th>Técnico</th>
+                <th>Resultado</th>
+                <th>Valor / Hallazgo</th>
+                <th>Norma</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map(insp => {
+                const asset = assets.find(a => a.id === insp.assetId);
+                return (
+                  <tr key={insp.id}>
+                    <td className="mono" style={{ whiteSpace:'nowrap' }}>{fmtDate(insp.date)}</td>
+                    <td className="mono" style={{ color:'var(--smoke)', fontSize:11 }}>{insp.id}</td>
+                    <td className="mono">{insp.assetId}</td>
+                    <td style={{ maxWidth:180, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}
+                      title={asset?.desc}>{asset?.desc || '—'}</td>
+                    <td><span className={`badge ${techBadge(insp.technique)}`}>{insp.technique}</span></td>
+                    <td style={{ fontSize:12, whiteSpace:'nowrap' }}>{insp.technician}</td>
+                    <td><span className={`badge ${resultBadge(insp.result)}`}>{resultLabel(insp.result)}</span></td>
+                    <td style={{ fontSize:12, maxWidth:180, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}
+                      title={insp.value}>{insp.value}</td>
+                    <td className="mono" style={{ fontSize:11, color:'var(--smoke)' }}>{insp.norm}</td>
+                    <td>
+                      <button className="btn btn-ghost btn-sm"
+                        onClick={() => alert(`Descargando informe ${insp.id}...`)}>
+                        <Icon name="Download" size={12} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+              {filtered.length === 0 && (
+                <tr><td colSpan={10} style={{ textAlign:'center', padding:32, color:'var(--smoke)' }}>
+                  No se encontraron inspecciones.
+                </td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+</script>
+<!-- PART 5: RBIMatrix + ThicknessTrend + InspectionPlan -->
+<script type="text/babel" data-presets="react">
+
+/* ===================== RBI MATRIX ===================== */
+function RBIMatrix({ assets, setSelectedAsset, setView }) {
+  const [hovered, setHovered] = useState(null); // assetId
+
+  // Group assets by cell
+  const cellMap = {};
+  assets.forEach(a => {
+    const k = `${a.pof},${a.cof}`;
+    if (!cellMap[k]) cellMap[k] = [];
+    cellMap[k].push(a);
+  });
+
+  // Zone counts for summary
+  const zoneCounts = {};
+  assets.forEach(a => {
+    const z = getZone(a.pof, a.cof);
+    zoneCounts[z] = (zoneCounts[z] || 0) + 1;
+  });
+
+  // Sort assets by risk for the right panel
+  const sortedAssets = [...assets].sort((a, b) => (b.pof * b.cof) - (a.pof * a.cof));
+
+  return (
+    <div className="page">
+      <div style={{ marginBottom:16 }}>
+        <div className="h2" style={{ marginBottom:4 }}>Matriz de Riesgo API 580/581</div>
+        <div style={{ color:'var(--smoke)', fontSize:12 }}>
+          Distribución de {assets.length} activos por Probabilidad × Consecuencia de Falla
+        </div>
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 320px', gap:20, alignItems:'start' }}>
+        {/* Matrix */}
+        <div>
+          {/* Axis label top */}
+          <div style={{ textAlign:'center', marginBottom:8 }}>
+            <span style={{ fontFamily:"'DM Mono',monospace", fontSize:11, color:'var(--smoke)',
+              textTransform:'uppercase', letterSpacing:'.08em' }}>
+              Probabilidad de Falla →
+            </span>
+          </div>
+
+          <div style={{ display:'flex', gap:8 }}>
+            {/* Y axis label */}
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'center', width:20 }}>
+              <span style={{ fontFamily:"'DM Mono',monospace", fontSize:10, color:'var(--smoke)',
+                writingMode:'vertical-rl', transform:'rotate(180deg)',
+                textTransform:'uppercase', letterSpacing:'.08em' }}>
+                Consecuencia →
+              </span>
+            </div>
+
+            <div style={{ flex:1 }}>
+              {/* Column headers */}
+              <div style={{ display:'grid', gridTemplateColumns:'40px repeat(5,1fr)', gap:4, marginBottom:4 }}>
+                <div />
+                {['Muy Baja','Baja','Media','Alta','Muy Alta'].map((l,i) => (
+                  <div key={i} style={{ textAlign:'center', fontFamily:"'DM Mono',monospace",
+                    fontSize:9, color:'var(--smoke)' }}>
+                    <div style={{ fontWeight:700, color:'var(--chalk)' }}>P{i+1}</div>
+                    <div style={{ fontSize:8 }}>{l}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Grid rows: cof 5→1 (top to bottom) */}
+              {[5,4,3,2,1].map(cof => {
+                const cofLabels = ['','Insignificante','Menor','Moderada','Mayor','Catastrófica'];
+                return (
+                  <div key={cof} style={{ display:'grid', gridTemplateColumns:'40px repeat(5,1fr)', gap:4, marginBottom:4 }}>
+                    {/* Row header */}
+                    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end',
+                      justifyContent:'center', paddingRight:6 }}>
+                      <span style={{ fontFamily:"'DM Mono',monospace", fontSize:10, fontWeight:700, color:'var(--chalk)' }}>C{cof}</span>
+                      <span style={{ fontFamily:"'DM Mono',monospace", fontSize:7, color:'var(--smoke)' }}>{cofLabels[cof]}</span>
+                    </div>
+
+                    {[1,2,3,4,5].map(pof => {
+                      const k   = `${pof},${cof}`;
+                      const z   = getZone(pof, cof);
+                      const here= cellMap[k] || [];
+                      return (
+                        <div key={pof} className="matrix-cell"
+                          style={{ background:ZONE_BG[z], minHeight:72 }}>
+                          {here.map(a => (
+                            <div key={a.id}
+                              className="asset-dot"
+                              style={{
+                                background: a.isCritical ? '#FF5555' : 'rgba(255,255,255,.88)',
+                                border: hovered === a.id ? '2px solid var(--red)' : 'none',
+                                boxShadow: hovered === a.id ? '0 0 0 2px rgba(204,20,20,.4)' : 'none',
+                              }}
+                              onClick={() => setSelectedAsset(a)}
+                              onMouseEnter={() => setHovered(a.id)}
+                              onMouseLeave={() => setHovered(null)}
+                            >
+                              {a.id.replace(/([A-Z]+)-0*(\d+)/,'$1-$2').slice(-6)}
+                              <div className="dot-tip">
+                                <strong>{a.id}</strong><br/>
+                                {a.desc}<br/>
+                                <span style={{ color:'var(--smoke)' }}>PoF:{pof} · CoF:{cof}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Zone legend */}
+          <div style={{ display:'flex', flexWrap:'wrap', gap:'8px 20px', marginTop:16, paddingLeft:28 }}>
+            {[
+              { z:'critical', label:'Crítico (intervención inmediata)' },
+              { z:'high',     label:'Alto (intervención a corto plazo)' },
+              { z:'med-high', label:'Medio-Alto (monitoreo intensivo)' },
+              { z:'medium',   label:'Medio (plan de inspección normal)' },
+              { z:'low',      label:'Bajo (inspección rutinaria)' },
+              { z:'vlow',     label:'Muy Bajo' },
+            ].map(row => (
+              <div key={row.z} style={{ display:'flex', alignItems:'center', gap:6 }}>
+                <div style={{ width:12, height:12, borderRadius:2, background:ZONE_BG[row.z], flexShrink:0 }} />
+                <span style={{ fontFamily:"'DM Mono',monospace", fontSize:10, color:'var(--smoke)' }}>{row.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right panel */}
+        <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+          {/* Zone summary */}
+          <div className="card card-sm">
+            <div className="label-sm mb-12">Resumen por Zona</div>
+            {Object.entries(ZONE_LABELS).map(([z, lbl]) => {
+              const cnt = zoneCounts[z] || 0;
+              if (!cnt) return null;
+              return (
+                <div key={z} style={{ display:'flex', alignItems:'center', justifyContent:'space-between',
+                  padding:'6px 0', borderBottom:'1px solid var(--wire)' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                    <div style={{ width:8, height:8, borderRadius:2, background:ZONE_BG[z] }} />
+                    <span style={{ fontSize:12 }}>{lbl}</span>
+                  </div>
+                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:20, fontWeight:900,
+                    color: z === 'critical' ? 'var(--risk-critical)' : z === 'high' ? 'var(--risk-high)' : 'var(--chalk)' }}>
+                    {cnt}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Priority table */}
+          <div className="card" style={{ padding:0 }}>
+            <div style={{ padding:'12px 16px', borderBottom:'1px solid var(--wire)' }}>
+              <div className="label-sm">Prioridad de Inspección</div>
+            </div>
+            {sortedAssets.slice(0,7).map((a,i) => {
+              const rb = riskBadge(a.pof, a.cof);
+              return (
+                <div key={a.id}
+                  style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 16px',
+                    borderBottom:'1px solid var(--wire)', cursor:'pointer',
+                    background: hovered === a.id ? 'var(--steel-light)' : 'transparent',
+                    transition:'background var(--tr)'
+                  }}
+                  onClick={() => setSelectedAsset(a)}
+                  onMouseEnter={() => setHovered(a.id)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:16, fontWeight:900,
+                    color:'var(--smoke)', minWidth:18 }}>{i+1}</div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div className="mono" style={{ fontSize:11 }}>{a.id}</div>
+                    <div style={{ fontSize:11, color:'var(--smoke)', overflow:'hidden',
+                      textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{a.desc}</div>
+                  </div>
+                  <span className={`badge ${rb.cls}`} style={{ fontSize:9 }}>{rb.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== THICKNESS TREND ===================== */
+function ThicknessTrend({ assets }) {
+  const trendAssets = assets.filter(a => a.hasTrend && THICKNESS_DATA[a.id]);
+  const [selectedId, setSelectedId] = useState(trendAssets[1]?.id || trendAssets[0]?.id); // Default to TUB-004
+
+  const asset = assets.find(a => a.id === selectedId);
+  const thk   = THICKNESS_DATA[selectedId];
+
+  const customTooltip = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div style={{ background:'var(--ink)', border:'1px solid var(--wire)',
+        borderRadius:4, padding:'8px 12px', fontSize:12 }}>
+        <div style={{ color:'var(--smoke)', marginBottom:4, fontFamily:"'DM Mono',monospace", fontSize:10 }}>{label}</div>
+        {payload.map(p => (
+          <div key={p.dataKey} style={{ color:p.color, fontFamily:"'DM Mono',monospace" }}>
+            {p.dataKey === 'actual' ? 'Medido' : 'Proyectado'}: {p.value?.toFixed(2)} mm
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="page">
+      <div style={{ marginBottom:16 }}>
+        <div className="h2" style={{ marginBottom:4 }}>Tendencia de Espesores</div>
+        <div style={{ color:'var(--smoke)', fontSize:12 }}>
+          Histórico de mediciones UT con proyección de vida útil
+        </div>
+      </div>
+
+      {/* Asset selector */}
+      <div className="filter-bar mb-20">
+        <select value={selectedId} onChange={e => setSelectedId(e.target.value)} style={{ minWidth:280 }}>
+          {trendAssets.map(a => <option key={a.id} value={a.id}>{a.id} — {a.desc}</option>)}
+        </select>
+      </div>
+
+      {asset && thk ? (
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 260px', gap:20, alignItems:'start' }}>
+          {/* Chart */}
+          <div className="card">
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16, flexWrap:'wrap' }}>
+              <div className="h3">{asset.id} — {asset.desc}</div>
+              {asset.tAct <= asset.tMin &&
+                <span className="badge b-critical pulse">⚠ Espesor crítico</span>
+              }
+            </div>
+            <div style={{ height:320 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={thk.points} margin={{ top:10, right:20, left:0, bottom:10 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--wire)" />
+                  <XAxis dataKey="date" tick={{ fill:'var(--smoke)', fontSize:10, fontFamily:"'DM Mono',monospace" }}
+                    axisLine={{ stroke:'var(--wire)' }} tickLine={false} />
+                  <YAxis
+                    domain={[
+                      parseFloat((Math.min(thk.tMin * 0.88, Math.min(...thk.points.map(p => p.actual || p.projected || 999)) - 0.3)).toFixed(1)),
+                      parseFloat((Math.max(...thk.points.map(p => p.actual || 0)) + 0.5).toFixed(1))
+                    ]}
+                    tick={{ fill:'var(--smoke)', fontSize:10, fontFamily:"'DM Mono',monospace" }}
+                    axisLine={{ stroke:'var(--wire)' }} tickLine={false}
+                    tickFormatter={v => `${v}mm`} width={52}
+                  />
+                  <ChartTooltip content={customTooltip} />
+                  {/* t_min reference */}
+                  <ReferenceLine y={thk.tMin} stroke="var(--risk-critical)" strokeDasharray="5 5" strokeWidth={1.5}
+                    label={{ value:`t_min ${thk.tMin}mm`, fill:'var(--risk-critical)', fontSize:10,
+                      fontFamily:"'DM Mono',monospace", position:'insideTopRight', offset:4 }} />
+                  {/* t_alert reference */}
+                  <ReferenceLine y={thk.tAlert} stroke="var(--risk-high)" strokeDasharray="3 3" strokeWidth={1}
+                    label={{ value:`Alerta ${thk.tAlert}mm`, fill:'var(--risk-high)', fontSize:10,
+                      fontFamily:"'DM Mono',monospace", position:'insideTopRight', offset:4 }} />
+                  {/* Actual measurements */}
+                  <Line type="monotone" dataKey="actual" stroke="#44AADD" strokeWidth={2.5}
+                    dot={{ fill:'#44AADD', r:4, strokeWidth:0 }}
+                    activeDot={{ r:6 }} connectNulls={false}
+                    name="Medición real" />
+                  {/* Projection */}
+                  <Line type="monotone" dataKey="projected" stroke="var(--smoke)" strokeWidth={1.5}
+                    strokeDasharray="6 4"
+                    dot={{ fill:'var(--smoke)', r:3, strokeWidth:0 }}
+                    connectNulls={false} name="Proyección" />
+                  <Legend
+                    wrapperStyle={{ paddingTop:12, fontFamily:"'DM Mono',monospace", fontSize:10 }}
+                    formatter={(value) => value === 'actual' ? 'Medición real' : 'Proyección'}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <div style={{ marginTop:12, fontSize:11, color:'var(--smoke)', fontFamily:"'DM Mono',monospace" }}>
+              Línea roja discontinua = t_mínimo requerido · Línea naranja = zona de alerta (t_min + 20%) · Línea gris = proyección lineal
+            </div>
+          </div>
+
+          {/* Side panel */}
+          <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+            <div className="card card-sm">
+              <div className="label-sm mb-12">Datos del Activo</div>
+              {[
+                { l:'Material',        v: asset.material },
+                { l:'Fluido',          v: asset.fluid },
+                { l:'Temperatura',     v: asset.temp },
+                { l:'Presión',         v: asset.pressure },
+                { l:'t Nominal',       v: `${asset.tNom} mm` },
+                { l:'t Actual',        v: `${asset.tAct} mm`, alert: asset.tAct <= asset.tMin },
+                { l:'t Mínimo',        v: `${asset.tMin} mm` },
+              ].map(row => (
+                <div key={row.l} style={{ display:'flex', justifyContent:'space-between',
+                  padding:'5px 0', borderBottom:'1px solid var(--wire)', gap:8 }}>
+                  <span style={{ color:'var(--smoke)', fontSize:11 }}>{row.l}</span>
+                  <span className="mono" style={{ color: row.alert ? 'var(--risk-critical)' : 'var(--chalk)', fontSize:11 }}>
+                    {row.v}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="card card-sm">
+              <div className="label-sm mb-12">Análisis de Corrosión</div>
+              {[
+                { l:'Tasa de corrosión', v:`${thk.rate} mm/año` },
+                { l:'Técnica de medición', v:thk.technique },
+                { l:'Norma de referencia', v:thk.norm },
+              ].map(row => (
+                <div key={row.l} style={{ padding:'5px 0', borderBottom:'1px solid var(--wire)' }}>
+                  <div style={{ color:'var(--smoke)', fontSize:10, marginBottom:2 }}>{row.l}</div>
+                  <div className="mono" style={{ fontSize:12 }}>{row.v}</div>
+                </div>
+              ))}
+              <div style={{ marginTop:12 }}>
+                <div style={{ color:'var(--smoke)', fontSize:10, marginBottom:4 }}>Vida útil remanente</div>
+                <div style={{
+                  fontFamily:"'Barlow Condensed',sans-serif", fontSize:28, fontWeight:900,
+                  color: thk.life <= 0 ? 'var(--risk-critical)' : thk.life < 1 ? 'var(--risk-high)' : thk.life < 2 ? 'var(--risk-medium)' : 'var(--risk-low)'
+                }}>
+                  {thk.life > 0 ? `~${thk.life} años` : 'VENCIDA'}
+                </div>
+                <div style={{ color:'var(--smoke)', fontSize:11, marginTop:4 }}>
+                  Reemplazo estimado: <span className="mono">{thk.replaceDate}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="card" style={{ textAlign:'center', padding:48, color:'var(--smoke)' }}>
+          Selecciona un activo para ver su tendencia de espesores.
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ===================== INSPECTION PLAN ===================== */
+function InspectionPlan({ assets, plan }) {
+  const priorityOrder = { critica:0, alta:1, media:2, baja:3 };
+  const sorted = [...plan].sort((a,b) => {
+    const pdiff = priorityOrder[a.priority] - priorityOrder[b.priority];
+    if (pdiff !== 0) return pdiff;
+    return a.nextDate.localeCompare(b.nextDate);
+  });
+
+  const statusBadgeMap = {
+    vencida:      'b-vencida',
+    programada:   'b-programada',
+    'por-programar':'b-por-prog',
+  };
+  const statusLabelMap = {
+    vencida:'Vencida', programada:'Programada', 'por-programar':'Por programar'
+  };
+  const prioMap = {
+    critica:{ cls:'b-critical', label:'Crítica' },
+    alta:   { cls:'b-high',    label:'Alta'    },
+    media:  { cls:'b-medium',  label:'Media'   },
+    baja:   { cls:'b-low',     label:'Baja'    },
+  };
+
+  const counts = {
+    vencida:    plan.filter(p => p.status === 'vencida').length,
+    programada: plan.filter(p => p.status === 'programada').length,
+    'por-programar': plan.filter(p => p.status === 'por-programar').length,
+  };
+
+  // Simple Gantt: months of 2024
+  const MONTHS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const monthOf = (dateStr) => {
+    if (!dateStr) return -1;
+    return parseInt(dateStr.split('-')[1]) - 1;
+  };
+
+  return (
+    <div className="page">
+      {/* Summary */}
+      <div className="g3 mb-20" style={{ gridTemplateColumns:'repeat(3,1fr)', maxWidth:500 }}>
+        {[
+          { label:'Vencidas',     val:counts['vencida'],       cls:'b-vencida'    },
+          { label:'Programadas',  val:counts['programada'],    cls:'b-programada' },
+          { label:'Por programar',val:counts['por-programar'], cls:'b-por-prog'   },
+        ].map(row => (
+          <div key={row.label} className="card card-sm" style={{ textAlign:'center' }}>
+            <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:28, fontWeight:900, color:'var(--white)' }}>{row.val}</div>
+            <div><span className={`badge ${row.cls}`} style={{ marginTop:4 }}>{row.label}</span></div>
+          </div>
+        ))}
+      </div>
+
+      {/* Table */}
+      <div className="card mb-20" style={{ padding:0 }}>
+        <div style={{ padding:'14px 20px', borderBottom:'1px solid var(--wire)' }}>
+          <div className="h3">Plan de Inspección 12 Meses</div>
+        </div>
+        <div className="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Activo</th>
+                <th>Descripción</th>
+                <th>Técnica</th>
+                <th>Frecuencia</th>
+                <th>Última Insp.</th>
+                <th>Próxima Insp.</th>
+                <th>Estado</th>
+                <th>Prioridad</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map(row => {
+                const asset = assets.find(a => a.id === row.assetId);
+                const isOverdue = row.status === 'vencida';
+                const pb = prioMap[row.priority] || prioMap['baja'];
+                return (
+                  <tr key={row.assetId}>
+                    <td className="mono">{row.assetId}</td>
+                    <td style={{ fontSize:12, maxWidth:160, overflow:'hidden',
+                      textOverflow:'ellipsis', whiteSpace:'nowrap' }}
+                      title={asset?.desc}>{asset?.desc || row.assetId}</td>
+                    <td><span className={`badge ${techBadge(row.technique.split(' ')[0])}`}>{row.technique}</span></td>
+                    <td style={{ fontSize:11, color:'var(--smoke)' }}>{row.frequency}</td>
+                    <td className="mono" style={{ fontSize:11, color:'var(--smoke)' }}>{fmtDate(row.lastInsp)}</td>
+                    <td className="mono" style={{ fontSize:11, color: isOverdue ? 'var(--risk-critical)' : 'var(--chalk)', fontWeight: isOverdue ? 700 : 400 }}>
+                      {fmtDate(row.nextDate)}
+                      {isOverdue && <span style={{ marginLeft:4 }}>⚠</span>}
+                    </td>
+                    <td><span className={`badge ${statusBadgeMap[row.status]}`}>{statusLabelMap[row.status]}</span></td>
+                    <td><span className={`badge ${pb.cls}`}>{pb.label}</span></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Simple Gantt 2024 */}
+      <div className="card" style={{ padding:0 }}>
+        <div style={{ padding:'14px 20px', borderBottom:'1px solid var(--wire)' }}>
+          <div className="h3">Diagrama Gantt — 2024</div>
+        </div>
+        <div style={{ padding:'16px 20px', overflowX:'auto' }}>
+          {/* Month headers */}
+          <div style={{ display:'grid', gridTemplateColumns:'160px repeat(12,1fr)', gap:2, marginBottom:8 }}>
+            <div />
+            {MONTHS.map(m => (
+              <div key={m} style={{ textAlign:'center', fontFamily:"'DM Mono',monospace",
+                fontSize:9, color:'var(--smoke)', padding:'3px 0' }}>{m}</div>
+            ))}
+          </div>
+          {/* Rows */}
+          {sorted
+            .filter(row => row.nextDate.startsWith('2024') || row.lastInsp?.startsWith('2024'))
+            .map(row => {
+              const asset    = assets.find(a => a.id === row.assetId);
+              const month    = monthOf(row.nextDate);
+              const pb       = prioMap[row.priority] || prioMap['baja'];
+              const barColor = row.status === 'vencida' ? 'var(--risk-critical)' :
+                               row.priority === 'alta' ? 'var(--risk-high)' :
+                               row.priority === 'media' ? 'var(--risk-medium)' : 'var(--risk-low)';
+              return (
+                <div key={row.assetId} style={{ display:'grid',
+                  gridTemplateColumns:'160px repeat(12,1fr)', gap:2, marginBottom:4 }}>
+                  <div style={{ fontSize:11, overflow:'hidden', textOverflow:'ellipsis',
+                    whiteSpace:'nowrap', paddingRight:8, color:'var(--chalk)' }}
+                    title={asset?.desc || row.assetId}>
+                    <span className="mono" style={{ color:'var(--smoke)' }}>{row.assetId}</span>
+                  </div>
+                  {MONTHS.map((m, mi) => (
+                    <div key={m} style={{
+                      height:20, borderRadius:2,
+                      background: mi === month
+                        ? barColor
+                        : 'var(--wire)',
+                      display:'flex', alignItems:'center', justifyContent:'center',
+                      fontSize:8, fontFamily:"'DM Mono',monospace",
+                      color: mi === month ? '#fff' : 'transparent',
+                      opacity: mi === month ? 1 : 0.3,
+                    }}>
+                      {mi === month ? row.technique.split(' ')[0] : ''}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    </div>
+  );
+}
+</script>
+<!-- PART 6: Alerts + Documents + Admin + App root -->
+<script type="text/babel" data-presets="react">
+
+/* ===================== ALERTS ===================== */
+function AlertsPanel({ assets, alerts, setAlerts, setSelectedAsset }) {
+  const [filterType, setFilterType] = useState('all');
+
+  const filteredAlerts = alerts.filter(a =>
+    filterType === 'all' || a.type === filterType ||
+    (filterType === 'resuelta' && a.status === 'resuelta')
+  );
+
+  const counts = {
+    critica:    alerts.filter(a => a.type === 'critica'     && a.status === 'activa').length,
+    advertencia:alerts.filter(a => a.type === 'advertencia' && a.status === 'activa').length,
+    info:       alerts.filter(a => a.type === 'info'        && a.status === 'activa').length,
+    resuelta:   alerts.filter(a => a.status === 'resuelta').length,
+  };
+
+  const ALERT_ICONS = {
+    critica:'ShieldAlert', advertencia:'Alert', info:'Info', resuelta:'Check'
+  };
+  const ALERT_COLORS = {
+    critica:'var(--risk-critical)', advertencia:'var(--risk-high)',
+    info:'var(--risk-vlow)', resuelta:'var(--risk-low)'
+  };
+
+  function markResolved(id) {
+    setAlerts(prev => prev.map(a => a.id === id ? { ...a, status:'resuelta' } : a));
+  }
+
+  return (
+    <div className="page">
+      {/* Summary */}
+      <div className="g4 mb-20">
+        {[
+          { key:'critica',     label:'Críticas',     color:'var(--risk-critical)' },
+          { key:'advertencia', label:'Advertencias',  color:'var(--risk-high)'     },
+          { key:'info',        label:'Informativas',  color:'var(--risk-vlow)'     },
+          { key:'resuelta',    label:'Resueltas',     color:'var(--risk-low)'      },
+        ].map(row => (
+          <div key={row.key} className="kpi-card" style={{ borderLeftColor: row.color,
+            cursor:'pointer', opacity: filterType === row.key || filterType === 'all' ? 1 : 0.55 }}
+            onClick={() => setFilterType(filterType === row.key ? 'all' : row.key)}>
+            <div className="kpi-icon-wrap" style={{ background:`${row.color}18` }}>
+              <Icon name={ALERT_ICONS[row.key]} size={18} color={row.color} />
+            </div>
+            <div>
+              <div className="kpi-value" style={{ color: row.color, fontSize:28 }}>{counts[row.key]}</div>
+              <div className="kpi-label">{row.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filter tabs */}
+      <div className="tab-bar">
+        {[
+          { id:'all',         label:'Todas'       },
+          { id:'critica',     label:'Críticas'    },
+          { id:'advertencia', label:'Advertencias'},
+          { id:'info',        label:'Informativas'},
+          { id:'resuelta',    label:'Resueltas'   },
+        ].map(tab => (
+          <div key={tab.id} className={`tab${filterType===tab.id?' active':''}`}
+            onClick={() => setFilterType(tab.id)}>{tab.label}</div>
+        ))}
+      </div>
+
+      {filteredAlerts.length === 0 && (
+        <div className="card" style={{ textAlign:'center', padding:40, color:'var(--smoke)' }}>
+          No hay alertas en esta categoría.
+        </div>
+      )}
+
+      {filteredAlerts.map(alert => {
+        const asset  = assets.find(a => a.id === alert.assetId);
+        const color  = ALERT_COLORS[alert.type];
+        const icon   = ALERT_ICONS[alert.type];
+        const isCrit = alert.type === 'critica' && alert.status === 'activa';
+        return (
+          <div key={alert.id} className={`alert-item alert-${alert.type}`}>
+            <div style={{ marginTop:2 }}>
+              <span className={isCrit ? 'pulse' : ''} style={{ color }}>
+                <Icon name={icon} size={18} color={color} />
+              </span>
+            </div>
+            <div style={{ flex:1 }}>
+              <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4, flexWrap:'wrap' }}>
+                <span style={{ fontWeight:600, fontSize:14 }}>{alert.title}</span>
+                {alert.status === 'resuelta' &&
+                  <span className="badge b-aceptable">Resuelta</span>
+                }
+                {isCrit && <span className="badge b-critical pulse">CRÍTICA</span>}
+              </div>
+              <div style={{ fontSize:13, color:'var(--chalk)', marginBottom:6 }}>{alert.desc}</div>
+              <div style={{ display:'flex', gap:16, flexWrap:'wrap', fontSize:11, color:'var(--smoke)' }}>
+                <span>Activo: <span className="mono" style={{ color:'var(--chalk)' }}>{alert.assetId}</span>
+                  {asset && ` — ${asset.desc}`}
+                </span>
+                <span>Reportado por: {alert.technician}</span>
+                <span>{fmtDate(alert.date)}</span>
+              </div>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:6, flexShrink:0 }}>
+              {asset && (
+                <button className="btn btn-ghost btn-sm"
+                  onClick={() => setSelectedAsset(asset)}>
+                  <Icon name="Eye" size={12} /> Ver activo
+                </button>
+              )}
+              {alert.status === 'activa' && (
+                <button className="btn btn-ghost btn-sm"
+                  style={{ color:'var(--risk-low)', borderColor:'rgba(20,168,74,.3)' }}
+                  onClick={() => markResolved(alert.id)}>
+                  <Icon name="Check" size={12} /> Atendida
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ===================== DOCUMENTS ===================== */
+function DocumentsPanel({ assets, documents }) {
+  const [activeTab, setActiveTab] = useState('informe');
+
+  const TABS = [
+    { id:'informe',       label:'Informes de Inspección' },
+    { id:'certificado',   label:'Certificados de Calibración' },
+    { id:'hv-qsa',        label:'Hojas de Vida QSA' },
+    { id:'procedimiento', label:'Procedimientos' },
+    { id:'certificacion', label:'Certificaciones Personal' },
+  ];
+  const DOC_ICONS = {
+    informe:'File', certificado:'Check', 'hv-qsa':'Activity',
+    procedimiento:'Layers', certificacion:'ShieldAlert'
+  };
+
+  const filtered = documents.filter(d => d.type === activeTab);
+
+  return (
+    <div className="page">
+      <div className="tab-bar">
+        {TABS.map(t => (
+          <div key={t.id} className={`tab${activeTab===t.id?' active':''}`}
+            onClick={() => setActiveTab(t.id)}>{t.label}</div>
+        ))}
+      </div>
+
+      <div className="card" style={{ padding:0 }}>
+        {filtered.length === 0 ? (
+          <div style={{ textAlign:'center', padding:40, color:'var(--smoke)' }}>
+            No hay documentos en esta categoría.
+          </div>
+        ) : (
+          <div className="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Documento</th>
+                  <th>Activo</th>
+                  <th>Fecha</th>
+                  <th>Técnica</th>
+                  <th>Vigencia</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map(doc => {
+                  const asset = assets.find(a => a.id === doc.assetId);
+                  return (
+                    <tr key={doc.id}>
+                      <td>
+                        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                          <Icon name={DOC_ICONS[doc.type] || 'File'} size={16} color="var(--smoke)" />
+                          <span style={{ fontSize:13 }}>{doc.name}</span>
+                        </div>
+                      </td>
+                      <td className="mono" style={{ color:'var(--smoke)' }}>
+                        {doc.assetId !== 'N/A' ? doc.assetId : '—'}
+                        {asset && <div style={{ fontSize:11, color:'var(--smoke)' }}>{asset.desc}</div>}
+                      </td>
+                      <td className="mono" style={{ whiteSpace:'nowrap', fontSize:11 }}>{fmtDate(doc.date)}</td>
+                      <td><span className={`badge ${techBadge(doc.technique.split(' ')[0])}`}>{doc.technique}</span></td>
+                      <td>
+                        {doc.vigente
+                          ? <span className="badge b-aceptable">Vigente</span>
+                          : <span className="badge b-rechazo">Vencido</span>
+                        }
+                      </td>
+                      <td>
+                        <button className="btn btn-ghost btn-sm"
+                          onClick={() => alert(`Descargando: ${doc.name}`)}>
+                          <Icon name="Download" size={12} /> Descargar
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ===================== ADMIN: CLIENTS ===================== */
+function AdminClients({ assets, inspections, alerts }) {
+  const clients = [
+    { company:'Refinería del Norte S.A.', contact:'Carlos Martínez', email:'cliente@planta.com',
+      assets:12, inspections:20, activeAlerts:5, lastActivity:'2024-01-15' },
+    { company:'Industrias Metálicas del Caribe', contact:'Lucía Ramírez', email:'lramirez@imc.com',
+      assets:8,  inspections:14, activeAlerts:1, lastActivity:'2024-02-10' },
+    { company:'Planta Cementera Oriental', contact:'Alejandro Torres', email:'torres@pco.com',
+      assets:15, inspections:31, activeAlerts:3, lastActivity:'2024-01-28' },
+  ];
+
+  return (
+    <div className="page">
+      <div className="h2 mb-20">Clientes Activos</div>
+      <div style={{ display:'grid', gap:16 }}>
+        {clients.map(c => (
+          <div key={c.company} className="card" style={{ display:'flex', alignItems:'center', gap:20, flexWrap:'wrap' }}>
+            <div style={{ width:44, height:44, background:'var(--red-dim)', borderRadius:4,
+              display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+              <Icon name="Users" size={20} color="var(--red)" />
+            </div>
+            <div style={{ flex:1, minWidth:160 }}>
+              <div style={{ fontWeight:600, fontSize:14, marginBottom:2 }}>{c.company}</div>
+              <div style={{ fontSize:12, color:'var(--smoke)' }}>{c.contact} · {c.email}</div>
+            </div>
+            <div style={{ display:'flex', gap:24, flexWrap:'wrap' }}>
+              {[
+                { label:'Activos',      val:c.assets         },
+                { label:'Inspecciones', val:c.inspections    },
+                { label:'Alertas',      val:c.activeAlerts   },
+              ].map(row => (
+                <div key={row.label} style={{ textAlign:'center' }}>
+                  <div style={{ fontFamily:"'Barlow Condensed',sans-serif", fontSize:22, fontWeight:900, color:'var(--white)' }}>{row.val}</div>
+                  <div className="label-sm">{row.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ fontSize:11, color:'var(--smoke)' }}>
+              Última actividad:<br/>
+              <span className="mono">{fmtDate(c.lastActivity)}</span>
+            </div>
+            <button className="btn btn-primary btn-sm">Ver Portal</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ===================== ADMIN: UPLOAD ===================== */
+function AdminUpload({ assets, inspections, setInspections }) {
+  const [form, setForm] = useState({
+    client:'Refinería del Norte S.A.', assetId:'', date:'',
+    technique:'UT-ESP', technician:'', result:'aceptable',
+    norm:'API 570', value:'', notes:''
+  });
+  const [saved, setSaved] = useState(false);
+
+  const TECHNIQUES = ['UT-ESP','RT-DIG','MT','PT','PAUT','MET','VT-REM','UT-MAP','PMI-XRF'];
+
+  function handleSave(e) {
+    e.preventDefault();
+    const newId = `OT-${new Date().getFullYear()}-${String(inspections.length + 1).padStart(3,'0')}`;
+    setInspections(prev => [{
+      id:newId, date:form.date, assetId:form.assetId,
+      technique:form.technique, technician:form.technician,
+      result:form.result, norm:form.norm,
+      value: form.notes ? `${form.value} — ${form.notes}` : form.value
+    }, ...prev]);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+    setForm(prev => ({ ...prev, assetId:'', date:'', technician:'', value:'', notes:'' }));
+  }
+
+  return (
+    <div className="page" style={{ maxWidth:680 }}>
+      <div className="h2 mb-8">Registrar Nueva Inspección</div>
+      <div style={{ color:'var(--smoke)', fontSize:13, marginBottom:24 }}>
+        Carga una nueva inspección al portal. El registro actualiza inmediatamente el historial del cliente.
+      </div>
+
+      {saved && (
+        <div style={{ background:'rgba(20,168,74,.12)', border:'1px solid rgba(20,168,74,.3)',
+          borderRadius:4, padding:'12px 16px', marginBottom:20,
+          display:'flex', gap:10, alignItems:'center' }}>
+          <Icon name="Check" size={16} color="var(--risk-low)" />
+          <span style={{ color:'var(--risk-low)', fontSize:13 }}>
+            Inspección registrada exitosamente.
+          </span>
+        </div>
+      )}
+
+      <div className="card">
+        <form onSubmit={handleSave}>
+          <div className="g2">
+            <div className="form-group">
+              <label className="form-label">Cliente</label>
+              <select className="form-input" value={form.client}
+                onChange={e => setForm(p=>({...p, client:e.target.value}))}>
+                <option>Refinería del Norte S.A.</option>
+                <option>Industrias Metálicas del Caribe</option>
+                <option>Planta Cementera Oriental</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Activo</label>
+              <select className="form-input" value={form.assetId} required
+                onChange={e => setForm(p=>({...p, assetId:e.target.value}))}>
+                <option value="">Seleccionar activo...</option>
+                {assets.map(a => <option key={a.id} value={a.id}>{a.id} — {a.desc}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Fecha de Inspección</label>
+              <input type="date" className="form-input" value={form.date} required
+                onChange={e => setForm(p=>({...p, date:e.target.value}))} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Técnica END</label>
+              <select className="form-input" value={form.technique}
+                onChange={e => setForm(p=>({...p, technique:e.target.value}))}>
+                {TECHNIQUES.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Técnico Certificado</label>
+              <input type="text" className="form-input" placeholder="Nombre del técnico" required
+                value={form.technician} onChange={e => setForm(p=>({...p, technician:e.target.value}))} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Resultado</label>
+              <select className="form-input" value={form.result}
+                onChange={e => setForm(p=>({...p, result:e.target.value}))}>
+                <option value="aceptable">Aceptable</option>
+                <option value="observacion">Observación</option>
+                <option value="rechazo">Rechazo</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Norma Aplicada</label>
+              <input type="text" className="form-input" placeholder="Ej: API 570, ASME B31.3..."
+                value={form.norm} onChange={e => setForm(p=>({...p, norm:e.target.value}))} />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Valor / Resultado cuantitativo</label>
+              <input type="text" className="form-input" placeholder="Ej: 7.15 mm, Sin indicaciones..."
+                value={form.value} onChange={e => setForm(p=>({...p, value:e.target.value}))} />
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Observaciones adicionales</label>
+            <textarea className="form-input" placeholder="Notas, recomendaciones, hallazgos..."
+              value={form.notes} onChange={e => setForm(p=>({...p, notes:e.target.value}))} />
+          </div>
+          <div style={{ display:'flex', gap:10, marginTop:8 }}>
+            <button type="submit" className="btn btn-primary">
+              <Icon name="Upload" size={14} /> Guardar Inspección
+            </button>
+            <button type="button" className="btn btn-ghost"
+              onClick={() => setForm(p=>({...p, assetId:'', date:'', technician:'', value:'', notes:''}))}>
+              Limpiar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== APP ROOT ===================== */
+function App() {
+  const [user,       setUser]       = useState(null);
+  const [view,       setView]       = useState('dashboard');
+  const [collapsed,  setCollapsed]  = useState(false);
+  const [selAsset,   setSelAsset]   = useState(null);
+  const [assets,                    ] = useState(ASSETS_INIT);
+  const [inspections, setInspections] = useState(INSPECTIONS_INIT);
+  const [alerts,      setAlerts]    = useState(ALERTS_INIT);
+
+  if (!user) return <LoginPage onLogin={setUser} />;
+
+  const sharedProps = { assets, inspections, alerts };
+
+  return (
+    <div className="app-shell">
+      <Sidebar
+        collapsed={collapsed}
+        onToggle={() => setCollapsed(c => !c)}
+        view={view}
+        setView={setView}
+        user={user}
+        onLogout={() => { setUser(null); setView('dashboard'); }}
+      />
+
+      <div className="main">
+        <TopBar user={user} view={view} onToggle={() => setCollapsed(c => !c)} />
+
+        <div className="content">
+          {view === 'dashboard' &&
+            <Dashboard {...sharedProps} setView={setView} setSelectedAsset={setSelAsset} />}
+
+          {view === 'assets' &&
+            <AssetList {...sharedProps} setSelectedAsset={setSelAsset} />}
+
+          {view === 'inspections' &&
+            <InspectionHistory {...sharedProps} />}
+
+          {view === 'rbi-matrix' &&
+            <RBIMatrix {...sharedProps} setSelectedAsset={setSelAsset} setView={setView} />}
+
+          {view === 'thickness' &&
+            <ThicknessTrend {...sharedProps} />}
+
+          {view === 'plan' &&
+            <InspectionPlan {...sharedProps} plan={PLAN_INIT} />}
+
+          {view === 'alerts' &&
+            <AlertsPanel {...sharedProps} setAlerts={setAlerts} setSelectedAsset={setSelAsset} />}
+
+          {view === 'documents' &&
+            <DocumentsPanel {...sharedProps} documents={DOCUMENTS_INIT} />}
+
+          {view === 'admin-clients' && user.role === 'admin' &&
+            <AdminClients {...sharedProps} />}
+
+          {view === 'admin-upload' && user.role === 'admin' &&
+            <AdminUpload {...sharedProps} setInspections={setInspections} />}
+        </div>
+      </div>
+
+      {/* Asset detail modal */}
+      {selAsset &&
+        <AssetDetailModal
+          asset={selAsset}
+          inspections={inspections}
+          onClose={() => setSelAsset(null)}
+        />
+      }
+    </div>
+  );
+}
+
+/* ===================== RENDER ===================== */
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>
