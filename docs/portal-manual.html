@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Usuario — Portal Cliente RBI | Amcol Ingeniería Ltda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 10.5pt; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #18181B;
+  background: #fff;
+  line-height: 1.65;
+}
+
+/* ===== PAGE LAYOUT ===== */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 18mm 18mm 16mm 18mm;
+  position: relative;
+}
+
+@media screen {
+  body { background: #e8e8ec; }
+  .page {
+    background: #fff;
+    box-shadow: 0 4px 32px rgba(0,0,0,.15);
+    margin: 12mm auto;
+  }
+}
+
+@media print {
+  body { background: #fff; }
+  .page { margin: 0; box-shadow: none; padding: 14mm 16mm; }
+  .page-break { page-break-before: always; }
+  .no-break { page-break-inside: avoid; }
+}
+
+/* ===== COLORS ===== */
+:root {
+  --red:    #CC1414;
+  --ink:    #18181B;
+  --smoke:  #6B6B7A;
+  --light:  #F4F4F6;
+  --wire:   #E2E2E8;
+  --blue:   #1272A0;
+}
+
+/* ===== COVER PAGE ===== */
+.cover {
+  min-height: 297mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18mm 18mm 16mm 18mm;
+}
+.cover-top { }
+.cover-logo-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 60px;
+}
+.cover-logo-box {
+  width: 44px; height: 44px;
+  background: var(--red);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cover-logo-box svg { width: 26px; height: 26px; stroke: white; fill: none; stroke-width: 2; }
+.cover-company {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22pt; font-weight: 900;
+  color: var(--ink); letter-spacing: .01em; line-height: 1;
+}
+.cover-nit {
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; color: var(--smoke);
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.cover-divider {
+  width: 64px; height: 4px;
+  background: var(--red);
+  margin-bottom: 28px;
+}
+.cover-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38pt; font-weight: 900;
+  color: var(--ink); line-height: 1.05;
+  margin-bottom: 10px;
+}
+.cover-title span { color: var(--red); }
+.cover-subtitle {
+  font-size: 13pt; color: var(--smoke);
+  margin-bottom: 36px; font-weight: 300;
+}
+
+.cover-pill {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .10em;
+  padding: 4px 12px; border-radius: 2px;
+  margin-bottom: 6px; margin-right: 6px;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 40px;
+}
+.cover-meta-item {
+  padding: 14px 16px;
+  border: 1px solid var(--wire);
+  border-radius: 4px;
+  border-left: 3px solid var(--red);
+}
+.cover-meta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; color: var(--smoke);
+  text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 3px;
+}
+.cover-meta-value {
+  font-size: 10pt; font-weight: 600; color: var(--ink);
+}
+
+.cover-footer {
+  border-top: 1px solid var(--wire);
+  padding-top: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cover-footer-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; color: var(--smoke);
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24pt; font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17pt; font-weight: 700;
+  color: var(--ink);
+  margin-top: 26px; margin-bottom: 8px;
+  line-height: 1.15;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--red);
+  display: flex; align-items: center; gap: 10px;
+}
+h2 .num {
+  display: inline-flex;
+  width: 26px; height: 26px;
+  background: var(--red); color: white;
+  border-radius: 50%;
+  align-items: center; justify-content: center;
+  font-size: 11pt; font-weight: 900;
+  flex-shrink: 0;
+}
+h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13pt; font-weight: 700;
+  color: var(--ink);
+  margin-top: 18px; margin-bottom: 6px;
+}
+p {
+  margin-bottom: 10px;
+  font-size: 10pt;
+  color: #2a2a30;
+}
+ul, ol {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+li {
+  font-size: 10pt;
+  color: #2a2a30;
+  margin-bottom: 4px;
+}
+strong { font-weight: 600; color: var(--ink); }
+
+/* ===== SECTION INTRO ===== */
+.section-intro {
+  background: var(--light);
+  border-left: 3px solid var(--red);
+  border-radius: 0 4px 4px 0;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 10pt;
+  color: var(--smoke);
+}
+
+/* ===== CALLOUT BOXES ===== */
+.callout {
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 9.5pt;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.callout-info    { background: #EEF6FF; border: 1px solid #BFD9F5; color: #1255A0; }
+.callout-warning { background: #FFF8E6; border: 1px solid #F0D888; color: #7A5600; }
+.callout-danger  { background: #FEF0F0; border: 1px solid #F0AAAA; color: #8B0000; }
+.callout-ok      { background: #EDF8F1; border: 1px solid #90D0AA; color: #0E5A2A; }
+.callout-icon    { font-size: 13pt; flex-shrink: 0; margin-top: 1px; }
+
+/* ===== FEATURE TABLE ===== */
+.feature-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 9.5pt;
+}
+.feature-table th {
+  background: var(--ink);
+  color: white;
+  padding: 7px 12px;
+  text-align: left;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5pt; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.feature-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--wire);
+  vertical-align: top;
+}
+.feature-table tr:nth-child(even) td { background: var(--light); }
+.feature-table tr:last-child td { border-bottom: none; }
+
+/* ===== SECTION CARDS ===== */
+.section-card {
+  border: 1px solid var(--wire);
+  border-radius: 6px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.section-card-header {
+  background: var(--ink);
+  color: white;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-card-icon {
+  width: 28px; height: 28px;
+  background: var(--red);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13pt;
+  flex-shrink: 0;
+}
+.section-card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13pt; font-weight: 700;
+  line-height: 1.1;
+}
+.section-card-nav {
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt;
+  opacity: .6; margin-top: 1px;
+}
+.section-card-body {
+  padding: 14px 16px;
+}
+
+/* ===== BENEFIT GRID ===== */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+.benefit-item {
+  padding: 12px 14px;
+  border: 1px solid var(--wire);
+  border-radius: 4px;
+  border-top: 3px solid var(--red);
+}
+.benefit-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12pt; font-weight: 700;
+  color: var(--ink); margin-bottom: 4px;
+}
+.benefit-text {
+  font-size: 9pt; color: var(--smoke); line-height: 1.5;
+}
+
+/* ===== IT TABLE ===== */
+.it-req {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 9.5pt;
+}
+.it-req th {
+  background: var(--light);
+  color: var(--ink);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--wire);
+  font-size: 9pt;
+}
+.it-req td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--wire);
+  vertical-align: top;
+}
+.it-req tr:last-child td { border-bottom: none; }
+.req-ok     { color: #0E7034; font-weight: 600; }
+.req-warn   { color: #7A5600; font-weight: 600; }
+.req-must   { color: #8B0000; font-weight: 600; }
+
+/* ===== PAGE NUMBER ===== */
+.page-num {
+  position: absolute;
+  bottom: 12mm; right: 18mm;
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; color: var(--smoke);
+}
+.page-header-line {
+  border-top: 1px solid var(--wire);
+  padding-top: 10px;
+  margin-bottom: 18px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.page-header-line span {
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; color: var(--smoke);
+}
+.page-header-line .brand {
+  font-weight: 700; color: var(--red);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10pt; letter-spacing: .04em;
+}
+
+/* ===== TOC ===== */
+.toc-item {
+  display: flex; align-items: baseline;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--wire);
+  font-size: 10pt;
+}
+.toc-item.toc-h2 { font-weight: 600; margin-top: 6px; }
+.toc-item.toc-h3 { padding-left: 18px; font-size: 9.5pt; color: var(--smoke); }
+.toc-page {
+  font-family: 'DM Mono', monospace;
+  font-size: 9pt; color: var(--smoke);
+  flex-shrink: 0; margin-left: 8px;
+}
+.toc-dot {
+  flex: 1; border-bottom: 1px dotted var(--wire);
+  margin: 0 6px; height: 0; align-self: center;
+}
+
+/* ===== TECHNIQUE BADGES ===== */
+.tech-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; font-weight: 500;
+  text-transform: uppercase;
+  margin: 2px;
+}
+.tb-ut  { background:#E6F2FA; color:#0A5A80; }
+.tb-rt  { background:#FEF0E6; color:#A03A08; }
+.tb-mt  { background:#F2E8FE; color:#6010A8; }
+.tb-pt  { background:#E8F5EE; color:#0E7034; }
+.tb-pa  { background:#E6FAFA; color:#086878; }
+.tb-me  { background:#FEFAE6; color:#856800; }
+.tb-vt  { background:#F2F2F4; color:#6B6B7A; }
+.tb-um  { background:#EAF0FE; color:#1832A0; }
+.tb-xr  { background:#FEE8F4; color:#980860; }
+
+/* ===== RISK COLORS ===== */
+.risk-critical { color: #A80E0E; font-weight: 700; }
+.risk-high     { color: #A03A08; font-weight: 700; }
+.risk-medium   { color: #856800; font-weight: 700; }
+.risk-low      { color: #0E7034; font-weight: 700; }
+
+/* Print helpers */
+.mb-0  { margin-bottom: 0; }
+.mt-16 { margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<!-- ======================== PORTADA ======================== -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="cover-logo-bar">
+      <div class="cover-logo-box">
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5 3.8 9.5 9 11 5.2-1.5 9-6 9-11V7L12 2z"/><line x1="12" y1="9" x2="12" y2="13.5"/><circle cx="12" cy="16" r="0.8" fill="white"/></svg>
+      </div>
+      <div>
+        <div class="cover-company">AMCOL INGENIERÍA LTDA</div>
+        <div class="cover-nit">NIT 830.012.045-4 · Bogotá, Colombia</div>
+      </div>
+    </div>
+
+    <div class="cover-divider"></div>
+
+    <div class="cover-title">
+      Portal Cliente<br><span>RBI</span>
+    </div>
+    <div class="cover-subtitle">
+      Manual de Usuario &amp; Guía de Implementación
+    </div>
+
+    <div>
+      <span class="cover-pill">Risk-Based Inspection</span>
+      <span class="cover-pill">API 580 / 581</span>
+      <span class="cover-pill">Gestión de Integridad</span>
+    </div>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Versión del documento</div>
+        <div class="cover-meta-value">v1.0 — Marzo 2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Clasificación</div>
+        <div class="cover-meta-value">Confidencial — Solo clientes</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Preparado por</div>
+        <div class="cover-meta-value">Equipo Técnico Amcol</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Aplicable a</div>
+        <div class="cover-meta-value">Portal web — portal.html</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-footer-text">gerencia@amcolingenieria.com · +57 310 212 4939</div>
+    <div class="cover-footer-text">Carrera 49B #91-54, Bogotá, Colombia</div>
+  </div>
+</div>
+
+
+<!-- ======================== PÁGINA 2: ÍNDICE ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Manual de Usuario v1.0</span>
+  </div>
+
+  <h1 style="margin-bottom:20px;">Tabla de Contenido</h1>
+
+  <div class="toc-item toc-h2"><span>1. ¿Qué es el Portal RBI?</span><div class="toc-dot"></div><span class="toc-page">3</span></div>
+  <div class="toc-item toc-h3"><span>¿Por qué existe este portal?</span><div class="toc-dot"></div><span class="toc-page">3</span></div>
+  <div class="toc-item toc-h3"><span>Metodología RBI</span><div class="toc-dot"></div><span class="toc-page">3</span></div>
+
+  <div class="toc-item toc-h2"><span>2. Roles de Usuario</span><div class="toc-dot"></div><span class="toc-page">4</span></div>
+  <div class="toc-item toc-h2"><span>3. Acceso al Portal</span><div class="toc-dot"></div><span class="toc-page">4</span></div>
+
+  <div class="toc-item toc-h2"><span>4. Secciones del Portal</span><div class="toc-dot"></div><span class="toc-page">5</span></div>
+  <div class="toc-item toc-h3"><span>4.1 Dashboard</span><div class="toc-dot"></div><span class="toc-page">5</span></div>
+  <div class="toc-item toc-h3"><span>4.2 Mis Activos</span><div class="toc-dot"></div><span class="toc-page">5</span></div>
+  <div class="toc-item toc-h3"><span>4.3 Historial de Inspecciones</span><div class="toc-dot"></div><span class="toc-page">6</span></div>
+  <div class="toc-item toc-h3"><span>4.4 Análisis RBI — Matriz de Riesgo</span><div class="toc-dot"></div><span class="toc-page">6</span></div>
+  <div class="toc-item toc-h3"><span>4.5 Análisis RBI — Tendencia de Espesores</span><div class="toc-dot"></div><span class="toc-page">7</span></div>
+  <div class="toc-item toc-h3"><span>4.6 Plan de Inspección</span><div class="toc-dot"></div><span class="toc-page">7</span></div>
+  <div class="toc-item toc-h3"><span>4.7 Alertas y Notificaciones</span><div class="toc-dot"></div><span class="toc-page">8</span></div>
+  <div class="toc-item toc-h3"><span>4.8 Documentos y Reportes</span><div class="toc-dot"></div><span class="toc-page">8</span></div>
+  <div class="toc-item toc-h3"><span>4.9 Panel Administrativo (Amcol)</span><div class="toc-dot"></div><span class="toc-page">9</span></div>
+
+  <div class="toc-item toc-h2"><span>5. Técnicas END disponibles</span><div class="toc-dot"></div><span class="toc-page">9</span></div>
+  <div class="toc-item toc-h2"><span>6. Beneficios del Portal</span><div class="toc-dot"></div><span class="toc-page">10</span></div>
+  <div class="toc-item toc-h2"><span>7. Requerimientos de IT</span><div class="toc-dot"></div><span class="toc-page">11</span></div>
+  <div class="toc-item toc-h2"><span>8. Soporte y Contacto</span><div class="toc-dot"></div><span class="toc-page">12</span></div>
+
+  <div style="margin-top:40px;" class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <span>Este documento está dirigido a gerentes de mantenimiento, confiabilidad e integridad de activos. No se requieren conocimientos técnicos en END para entender el portal.</span>
+  </div>
+
+  <div class="page-num">2</div>
+</div>
+
+
+<!-- ======================== PÁGINA 3: QUÉ ES ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Introducción</span>
+  </div>
+
+  <h2><span class="num">1</span> ¿Qué es el Portal RBI?</h2>
+
+  <div class="section-intro">
+    El Portal RBI de Amcol Ingeniería es una <strong>plataforma digital de gestión de integridad de activos industriales</strong>. Permite a los clientes de Amcol monitorear en tiempo real el estado de sus equipos inspeccionados, analizar tendencias de deterioro y tomar decisiones preventivas fundamentadas en datos.
+  </div>
+
+  <h3>¿Por qué existe este portal?</h3>
+  <p>
+    Históricamente, las empresas recibían los resultados de sus inspecciones en formato de informes PDF enviados por correo. Esta información quedaba aislada: un informe de 2019 no se "hablaba" con el de 2022. Era imposible ver si un equipo estaba empeorando sistemáticamente sin revisar manualmente decenas de documentos.
+  </p>
+  <p>
+    El Portal RBI resuelve eso. <strong>Centraliza toda la historia de inspecciones de cada activo</strong>, calcula automáticamente tendencias de corrosión, genera alertas cuando un equipo se acerca a su límite de vida y muestra todo en un tablero visual claro.
+  </p>
+  <p>
+    En términos de negocio: transforma la relación con Amcol de <em>"empresa que hace ensayos"</em> a <em>"socio estratégico de gestión de integridad"</em>.
+  </p>
+
+  <h3>¿Qué es la Inspección Basada en Riesgo (RBI)?</h3>
+  <p>
+    La metodología <strong>RBI (Risk-Based Inspection)</strong>, definida en los estándares <strong>API 580 y API 581</strong>, es un enfoque que prioriza qué equipos inspeccionar primero, con qué frecuencia y con qué técnica, basándose en dos factores combinados:
+  </p>
+
+  <table class="feature-table no-break">
+    <tr>
+      <th>Factor</th>
+      <th>Definición</th>
+      <th>Escala</th>
+    </tr>
+    <tr>
+      <td><strong>Probabilidad de Falla (PoF)</strong></td>
+      <td>Qué tan probable es que el equipo falle, dado su historial de deterioro, material y condiciones de operación</td>
+      <td>1 (Muy baja) → 5 (Muy alta)</td>
+    </tr>
+    <tr>
+      <td><strong>Consecuencia de Falla (CoF)</strong></td>
+      <td>Qué tan grave sería la falla: daños económicos, impacto ambiental, riesgo a la vida humana, parada de planta</td>
+      <td>1 (Insignificante) → 5 (Catastrófica)</td>
+    </tr>
+  </table>
+
+  <p>El cruce de estos dos factores en la <strong>Matriz de Riesgo 5×5</strong> determina el nivel de riesgo de cada activo y guía las decisiones de inspección y mantenimiento.</p>
+
+  <div class="callout callout-ok">
+    <span class="callout-icon">✅</span>
+    <span><strong>Resultado práctico:</strong> Con RBI, los recursos de inspección se concentran donde realmente hay riesgo. Equipos de bajo riesgo se inspeccionan menos frecuentemente, liberando presupuesto para los críticos.</span>
+  </div>
+
+  <div class="page-num">3</div>
+</div>
+
+
+<!-- ======================== PÁGINA 4: ROLES Y ACCESO ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Roles de Usuario &amp; Acceso</span>
+  </div>
+
+  <h2><span class="num">2</span> Roles de Usuario</h2>
+
+  <p>El portal maneja dos tipos de usuario con diferentes niveles de acceso:</p>
+
+  <table class="feature-table no-break">
+    <tr>
+      <th>Rol</th>
+      <th>Quién lo usa</th>
+      <th>Qué puede hacer</th>
+    </tr>
+    <tr>
+      <td><strong>Cliente</strong></td>
+      <td>Gerente de mantenimiento, Inspector interno, Coordinador de confiabilidad de la empresa cliente</td>
+      <td>
+        Ver su propio dashboard · Consultar sus activos · Ver historial de inspecciones · Analizar matriz RBI y tendencias · Descargar reportes · Gestionar alertas propias
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Administrador<br>(Amcol)</strong></td>
+      <td>Personal técnico de Amcol Ingeniería</td>
+      <td>
+        Todo lo anterior, más: ver todos los clientes · Cargar nuevas inspecciones · Actualizar datos de activos · Gestionar el plan de inspección de cada cliente
+      </td>
+    </tr>
+  </table>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">🔒</span>
+    <span>El cliente solo puede ver su propia información. Un cliente <strong>nunca</strong> puede ver los datos de otra empresa.</span>
+  </div>
+
+  <h2><span class="num">3</span> Acceso al Portal</h2>
+
+  <h3>Pantalla de Login</h3>
+  <p>Al ingresar al portal, el usuario verá una pantalla de inicio de sesión con fondo oscuro. Debe introducir:</p>
+  <ul>
+    <li><strong>Email corporativo</strong> — el correo registrado en Amcol</li>
+    <li><strong>Contraseña</strong> — asignada por Amcol al contratar el servicio</li>
+  </ul>
+
+  <div class="callout callout-warning">
+    <span class="callout-icon">⚠️</span>
+    <span><strong>Credenciales demo disponibles para prueba:</strong><br>
+    Cliente: <code>cliente@planta.com</code> / <code>demo123</code><br>
+    Administrador: <code>admin@amcol.com</code> / <code>admin123</code>
+    </span>
+  </div>
+
+  <h3>Navegación General</h3>
+  <p>Una vez dentro, el portal presenta dos áreas principales:</p>
+  <ul>
+    <li><strong>Barra lateral izquierda (Sidebar):</strong> menú de navegación con todas las secciones. Se puede colapsar para ganar espacio en pantalla.</li>
+    <li><strong>Área de contenido:</strong> muestra la sección seleccionada.</li>
+    <li><strong>Barra superior (TopBar):</strong> muestra el título de la sección activa, el nombre de la empresa y la fecha actual.</li>
+  </ul>
+
+  <p>En la parte inferior del sidebar aparece el nombre del usuario, su rol y el botón de cierre de sesión.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">💡</span>
+    <span>El número en rojo sobre el ícono de campana indica cuántas alertas críticas activas tiene su planta en este momento.</span>
+  </div>
+
+  <div class="page-num">4</div>
+</div>
+
+
+<!-- ======================== PÁGINA 5: SECCIONES 4.1 y 4.2 ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Secciones del Portal</span>
+  </div>
+
+  <h2><span class="num">4</span> Secciones del Portal</h2>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">🏠</div>
+      <div>
+        <div class="section-card-title">4.1 Dashboard — Inicio</div>
+        <div class="section-card-nav">Menú: Dashboard</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Es la pantalla de inicio. Ofrece una <strong>vista ejecutiva del estado general de la planta</strong> en cuatro bloques:</p>
+
+      <p><strong>KPIs (Indicadores Clave):</strong> Cuatro tarjetas con los datos más importantes:</p>
+      <ul>
+        <li><strong>Total de Activos</strong> — número de equipos registrados en el portal</li>
+        <li><strong>Inspecciones próximas 30 días</strong> — cuántos equipos tienen inspección en el mes siguiente</li>
+        <li><strong>Alertas Activas</strong> — hallazgos críticos o advertencias sin resolver</li>
+        <li><strong>Última Actividad</strong> — fecha de la inspección más reciente cargada</li>
+      </ul>
+
+      <p><strong>Mini Matriz de Riesgo:</strong> Vista compacta de cómo se distribuyen los activos por nivel de riesgo. Permite identificar de un vistazo cuántos equipos son críticos, altos, medios o bajos.</p>
+
+      <p><strong>Activos de Mayor Riesgo:</strong> Tabla con los 5 equipos que tienen la combinación más alta de Probabilidad × Consecuencia de Falla. Permite navegar al detalle de cada uno con un clic.</p>
+
+      <p><strong>Actividad Reciente:</strong> Registro de las últimas 5 inspecciones realizadas con resultado, técnica usada y técnico responsable.</p>
+
+      <p style="margin-bottom:0;"><em>Beneficio principal: en menos de 30 segundos, el gerente de mantenimiento tiene una imagen completa del estado de integridad de su planta.</em></p>
+    </div>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">📦</div>
+      <div>
+        <div class="section-card-title">4.2 Mis Activos</div>
+        <div class="section-card-nav">Menú: Mis Activos</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Inventario completo de todos los equipos e instalaciones de la planta que están bajo gestión de integridad con Amcol.</p>
+
+      <p><strong>Columnas de la tabla:</strong></p>
+      <ul>
+        <li><strong>ID</strong> — código único del activo (ej. TUB-001, REC-001)</li>
+        <li><strong>Descripción y Circuito</strong> — nombre técnico y ubicación en planta</li>
+        <li><strong>Material</strong> — especificación del material del equipo</li>
+        <li><strong>t nominal / t actual</strong> — espesor original y espesor medido en la última inspección (en mm)</li>
+        <li><strong>% Vida Remanente</strong> — barra de color verde→amarilla→roja que indica cuánta vida útil le queda al activo antes de alcanzar el espesor mínimo requerido</li>
+        <li><strong>Nivel de Riesgo RBI</strong> — badge de color basado en la Matriz de Riesgo</li>
+        <li><strong>Próxima Inspección</strong> — fecha programada. Aparece en rojo si está vencida</li>
+      </ul>
+
+      <p><strong>Filtros disponibles:</strong> tipo de equipo, nivel de riesgo, estado operativo y búsqueda libre por texto.</p>
+
+      <p><strong>Modal de Detalle:</strong> Al hacer clic en el ícono del ojo, se abre un panel lateral con información completa del activo: datos técnicos, historial de las últimas 3 inspecciones, análisis de corrosión y próxima inspección recomendada.</p>
+
+      <p style="margin-bottom:0;"><em>Beneficio: visibilidad total de cada equipo sin necesidad de buscar en carpetas o correos electrónicos.</em></p>
+    </div>
+  </div>
+
+  <div class="page-num">5</div>
+</div>
+
+
+<!-- ======================== PÁGINA 6: SECCIONES 4.3 y 4.4 ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Secciones del Portal</span>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">🕐</div>
+      <div>
+        <div class="section-card-title">4.3 Historial de Inspecciones</div>
+        <div class="section-card-nav">Menú: Historial</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Registro cronológico de <strong>todas las inspecciones realizadas</strong> por Amcol en los activos de la planta. Es el equivalente digital de la carpeta de informes, pero consultable, filtrable y descargable.</p>
+
+      <p><strong>Información por registro:</strong> fecha, número de orden de trabajo, activo inspeccionado, técnica END utilizada, nombre del técnico certificado, resultado (Aceptable / Observación / Rechazo), valor o hallazgo cuantitativo, y norma técnica aplicada.</p>
+
+      <p><strong>Códigos de resultado:</strong></p>
+      <ul>
+        <li><strong style="color:#0E7034">Aceptable</strong> — el equipo cumple con los criterios de aceptación de la norma aplicable</li>
+        <li><strong style="color:#856800">Observación</strong> — se encontraron condiciones que requieren seguimiento pero no son causa de rechazo inmediato</li>
+        <li><strong style="color:#A80E0E">Rechazo</strong> — el equipo no cumple con los criterios mínimos. Requiere intervención</li>
+      </ul>
+
+      <p>Los filtros permiten buscar por técnica END, resultado o texto libre (activo, técnico, orden de trabajo).</p>
+      <p style="margin-bottom:0;"><em>Beneficio: trazabilidad total y auditable de cada inspección realizada.</em></p>
+    </div>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">🎯</div>
+      <div>
+        <div class="section-card-title">4.4 Análisis RBI — Matriz de Riesgo</div>
+        <div class="section-card-nav">Menú: Análisis RBI → Matriz de Riesgo</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>La <strong>Matriz de Riesgo 5×5 interactiva</strong> es el corazón del portal. Visualiza todos los activos de la planta según su nivel de riesgo basado en la metodología API 580/581.</p>
+
+      <p><strong>Cómo leer la matriz:</strong></p>
+      <ul>
+        <li><strong>Eje X (horizontal):</strong> Probabilidad de Falla — de P1 (Muy Baja) a P5 (Muy Alta)</li>
+        <li><strong>Eje Y (vertical):</strong> Consecuencia de Falla — de C1 (Insignificante) a C5 (Catastrófica)</li>
+        <li>Cada <strong>punto blanco</strong> representa un activo. Al hacer hover se ve el ID y descripción. Al hacer clic, abre el detalle del activo.</li>
+      </ul>
+
+      <p><strong>Zonas de color:</strong></p>
+      <ul>
+        <li><span class="risk-critical">■ Zona Crítica (rojo oscuro)</span> — Intervención inmediata obligatoria</li>
+        <li><span class="risk-high">■ Zona Alta (rojo)</span> — Plan de acción a corto plazo</li>
+        <li><span class="risk-medium">■ Zona Media (naranja/amarillo)</span> — Monitoreo intensivo</li>
+        <li><span class="risk-low">■ Zona Baja (verde)</span> — Inspección rutinaria según frecuencia normativa</li>
+      </ul>
+
+      <p><strong>Panel derecho:</strong> Tabla de prioridad de inspección ordenada de mayor a menor riesgo, con acceso directo al detalle de cada activo.</p>
+
+      <div class="callout callout-danger" style="margin-bottom:0;">
+        <span class="callout-icon">🔴</span>
+        <span>Los activos en zona crítica tienen un indicador parpadeante en color rojo. Son los que requieren atención prioritaria y generan alertas automáticas.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-num">6</div>
+</div>
+
+
+<!-- ======================== PÁGINA 7: SECCIONES 4.5 y 4.6 ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Secciones del Portal</span>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">📈</div>
+      <div>
+        <div class="section-card-title">4.5 Análisis RBI — Tendencia de Espesores</div>
+        <div class="section-card-nav">Menú: Análisis RBI → Tendencia Espesores</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Gráfica de líneas que muestra la <strong>evolución histórica del espesor de pared</strong> de cada activo a lo largo del tiempo, junto con una proyección de cuándo alcanzará el espesor mínimo requerido.</p>
+
+      <p><strong>Elementos de la gráfica:</strong></p>
+      <ul>
+        <li><strong style="color:#1272A0">— Línea azul sólida:</strong> mediciones reales tomadas por Amcol en cada inspección</li>
+        <li><strong style="color:#999">- - Línea gris punteada:</strong> proyección lineal basada en la tasa de corrosión calculada</li>
+        <li><strong style="color:#CC1414">- - Línea roja punteada:</strong> espesor mínimo requerido (t_mín) según norma. Si la línea azul cruza este umbral, el equipo está en estado crítico</li>
+        <li><strong style="color:#D95C10">- - Línea naranja punteada:</strong> zona de alerta (t_mín + 20%). Primer aviso antes de llegar al límite</li>
+      </ul>
+
+      <p><strong>Panel de análisis (derecha):</strong></p>
+      <ul>
+        <li><strong>Tasa de corrosión:</strong> calculada en mm/año. Permite entender qué tan rápido se está deteriorando el equipo</li>
+        <li><strong>Vida útil remanente:</strong> años estimados antes de alcanzar t_mín, mostrado en grande con color según urgencia</li>
+        <li><strong>Fecha estimada de reemplazo:</strong> proyección de cuándo será necesaria una intervención mayor</li>
+      </ul>
+
+      <div class="callout callout-danger" style="margin-bottom:0;">
+        <span class="callout-icon">⚠️</span>
+        <span>El activo <strong>TUB-004 (Codo 6" L-100)</strong> ya muestra su espesor actual por debajo de t_mín — la curva cruza la línea roja, lo cual genera una alerta crítica automática.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">📅</div>
+      <div>
+        <div class="section-card-title">4.6 Plan de Inspección</div>
+        <div class="section-card-nav">Menú: Análisis RBI → Plan de Inspección</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Vista consolidada del <strong>programa de inspecciones para los próximos 12 meses</strong>, ordenado por prioridad de riesgo. Es el puente entre el análisis de riesgo y la ejecución de las inspecciones.</p>
+
+      <p><strong>Estados de cada inspección:</strong></p>
+      <ul>
+        <li><span style="color:#A80E0E; font-weight:600">Vencida</span> — la fecha de inspección ya pasó y no se realizó. Requiere programación urgente</li>
+        <li><span style="color:#0A5A80; font-weight:600">Programada</span> — tiene fecha asignada en el futuro</li>
+        <li><span style="color:#6B6B7A; font-weight:600">Por programar</span> — se sabe que debe hacerse pero no tiene fecha definida aún</li>
+      </ul>
+
+      <p><strong>Diagrama de Gantt (parte inferior):</strong> Representación visual por mes del año 2024. Cada barra indica en qué mes cae la inspección de cada activo, con colores según prioridad. Permite planificar la carga de trabajo de forma visual.</p>
+
+      <p>La tabla incluye la frecuencia normativa recomendada (ej. "Semestral API 570") y la técnica sugerida para cada equipo según su historial y tipo de degradación.</p>
+
+      <p style="margin-bottom:0;"><em>Beneficio: elimina la necesidad de hojas de cálculo para planificar las inspecciones. Todo está en un solo lugar y actualizado automáticamente.</em></p>
+    </div>
+  </div>
+
+  <div class="page-num">7</div>
+</div>
+
+
+<!-- ======================== PÁGINA 8: SECCIONES 4.7 y 4.8 ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Secciones del Portal</span>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">🔔</div>
+      <div>
+        <div class="section-card-title">4.7 Alertas y Notificaciones</div>
+        <div class="section-card-nav">Menú: Alertas</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Centro de alertas activas e históricas. Cada alerta tiene un nivel de severidad según su impacto potencial.</p>
+
+      <table class="feature-table no-break" style="margin-bottom:10px;">
+        <tr>
+          <th>Tipo</th>
+          <th>Color</th>
+          <th>Cuándo se genera</th>
+        </tr>
+        <tr>
+          <td><strong class="risk-critical">CRÍTICA</strong></td>
+          <td>Rojo — con indicador parpadeante</td>
+          <td>Espesor por debajo de t_mín · Hallazgo RT inaceptable · Inspección interna vencida en equipo de alto riesgo</td>
+        </tr>
+        <tr>
+          <td><strong class="risk-high">ADVERTENCIA</strong></td>
+          <td>Naranja</td>
+          <td>Espesor en zona de alerta (t_mín + 20%) · Inspección vencida · Creep detectado en metalografía</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#0A5A80;">INFORMATIVA</strong></td>
+          <td>Azul</td>
+          <td>Inspección próxima en 30 días · Reporte disponible para descarga</td>
+        </tr>
+        <tr>
+          <td><strong class="risk-low">RESUELTA</strong></td>
+          <td>Verde</td>
+          <td>Alertas que ya fueron atendidas e intervenidas</td>
+        </tr>
+      </table>
+
+      <p>Cada alerta muestra: el activo afectado (con link directo a su detalle), descripción del hallazgo, fecha, nombre del técnico que la generó, y dos acciones: <em>Ver activo</em> y <em>Marcar como atendida</em>.</p>
+
+      <p>Los filtros superiores permiten ver solo un tipo de alerta. El resumen de KPIs en la parte superior muestra el total por categoría de un vistazo.</p>
+
+      <p style="margin-bottom:0;"><em>Beneficio: ningún hallazgo crítico queda perdido en un correo. Las alertas están siempre visibles hasta que sean atendidas.</em></p>
+    </div>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">📄</div>
+      <div>
+        <div class="section-card-title">4.8 Documentos y Reportes</div>
+        <div class="section-card-nav">Menú: Documentos</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Biblioteca digital centralizada de todos los documentos relacionados con las inspecciones y la operación del programa END.</p>
+
+      <p><strong>Categorías (tabs):</strong></p>
+      <ul>
+        <li><strong>Informes de Inspección</strong> — reportes técnicos de cada OT ejecutada</li>
+        <li><strong>Certificados de Calibración</strong> — vigencia de los equipos de medición utilizados</li>
+        <li><strong>Hojas de Vida Equipos QSA</strong> — documentación de los proyectores de radiografía gamma (Ir-192, Se-75)</li>
+        <li><strong>Procedimientos de Ensayo</strong> — procedimientos escritos calificados (PEC) de cada técnica</li>
+        <li><strong>Certificaciones del Personal</strong> — credenciales ASNT, ACOSEND o ICONTEC del personal técnico</li>
+      </ul>
+
+      <p>Cada documento muestra su estado de <strong>vigencia</strong> (verde = vigente, rojo = vencido) y permite descargar el archivo directamente con el botón correspondiente.</p>
+
+      <p style="margin-bottom:0;"><em>Beneficio: en una auditoría, toda la documentación del programa END está disponible en segundos, sin buscar en archivos físicos ni carpetas de red.</em></p>
+    </div>
+  </div>
+
+  <div class="page-num">8</div>
+</div>
+
+
+<!-- ======================== PÁGINA 9: ADMIN + TÉCNICAS ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Panel Admin &amp; Técnicas END</span>
+  </div>
+
+  <div class="section-card no-break">
+    <div class="section-card-header">
+      <div class="section-card-icon">⚙️</div>
+      <div>
+        <div class="section-card-title">4.9 Panel Administrativo — Solo Amcol</div>
+        <div class="section-card-nav">Menú: Gestión Clientes · Cargar Datos (visible solo con rol Admin)</div>
+      </div>
+    </div>
+    <div class="section-card-body">
+      <p>Accesible únicamente con las credenciales del equipo de Amcol. Tiene dos sub-secciones:</p>
+
+      <p><strong>Gestión de Clientes:</strong> Vista de todas las empresas clientes activas con sus métricas principales (activos, inspecciones, alertas activas, última actividad). Permite seleccionar a un cliente y ver su portal completo.</p>
+
+      <p><strong>Cargar Datos:</strong> Formulario para registrar una nueva inspección completada. Campos requeridos: cliente, activo, fecha, técnica END, técnico certificado, resultado, norma y valor/hallazgo. Al guardar, la inspección queda disponible de inmediato en el historial del cliente y puede disparar alertas automáticas si el resultado lo amerita.</p>
+
+      <div class="callout callout-info" style="margin-bottom:0;">
+        <span class="callout-icon">ℹ️</span>
+        <span>El panel admin es la herramienta mediante la cual Amcol mantiene actualizado el portal de cada cliente después de cada visita de campo.</span>
+      </div>
+    </div>
+  </div>
+
+  <h2><span class="num">5</span> Técnicas END Disponibles</h2>
+
+  <p>El portal gestiona las siguientes técnicas de Ensayos No Destructivos ejecutadas por Amcol:</p>
+
+  <table class="feature-table no-break">
+    <tr><th>Código</th><th>Técnica</th><th>Método</th><th>Aplicación típica</th></tr>
+    <tr>
+      <td><span class="tech-badge tb-ut">UT-ESP</span></td>
+      <td>Medición de Espesores</td>
+      <td>Ultrasonido / EMAT</td>
+      <td>Tuberías, recipientes — detección de pérdida de pared por corrosión interna</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-rt">RT-DIG</span></td>
+      <td>Radiografía Digital</td>
+      <td>QSA Ir-192 / Se-75</td>
+      <td>Soldaduras, espesores, detección de discontinuidades internas</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-mt">MT</span></td>
+      <td>Partículas Magnéticas</td>
+      <td>Ferroso superficial</td>
+      <td>Grietas superficiales y sub-superficiales en materiales ferromagnéticos</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-pt">PT</span></td>
+      <td>Tintas Penetrantes</td>
+      <td>Líquidos penetrantes</td>
+      <td>Grietas superficiales en cualquier material no poroso</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-pa">PAUT</span></td>
+      <td>Phased Array UT</td>
+      <td>Ultrasonido 2D/3D</td>
+      <td>Detección y dimensionamiento de grietas en soldaduras y cuerpos de recipientes</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-me">MET</span></td>
+      <td>Metalografía</td>
+      <td>Réplica / VGB TW-507</td>
+      <td>Análisis de microestructura — detección de creep, fragilización, fatiga térmica</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-vt">VT-REM</span></td>
+      <td>Inspección Visual Remota</td>
+      <td>Boroscopía</td>
+      <td>Interior de turbinas, calderas y recipientes sin apertura completa</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-um">UT-MAP</span></td>
+      <td>Mapeo de Corrosión</td>
+      <td>Ultrasonido 3D</td>
+      <td>Escaneo completo de superficies — mapa de espesores en colores</td>
+    </tr>
+    <tr>
+      <td><span class="tech-badge tb-xr">PMI-XRF</span></td>
+      <td>Identificación de Materiales</td>
+      <td>Fluorescencia X</td>
+      <td>Verificación de composición química de materiales — evita mezcla de materiales</td>
+    </tr>
+  </table>
+
+  <div class="page-num">9</div>
+</div>
+
+
+<!-- ======================== PÁGINA 10: BENEFICIOS ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Beneficios del Portal</span>
+  </div>
+
+  <h2><span class="num">6</span> Beneficios del Portal</h2>
+
+  <p>El Portal RBI de Amcol transforma la manera en que las empresas industriales gestionan la integridad de sus activos. A continuación, los beneficios organizados por área:</p>
+
+  <div class="benefit-grid no-break">
+    <div class="benefit-item">
+      <div class="benefit-title">🎯 Decisiones basadas en datos</div>
+      <div class="benefit-text">Deja de inspeccionar todo con la misma frecuencia. El análisis RBI identifica exactamente qué equipos necesitan atención ahora y cuáles pueden esperar, optimizando el presupuesto de mantenimiento.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">📉 Reducción de costos</div>
+      <div class="benefit-text">Estudios de la industria (API, ASME) muestran que una implementación correcta de RBI reduce los costos de inspección entre un 20% y 40%, concentrando recursos donde hay riesgo real.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">⚡ Prevención de fallas catastróficas</div>
+      <div class="benefit-text">El sistema alerta automáticamente cuando un equipo cruza los umbrales de espesor mínimo o cuando una inspección vence, antes de que ocurra una falla en servicio con consecuencias graves.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">📋 Cumplimiento regulatorio</div>
+      <div class="benefit-text">Mantiene el historial de inspecciones organizado y auditable según API 510, API 570, API 653, ASME VIII, ASME B31.3 y otras normas aplicables, facilitando auditorías de aseguradoras y entes reguladores.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">🔮 Predicción de vida útil</div>
+      <div class="benefit-text">La proyección de tendencia de espesores calcula cuándo cada equipo alcanzará su límite de vida, permitiendo planificar reemplazos y paradas programadas con meses de anticipación.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">📁 Trazabilidad total</div>
+      <div class="benefit-text">Cada inspección, cada hallazgo y cada acción tomada queda registrada con fecha, técnico y norma aplicada. Información accesible en segundos, desde cualquier lugar con internet.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">🤝 Comunicación fluida con Amcol</div>
+      <div class="benefit-text">El equipo de Amcol actualiza el portal después de cada visita de campo. El cliente ve los resultados inmediatamente, sin esperar días por el correo con el informe en PDF.</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">🏭 Visión integral de planta</div>
+      <div class="benefit-text">Por primera vez, todos los equipos de la planta están en un solo lugar. No más información dispersa en carpetas, correos y hojas de Excel de diferentes años.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px;">Comparativo: Antes vs. Después del Portal</h3>
+
+  <table class="feature-table no-break">
+    <tr>
+      <th>Situación</th>
+      <th>Sin el Portal</th>
+      <th>Con el Portal RBI</th>
+    </tr>
+    <tr>
+      <td>Ver el estado de un equipo</td>
+      <td>Buscar el último informe PDF en carpetas o correo</td>
+      <td>Clic en el activo → detalle completo en 2 segundos</td>
+    </tr>
+    <tr>
+      <td>Saber cuándo inspeccionar</td>
+      <td>Hoja de Excel manual, frecuentemente desactualizada</td>
+      <td>Plan de Inspección automático, ordenado por prioridad de riesgo</td>
+    </tr>
+    <tr>
+      <td>Detectar deterioro acelerado</td>
+      <td>Comparar manualmente informes de años diferentes</td>
+      <td>Gráfica de tendencia con proyección y alertas automáticas</td>
+    </tr>
+    <tr>
+      <td>Auditoría de documentación</td>
+      <td>Días buscando informes, calibraciones y certificaciones</td>
+      <td>Biblioteca digital filtrable, disponible en segundos</td>
+    </tr>
+    <tr>
+      <td>Saber qué está en riesgo</td>
+      <td>Intuición del inspector o revisión lenta de informes</td>
+      <td>Matriz RBI visual con todos los activos posicionados por riesgo</td>
+    </tr>
+  </table>
+
+  <div class="page-num">10</div>
+</div>
+
+
+<!-- ======================== PÁGINA 11: IT REQUIREMENTS ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Requerimientos de IT</span>
+  </div>
+
+  <h2><span class="num">7</span> Requerimientos de IT</h2>
+
+  <div class="section-intro">
+    El Portal RBI está diseñado para ser de <strong>implementación mínima</strong>. No requiere instalación de software, servidores propios ni licencias adicionales del lado del cliente. Esta sección detalla todo lo que IT necesita saber.
+  </div>
+
+  <h3>7.1 Requerimientos del Lado del Cliente (Usuarios Finales)</h3>
+
+  <table class="it-req no-break">
+    <tr>
+      <th>Componente</th>
+      <th>Requerimiento</th>
+      <th>Notas</th>
+    </tr>
+    <tr>
+      <td><strong>Navegador web</strong></td>
+      <td>Google Chrome 110+ · Microsoft Edge 110+ · Firefox 115+</td>
+      <td class="req-ok">✔ No se requiere instalación adicional. Safari en Mac también compatible.</td>
+    </tr>
+    <tr>
+      <td><strong>Sistema Operativo</strong></td>
+      <td>Windows 10/11 · macOS 12+ · Linux moderno</td>
+      <td class="req-ok">✔ Cualquier SO con un navegador moderno funciona.</td>
+    </tr>
+    <tr>
+      <td><strong>Conexión a Internet</strong></td>
+      <td>Mínimo 2 Mbps por usuario</td>
+      <td class="req-ok">✔ Solo se requiere para cargar la página la primera vez. Fuentes de Google Fonts requieren internet.</td>
+    </tr>
+    <tr>
+      <td><strong>Resolución de pantalla</strong></td>
+      <td>Mínimo 1280×720 px (HD)</td>
+      <td class="req-warn">⚠ En pantallas menores el sidebar se colapsa. Funcional pero experiencia reducida.</td>
+    </tr>
+    <tr>
+      <td><strong>JavaScript</strong></td>
+      <td>Habilitado en el navegador</td>
+      <td class="req-must">⚛ Requerido. El portal es una aplicación React. Sin JS no carga.</td>
+    </tr>
+    <tr>
+      <td><strong>Cookies / Local Storage</strong></td>
+      <td>No se utilizan</td>
+      <td class="req-ok">✔ El portal no almacena datos en el dispositivo del usuario. Todo en memoria de sesión.</td>
+    </tr>
+    <tr>
+      <td><strong>Dispositivo móvil</strong></td>
+      <td>Tablet (768px+) recomendada · Smartphone funcional</td>
+      <td class="req-warn">⚠ El diseño es responsive. En smartphones pequeños algunas tablas requieren scroll horizontal.</td>
+    </tr>
+  </table>
+
+  <h3>7.2 Requerimientos del Lado del Servidor (Amcol / Hosting)</h3>
+
+  <table class="it-req no-break">
+    <tr>
+      <th>Componente</th>
+      <th>Requerimiento</th>
+      <th>Estado actual</th>
+    </tr>
+    <tr>
+      <td><strong>Tipo de hosting</strong></td>
+      <td>Hosting web estático (cualquier servidor HTTP)</td>
+      <td class="req-ok">✔ Compatible con Hostinger, GitHub Pages, Netlify, AWS S3, etc.</td>
+    </tr>
+    <tr>
+      <td><strong>Dominio</strong></td>
+      <td>amcolingenieria.com (ya existente)</td>
+      <td class="req-ok">✔ El portal se integra en el dominio actual como /portal</td>
+    </tr>
+    <tr>
+      <td><strong>HTTPS / SSL</strong></td>
+      <td>Certificado SSL activo</td>
+      <td class="req-must">⚛ Requerido. Las CDN de React y Recharts solo cargan bajo HTTPS en producción.</td>
+    </tr>
+    <tr>
+      <td><strong>Servidor de aplicaciones</strong></td>
+      <td>No requerido</td>
+      <td class="req-ok">✔ La versión actual es 100% frontend. No hay backend, base de datos ni API propia.</td>
+    </tr>
+    <tr>
+      <td><strong>Base de datos</strong></td>
+      <td>No requerida en versión actual</td>
+      <td class="req-ok">✔ Los datos viven en el estado de la aplicación (RAM). En la siguiente versión se puede integrar Firebase o similar.</td>
+    </tr>
+  </table>
+
+  <h3>7.3 Dependencias Externas (CDN)</h3>
+  <p>El portal carga las siguientes librerías desde internet al abrirse. El firewall corporativo debe permitir acceso a estos dominios:</p>
+
+  <table class="it-req no-break">
+    <tr>
+      <th>Librería</th>
+      <th>Dominio</th>
+      <th>Para qué se usa</th>
+    </tr>
+    <tr>
+      <td>React 18</td>
+      <td><code>unpkg.com</code></td>
+      <td>Framework de interfaz de usuario</td>
+    </tr>
+    <tr>
+      <td>Babel Standalone</td>
+      <td><code>unpkg.com</code></td>
+      <td>Compilador JSX en el navegador</td>
+    </tr>
+    <tr>
+      <td>Google Fonts</td>
+      <td><code>fonts.googleapis.com</code> · <code>fonts.gstatic.com</code></td>
+      <td>Tipografías: Barlow Condensed, DM Sans, DM Mono</td>
+    </tr>
+  </table>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">💡</span>
+    <span><strong>Versión offline:</strong> Se puede preparar una versión con todas las dependencias descargadas localmente (sin CDN), ideal para redes sin acceso a internet o entornos de alta seguridad industrial. Consultar con Amcol.</span>
+  </div>
+
+  <h3>7.4 Seguridad</h3>
+  <ul>
+    <li><strong>Autenticación:</strong> La versión actual utiliza autenticación simulada en memoria (demo). Para producción se integrará autenticación real mediante Firebase Auth, Auth0 o similar.</li>
+    <li><strong>Datos:</strong> No se envía ningún dato a terceros. Todo el procesamiento ocurre en el navegador del usuario.</li>
+    <li><strong>Sesión:</strong> Al cerrar el navegador o hacer logout, la sesión se limpia completamente. No quedan datos en el dispositivo.</li>
+    <li><strong>HTTPS:</strong> Toda comunicación debe ir sobre conexión cifrada TLS 1.2 o superior.</li>
+  </ul>
+
+  <h3>7.5 Hoja de Ruta Técnica (Próximas Versiones)</h3>
+
+  <table class="it-req">
+    <tr><th>Fase</th><th>Funcionalidad</th><th>Tecnología sugerida</th></tr>
+    <tr><td><strong>Fase 2</strong></td><td>Backend real con persistencia de datos</td><td>Firebase Firestore / Supabase</td></tr>
+    <tr><td><strong>Fase 2</strong></td><td>Autenticación segura por empresa</td><td>Firebase Auth / Auth0</td></tr>
+    <tr><td><strong>Fase 3</strong></td><td>Notificaciones por email automáticas</td><td>SendGrid / AWS SES</td></tr>
+    <tr><td><strong>Fase 3</strong></td><td>Carga de archivos PDF desde el portal</td><td>Firebase Storage / AWS S3</td></tr>
+    <tr><td><strong>Fase 4</strong></td><td>App móvil nativa</td><td>React Native</td></tr>
+  </table>
+
+  <div class="page-num">11</div>
+</div>
+
+
+<!-- ======================== PÁGINA 12: SOPORTE ======================== -->
+<div class="page page-break">
+  <div class="page-header-line">
+    <span class="brand">AMCOL — Portal RBI</span>
+    <span>Soporte &amp; Contacto</span>
+  </div>
+
+  <h2><span class="num">8</span> Soporte y Contacto</h2>
+
+  <p>Para cualquier consulta relacionada con el portal, los datos del cliente o la programación de inspecciones, comuníquese con el equipo de Amcol Ingeniería:</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0;">
+    <div class="benefit-item">
+      <div class="benefit-title">📧 Correo Electrónico</div>
+      <div class="benefit-text" style="margin-top:6px; font-size:10.5pt; color:#18181B;">
+        <strong>gerencia@amcolingenieria.com</strong>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">📱 WhatsApp</div>
+      <div class="benefit-text" style="margin-top:6px; font-size:10.5pt; color:#18181B;">
+        <strong>+57 310 212 4939</strong>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">📞 Teléfono</div>
+      <div class="benefit-text" style="margin-top:6px; font-size:10.5pt; color:#18181B;">
+        <strong>57 6218934</strong><br>Bogotá, Colombia
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-title">📍 Oficina</div>
+      <div class="benefit-text" style="margin-top:6px; font-size:10.5pt; color:#18181B;">
+        <strong>Carrera 49B #91-54</strong><br>Bogotá, Colombia
+      </div>
+    </div>
+  </div>
+
+  <h3>Preguntas Frecuentes</h3>
+
+  <p><strong>¿Con qué frecuencia se actualiza el portal?</strong><br>
+  El portal se actualiza cada vez que Amcol realiza y carga una nueva inspección. No hay un ciclo fijo — la información se actualiza en tiempo real después de cada visita de campo.</p>
+
+  <p><strong>¿Puedo descargar los informes desde el portal?</strong><br>
+  Sí. En la sección <em>Documentos y Reportes</em> encontrará todos los informes disponibles para descarga. En la sección <em>Historial de Inspecciones</em> también hay botones de descarga por cada registro.</p>
+
+  <p><strong>¿Puedo agregar mis propios activos al portal?</strong><br>
+  En la versión actual, los activos son cargados por el equipo de Amcol. Si necesita agregar o modificar activos, comuníquese con nosotros y lo gestionamos en el menor tiempo posible.</p>
+
+  <p><strong>¿El portal funciona sin internet?</strong><br>
+  En la versión actual, requiere conexión a internet para cargar las librerías. Existe la posibilidad de una versión offline para plantas en zonas sin conectividad — consultar disponibilidad.</p>
+
+  <p><strong>¿Mis datos están seguros?</strong><br>
+  Sí. Cada empresa cliente solo puede ver su propia información. Los datos no se comparten entre clientes y toda la sesión es privada e independiente.</p>
+
+  <p><strong>¿Necesito instalar algo en mi computador?</strong><br>
+  No. El portal funciona completamente en el navegador web. No requiere instalación de ningún software adicional.</p>
+
+  <div style="margin-top:40px; padding:20px; background:var(--light); border-radius:6px; border-left:4px solid var(--red);">
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:16pt; font-weight:700; color:var(--ink); margin-bottom:8px;">
+      Amcol Ingeniería Ltda — 30+ años de confianza
+    </div>
+    <p style="margin-bottom:0; font-size:9.5pt; color:var(--smoke);">
+      Especialistas en Ensayos No Destructivos para los sectores industrial, aeronáutico y petroquímico. Distribuidores exclusivos de QSA Global en Colombia (proyectores gamma Ir-192 y Se-75). Certificados en normativas API, ASME, AWS y ASTM. Bogotá, Colombia.
+    </p>
+  </div>
+
+  <div style="margin-top:30px; text-align:center; color:var(--smoke); font-family:'DM Mono',monospace; font-size:8pt; border-top:1px solid var(--wire); padding-top:16px;">
+    Documento confidencial — Amcol Ingeniería Ltda · NIT 830.012.045-4 · Versión 1.0 · Marzo 2026<br>
+    Prohibida su reproducción total o parcial sin autorización escrita de Amcol Ingeniería Ltda
+  </div>
+
+  <div class="page-num">12</div>
+</div>
+
+</body>
+</html>
