@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -92,9 +92,12 @@
         <li><a href="#inicio"    class="navbar__link active">Inicio</a></li>
         <li><a href="#servicios" class="navbar__link">Servicios</a></li>
         <li><a href="/nosotros.html"     class="navbar__link">Nosotros</a></li>
-        <li><a href="/herramientas.html" class="navbar__link">Herramientas</a></li>
         <li><a href="#sectores"          class="navbar__link">Sectores</a></li>
         <li><a href="#contacto"  class="navbar__link">Contacto</a></li>
+        <li><a href="/portal.html" class="navbar__link navbar__link--portal">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Portal
+        </a></li>
       </ul>
 
       <div class="navbar__right">
@@ -116,9 +119,9 @@
       <a href="#inicio"    class="navbar__link">Inicio</a>
       <a href="#servicios" class="navbar__link">Servicios</a>
       <a href="/nosotros.html"     class="navbar__link">Nosotros</a>
-      <a href="/herramientas.html" class="navbar__link">Herramientas</a>
       <a href="#sectores"          class="navbar__link">Sectores</a>
       <a href="#contacto"  class="navbar__link">Contacto</a>
+      <a href="/portal.html" class="navbar__link navbar__link--portal" style="margin-top:0.5rem;">Portal Cliente</a>
       <div class="mobile-menu__footer">
         <div class="lang-switch">
           <a href="/" class="active">ES</a>
@@ -137,73 +140,80 @@
      ══════════════════════════════════════════════════════════ -->
 <section id="inicio" class="hero" aria-label="Portada">
 
-  <!-- Background photo -->
-  <div class="hero__photo">
-    <img src="img/hero/hero-bg.jpg"
-         alt="Técnico de Amcol Ingeniería realizando inspección radiográfica en planta industrial"
-         width="1920" height="1080"
-         fetchpriority="high"
-         id="hero-img" />
-  </div>
-
-  <div class="hero__vignette" aria-hidden="true"></div>
-  <div class="hero__grid"    aria-hidden="true"></div>
-  <div class="hero__scan"   aria-hidden="true"></div>
+  <div class="hero__bg-pattern" aria-hidden="true"></div>
+  <div class="hero__bg-blob"    aria-hidden="true"></div>
 
   <div class="container">
-    <div class="hero__content">
+    <div class="hero__inner">
 
-      <div class="hero__label">
-        <span class="mono">END · NDT · Colombia</span>
-        <span class="mono mono-id">// NIT 830.012.045-4</span>
+      <!-- Text side -->
+      <div class="hero__text">
+
+        <div class="hero__label hero-animate hero-animate-1">
+          <span class="mono">END · NDT · Colombia</span>
+        </div>
+
+        <h1 class="hero__h1 hero-animate hero-animate-2">
+          Inspección<br />
+          <em>Precisa.</em><br />
+          Industrial.
+        </h1>
+
+        <p class="hero__sub hero-animate hero-animate-3">
+          Ensayos No Destructivos para industria, aeronáutica y petroquímica. Con sede en Bogotá, Colombia.
+        </p>
+
+        <div class="hero__actions hero-animate hero-animate-4">
+          <a href="#servicios" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+            Ver Servicios
+          </a>
+          <a href="#contacto" class="btn btn-ghost">Solicitar Cotización</a>
+        </div>
+
+        <!-- Inline stats -->
+        <div class="hero__mini-stats hero-animate hero-animate-4" aria-label="Estadísticas de la empresa">
+          <div class="hero__mini-stat">
+            <span class="hero__mini-stat-num">30<span>+</span></span>
+            <span class="hero__mini-stat-label">Años de experiencia</span>
+          </div>
+          <div class="hero__mini-stat">
+            <span class="hero__mini-stat-num">6</span>
+            <span class="hero__mini-stat-label">Técnicas END</span>
+          </div>
+          <div class="hero__mini-stat">
+            <span class="hero__mini-stat-num">100<span>%</span></span>
+            <span class="hero__mini-stat-label">Satisfacción cliente</span>
+          </div>
+        </div>
+
       </div>
 
-      <h1 class="hero__h1">
-        Inspección<br />
-        <em>Precisa.</em><br />
-        <span class="outline">Industrial.</span>
-      </h1>
-
-      <p class="hero__sub">
-        Servicios de ingeniería en Ensayos No Destructivos para los sectores
-        industrial, aeronáutico y petroquímico. Bogotá, Colombia.
-      </p>
-
-      <div class="hero__actions">
-        <a href="#servicios" class="btn btn-primary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-          Ver Servicios
-        </a>
-        <a href="#contacto" class="btn btn-ghost">Solicitar Cotización</a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Stats -->
-  <div class="hero__stats" aria-label="Estadísticas de la empresa">
-    <div class="container">
-      <div class="hero__stats-row">
-        <div class="hero__stat">
-          <span class="hero__stat-num">30<span>+</span></span>
-          <span class="hero__stat-label">Años de Experiencia</span>
+      <!-- Visual side -->
+      <div class="hero__visual hero-animate hero-animate-3">
+        <div class="hero__photo-frame">
+          <img src="img/hero/hero-bg.jpg"
+               alt="Técnico de Amcol Ingeniería realizando inspección radiográfica en planta industrial"
+               width="800" height="1000"
+               fetchpriority="high" />
         </div>
-        <div class="hero__stat">
-          <span class="hero__stat-num">6</span>
-          <span class="hero__stat-label">Técnicas END</span>
+
+        <!-- Floating status badge -->
+        <div class="hero__badge" aria-hidden="true">
+          <span class="hero__badge-dot"></span>
+          <span class="hero__badge-text">Inspección en curso</span>
         </div>
-        <div class="hero__stat">
-          <span class="hero__stat-num">3</span>
-          <span class="hero__stat-label">Sectores Atendidos</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-num">100<span>%</span></span>
-          <span class="hero__stat-label">Satisfacción del Cliente</span>
+
+        <!-- Floating cert tag -->
+        <div class="hero__cert" aria-hidden="true">
+          <span class="hero__cert-label">Certificados</span>
+          <span class="hero__cert-val">ISO 9001</span>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -218,9 +228,7 @@
 
     <div class="section-header centered reveal">
       <span class="label">Nuestros Servicios</span>
-      <h2>Técnicas de Ensayo<br />No Destructivo</h2>
-      <p>Personal calificado. Equipos de última generación.<br />
-         Resultados que garantizan la integridad de sus activos.</p>
+      <h2>Ensayos No<br />Destructivos</h2>
     </div>
 
     <div class="services-list" role="list">
@@ -236,11 +244,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Ultrasonido</span></span>
           <h3 class="svc-card__title">Medición de<br />Espesores</h3>
-          <p class="svc-card__desc">
-            Medición de espesor remanente y óxido Fe₃O₄ interno/externo mediante EMAT.
-            Evaluamos la condición de creep en tubos de calderas y combinamos con
-            réplicas metalográficas para un diagnóstico integral del componente.
-          </p>
+          <p class="svc-card__desc">Mide espesor remanente y corrosión interna mediante EMAT. Incluye réplicas metalográficas en campo.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de medición de espesores">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -259,11 +263,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Radiografía</span></span>
           <h3 class="svc-card__title">Radiografía Digital</h3>
-          <p class="svc-card__desc">
-            Inspección volumétrica de soldaduras, fundiciones y componentes
-            con fuentes de rayos gamma QSA Global. Imágenes digitales de alta
-            resolución con interpretación inmediata en campo.
-          </p>
+          <p class="svc-card__desc">Inspección volumétrica de soldaduras y fundiciones con fuentes QSA Global. Imágenes digitales con interpretación en campo.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de radiografía digital">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -282,12 +282,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Magnético</span></span>
           <h3 class="svc-card__title">Partículas<br />Magnéticas</h3>
-          <p class="svc-card__desc">
-            Detección de discontinuidades superficiales y sub-superficiales
-            en materiales ferromagnéticos. Verificación de integridad en tuberías,
-            recipientes a presión y componentes estructurales con partículas
-            secas o húmedas de alta sensibilidad.
-          </p>
+          <p class="svc-card__desc">Detecta discontinuidades en materiales ferromagnéticos. Para tuberías, recipientes a presión y estructuras metálicas.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de partículas magnéticas">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -306,11 +301,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Penetrantes</span></span>
           <h3 class="svc-card__title">Tintas<br />Penetrantes</h3>
-          <p class="svc-card__desc">
-            Revelación de discontinuidades superficiales en metales ferrosos y
-            no ferrosos mediante líquidos coloreados o fluorescentes. Alta
-            sensibilidad en soldaduras, fundiciones y componentes aeronáuticos.
-          </p>
+          <p class="svc-card__desc">Revela fisuras superficiales en metales ferrosos y no ferrosos. Para soldaduras, fundiciones y componentes aeronáuticos.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de tintas penetrantes">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -329,12 +320,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Phased Array</span></span>
           <h3 class="svc-card__title">Phased<br />Array</h3>
-          <p class="svc-card__desc">
-            Verificación de integridad de componentes: detección de grietas en
-            metal base y soldaduras. El plan de inspección muestra el elemento
-            en 2D y 3D, simplificando el setup y sirviendo de referencia para
-            los informes finales.
-          </p>
+          <p class="svc-card__desc">Detecta grietas en metal base y soldaduras con visualización 2D y 3D. Más cobertura en menos tiempo que UT convencional.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de Phased Array">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -353,11 +339,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Metalografía</span></span>
           <h3 class="svc-card__title">Metalografía</h3>
-          <p class="svc-card__desc">
-            Análisis de creep del material y evaluación microestructural mediante
-            análisis de fases. Preparación superficial, ataque químico y comparación
-            con el estándar de condición y clasificación VGB TW-507.
-          </p>
+          <p class="svc-card__desc">Evaluación microestructural y análisis de creep en campo. Comparación con estándar VGB TW-507 para diagnóstico de vida útil.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de metalografía">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -376,12 +358,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Visual Remota</span></span>
           <h3 class="svc-card__title">Inspección<br />Visual Remota</h3>
-          <p class="svc-card__desc">
-            Boroscopía en turbinas y calderas para inspección interna de álabes,
-            componentes y superficies. Evaluación de condición por medición
-            estereoscópica para determinar tamaño de grietas y fallas sin
-            necesidad de desmontaje.
-          </p>
+          <p class="svc-card__desc">Boroscopía en turbinas y calderas sin desmontaje. Medición estereoscópica para determinar tamaño de grietas y fallas internas.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de inspección visual remota">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -400,11 +377,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">Ultrasonido 3D</span></span>
           <h3 class="svc-card__title">Mapeo de<br />Corrosión</h3>
-          <p class="svc-card__desc">
-            Representación visual del estado superficial del componente mediante
-            ultrasonido y escaneo 3D. Tolerancias de espesor, parámetros de ruta
-            y avanzado software de análisis para planificación de mantenimiento.
-          </p>
+          <p class="svc-card__desc">Genera mapas 3D del estado superficial mediante ultrasonido. Las tolerancias de espesor quedan documentadas para programar mantenimiento.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de mapeo de corrosión">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -423,12 +396,7 @@
         <div class="svc-card__body">
           <span class="svc-card__tag"><span class="tag">PMI / XRF</span></span>
           <h3 class="svc-card__title">Identificación<br />de Materiales</h3>
-          <p class="svc-card__desc">
-            Identificación positiva de materiales (PMI) con tecnología XRF.
-            Composición exacta de grados de acero y detección de pérdida de Cr
-            en tubos sometidos a altas temperaturas. Alta precisión sin contacto
-            destructivo.
-          </p>
+          <p class="svc-card__desc">Composición exacta de grados de acero mediante XRF. Detección de pérdida de Cr en tubos a alta temperatura sin contacto destructivo.</p>
           <a href="#contacto" class="svc-card__cta" aria-label="Solicitar servicio de identificación de materiales PMI">
             Solicitar servicio
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -463,10 +431,8 @@
         <img src="img/qsa/fuente-imagen.png" alt="Fuentes de radiografía gamma QSA Global — Ir-192" loading="lazy" />
       </div>
       <div class="qsa-sources__text">
-        <h3 class="qsa-sources__title">Fuentes Disponibles Siempre que las Necesitas</h3>
-        <p>QSA Global gestiona una cadena de suministro global diversificada, incluyendo producción doméstica de Ir-192 a través de su alianza con el Departamento de Energía de EE. UU., garantizando que las fuentes selladas estén disponibles cuando las necesitas.</p>
-        <p>Las fuentes selladas se despachan en contenedores de transporte Tipo A o Tipo B(U), utilizando la flota más grande de cambiadores de fuentes de la industria. Las opciones de cambio incluyen recarga en tus instalaciones por técnicos certificados, centros QSA Global o centros de servicio autorizados en todo el mundo.</p>
-        <p>El programa de intercambio uno a uno de QSA Global te permite canjear fuentes agotadas por fuentes nuevas, totalmente encapsuladas, del mismo isótopo y actividad similar. Este proceso mantiene el cumplimiento normativo, garantiza una gestión segura de las fuentes y mantiene tus equipos de radiografía en servicio.</p>
+        <h3 class="qsa-sources__title">Stock permanente en Colombia</h3>
+        <p>QSA Global produce su propio Ir-192 y tiene un programa de intercambio uno a uno. Tus equipos quedan fuera de servicio el menor tiempo posible.</p>
       </div>
     </div>
 
@@ -485,7 +451,7 @@
         <div class="qsa-card__content">
           <span class="tag">Proyector Gamma</span>
           <h3 class="qsa-card__title">1100 Gamma-Ray<br>Source Projector</h3>
-          <p class="qsa-card__desc">El proyector más avanzado de QSA Global. Combina máxima seguridad, ergonomía mejorada y doble vida útil frente a generaciones anteriores. Ideal para inspección de soldaduras, fundiciones y componentes estructurales.</p>
+          <p class="qsa-card__desc">Diseñado para operación unipersonal. Vida útil doble respecto a modelos anteriores y mejor ergonomía para trabajo en campo.</p>
           <ul class="qsa-card__specs">
             <li><span class="spec-label">Fuentes compatibles</span><span class="spec-val">Ir-192 / Se-75 hasta 150 Ci</span></li>
             <li><span class="spec-label">Peso</span><span class="spec-val">46 lb (20 kg) — operación unipersonal</span></li>
@@ -514,7 +480,7 @@
         <div class="qsa-card__content">
           <span class="tag">Proyector Gamma</span>
           <h3 class="qsa-card__title">880 Series Delta<br>Source Projector</h3>
-          <p class="qsa-card__desc">El estándar de la industria para radiografía de campo de alta actividad. Inspección de tuberías, recipientes a presión y fundiciones de pared gruesa con máxima productividad y seguridad del operador.</p>
+          <p class="qsa-card__desc">Para radiografía de campo con fuentes de alta actividad. Cubre acero de 10 a 90 mm con Ir-192 y de 5 a 40 mm con Se-75.</p>
           <ul class="qsa-card__specs">
             <li><span class="spec-label">Fuentes compatibles</span><span class="spec-val">Ir-192 / Se-75 / Yb-169 hasta 150 Ci</span></li>
             <li><span class="spec-label">Espesor de acero</span><span class="spec-val">10–90 mm (Ir-192) · 5–40 mm (Se-75)</span></li>
@@ -588,32 +554,17 @@
 
         <div id="panel-mision" class="about-panel active"
              role="tabpanel" aria-labelledby="tab-mision">
-          <p>Somos una compañía de carácter privado cuya misión es la satisfacción
-             total de nuestros clientes mediante la prestación de servicios de
-             ingeniería en inspección y el suministro de equipos y materiales
-             para el área de Ensayos No Destructivos, basados en un alto nivel
-             de excelencia, profesionalismo y permanente disposición de nuestro
-             talento humano.</p>
+          <p>Cada cliente tiene requerimientos distintos. Los cumplimos con inspectores certificados, equipos calibrados y procesos aplicados correctamente.</p>
         </div>
 
         <div id="panel-vision" class="about-panel"
              role="tabpanel" aria-labelledby="tab-vision">
-          <p>Seremos una compañía líder en Colombia en la prestación de servicios
-             y venta de equipos de inspección basados en los Ensayos No Destructivos,
-             en el área industrial, aeronáutico y petroquímico, tanto a nivel nacional
-             como latinoamericano, aplicando normas de carácter humano, profesional
-             y tecnológico con los procesos establecidos para contribuir a la
-             satisfacción de nuestros clientes.</p>
+          <p>Ser la referencia en inspección NDT en Colombia y, desde ahí, crecer en Latinoamérica con el mismo nivel técnico.</p>
         </div>
 
         <div id="panel-calidad" class="about-panel"
              role="tabpanel" aria-labelledby="tab-calidad">
-          <p>Nuestra política de calidad está basada en la prestación del servicio
-             acorde con las necesidades particulares de cada cliente, cumpliendo con
-             los compromisos establecidos, sin olvidar los preceptos de eficiencia
-             y calidad, para lo cual contamos con un equipo humano calificado y
-             proveedores reconocidos que apoyan el suministro de materiales y la
-             prestación de servicios de manera oportuna y eficaz.</p>
+          <p>Cada inspección responde a los requerimientos del cliente. Trabajamos con proveedores como Olympus, QSA Global y Zetec porque los equipos que usamos afectan directamente el resultado.</p>
         </div>
 
         <div style="margin-top: 2rem;">
@@ -635,8 +586,6 @@
     <div class="section-header centered reveal">
       <span class="label">Áreas de Aplicación</span>
       <h2>Sectores que<br />Atendemos</h2>
-      <p>Nuestros servicios END están orientados a los sectores que demandan
-         la más alta confiabilidad en la integridad de sus activos.</p>
     </div>
 
     <div class="sectors-grid">
@@ -650,9 +599,7 @@
           </svg>
         </div>
         <h3>Sector Industrial</h3>
-        <p>Inspección de plantas de producción, tuberías, recipientes a presión,
-           estructuras metálicas y equipos de proceso en la industria
-           manufacturera y química.</p>
+        <p>Plantas de producción, tuberías, recipientes a presión y estructuras metálicas.</p>
       </div>
 
       <div class="sector-card reveal reveal-delay-2">
@@ -662,9 +609,7 @@
           </svg>
         </div>
         <h3>Sector Aeronáutico</h3>
-        <p>Inspección de componentes aeronáuticos con técnicas END especializadas
-           que garantizan la integridad estructural y la seguridad en aviación
-           civil y militar.</p>
+        <p>Componentes aeronáuticos con técnicas END certificadas para aviación civil y militar.</p>
       </div>
 
       <div class="sector-card reveal reveal-delay-3">
@@ -678,9 +623,7 @@
           </svg>
         </div>
         <h3>Sector Petroquímico</h3>
-        <p>Inspección de oleoductos, refinerías, tanques de almacenamiento y
-           equipos de proceso en la industria petrolera y petroquímica
-           nacional e internacional.</p>
+        <p>Oleoductos, refinerías, tanques de almacenamiento y equipos de proceso.</p>
       </div>
 
     </div>
@@ -699,10 +642,7 @@
         <span class="label">Nuestras Ventajas</span>
         <h2>¿Por qué<br />Amcol?</h2>
         <div class="accent-line"></div>
-        <p>Desde 1995 analizamos plantas de producción de petróleo y gas,
-           plantas de generación de energía y estructuras industriales.
-           Más de 30 años verificando integridad mecánica de componentes
-           con los más altos estándares de calidad.</p>
+        <p>Llevamos más de 30 años verificando integridad mecánica en plantas industriales, energéticas y petroquímicas. No tercerizamos inspecciones.</p>
         <a href="#contacto" class="btn btn-primary" style="margin-top: 2rem;">
           Solicitar Cotización
         </a>
@@ -719,9 +659,7 @@
           </div>
           <div>
             <h4>Certificación ASNT-TC-1A</h4>
-            <p>Inspectores calificados y certificados según la norma ASNT-TC-1A.
-               Todo nuestro equipo técnico son ingenieros metalúrgicos con amplia
-               experiencia en análisis de integridad de materiales.</p>
+            <p>Inspectores certificados ASNT-TC-1A. Ingenieros metalúrgicos especializados en análisis de integridad de materiales.</p>
           </div>
         </div>
 
@@ -735,9 +673,7 @@
           </div>
           <div>
             <h4>Cobertura Nacional e Internacional</h4>
-            <p>Prestamos servicios en campo en todo Colombia y en el exterior,
-               facilitados por nuestra ubicación central en Bogotá con instalaciones
-               de 300 m² para análisis de laboratorio.</p>
+            <p>Servicios en campo en todo Colombia y el exterior. Instalaciones de 300 m² en Bogotá para análisis de laboratorio.</p>
           </div>
         </div>
 
@@ -752,9 +688,7 @@
           </div>
           <div>
             <h4>Talento Humano Calificado</h4>
-            <p>Staff administrativo con experiencia en negocios internacionales
-               y equipo técnico comprometido con la seguridad SG-SST y con la
-               excelencia en cada inspección.</p>
+            <p>Nuestros técnicos trabajan bajo protocolos SG-SST y están entrenados para operar en entornos industriales exigentes.</p>
           </div>
         </div>
 
@@ -767,9 +701,7 @@
           </div>
           <div>
             <h4>Aliados Internacionales</h4>
-            <p>Red de socios de clase mundial: Olympus (ultrasonido), QSA Global
-               (fuentes radiográficas), Zetec y otros líderes en tecnología NDT
-               que garantizan equipos y materiales de la más alta calidad.</p>
+            <p>Trabajamos con Olympus, QSA Global y Zetec. Ningún equipo sale a campo sin calibración vigente.</p>
           </div>
         </div>
 
@@ -788,8 +720,6 @@
     <div class="section-header centered reveal">
       <span class="label">Contáctenos</span>
       <h2>Solicite su<br />Cotización</h2>
-      <p>Un especialista le responderá a la brevedad para atender
-         su requerimiento de inspección.</p>
     </div>
 
     <div class="contact-layout">
@@ -798,8 +728,7 @@
       <div class="contact-info reveal">
         <span class="label">Información de Contacto</span>
         <h2>Estamos en<br />Bogotá, Colombia</h2>
-        <p>Comuníquese con nosotros por el canal de su preferencia.
-           Le atenderemos con gusto.</p>
+        <p>Escríbanos por el canal que prefiera.</p>
 
         <div class="contact-details">
 

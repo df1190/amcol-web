@@ -1,6 +1,6 @@
 /* ============================================================
    AMCOL INGENIERÍA LTDA — responsive.css
-   Mobile-first breakpoints: 480 | 640 | 768 | 1024 | 1280
+   Breakpoints: 480 | 768 | 1024 | 1280
    ============================================================ */
 
 /* ─── Tablet (≤ 1024px) ──────────────────────────────────────── */
@@ -11,16 +11,20 @@
   .navbar__cta { display: none; }
   .hamburger   { display: flex; }
 
-  /* Hero */
-  .hero__h1 { font-size: clamp(3rem, 7vw, 5rem); }
-
-  .hero__stats-row { flex-wrap: wrap; }
-  .hero__stat {
-    flex: 1 1 50%;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+  /* Hero — stack on tablet */
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-12);
+    padding: var(--sp-12) 0 var(--sp-16);
   }
-  .hero__stat:nth-child(2),
-  .hero__stat:nth-child(4) { border-right: none; }
+
+  .hero__visual { order: -1; }
+
+  .hero__photo-frame { aspect-ratio: 16/8; }
+
+  .hero__cert { right: var(--sp-4); }
+
+  .hero__h1 { font-size: clamp(2.6rem, 6vw, 4rem); }
 
   /* Services */
   .services-list { grid-template-columns: repeat(2, 1fr); }
@@ -87,7 +91,6 @@
   h2 { font-size: var(--fs-3xl); }
   h3 { font-size: var(--fs-xl);  }
 
-  /* Container — use 1rem (valid) instead of broken sp-5 */
   .container { padding: 0 1rem; }
 
   /* Section headers */
@@ -96,18 +99,16 @@
   .section-header p      { font-size: var(--fs-sm); }
 
   /* ── Hero ── */
-  .hero__h1 { font-size: clamp(2.5rem, 9vw, 4rem); }
-
-  .hero__content {
-    padding-top: var(--sp-8);
-    padding-bottom: var(--sp-24);
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+    padding: var(--sp-8) 0 var(--sp-12);
   }
 
-  .hero__label { margin-bottom: var(--sp-8); }
+  .hero__h1 { font-size: clamp(2.2rem, 9vw, 3.5rem); }
 
   .hero__sub {
     font-size: var(--fs-base);
-    margin-bottom: var(--sp-8);
   }
 
   .hero__actions {
@@ -116,27 +117,25 @@
   }
   .hero__actions .btn { justify-content: center; }
 
-  .hero__stats-row { flex-direction: column; }
-  .hero__stat {
-    flex: auto;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    padding: var(--sp-4) var(--sp-4);
+  .hero__mini-stats {
+    gap: var(--sp-6);
+    flex-wrap: wrap;
   }
-  .hero__stat:last-child { border-bottom: none; }
-  .hero__stat-num {
-    font-size: var(--fs-2xl);
-    min-width: 64px;
+
+  .hero__mini-stat-num { font-size: var(--fs-xl); }
+
+  .hero__photo-frame { aspect-ratio: 16/9; }
+
+  .hero__cert { display: none; }
+
+  .hero__badge {
+    bottom: var(--sp-3);
+    left: var(--sp-3);
   }
-  .hero__stat-label { font-size: var(--fs-xs); }
 
   /* ── Services ── */
   .services-section { padding: var(--sp-16) 0; }
   .services-list    { grid-template-columns: 1fr; gap: 1rem; }
-  .svc-card         { min-height: 320px; }
 
   /* ── QSA ── */
   .qsa-section { padding: var(--sp-16) 0; }
@@ -169,7 +168,7 @@
   }
   .about-tabs::-webkit-scrollbar { display: none; }
 
-  .tab-btn {
+  .about-tab {
     padding: var(--sp-3) var(--sp-4);
     font-size: var(--fs-xs);
     white-space: nowrap;
@@ -188,22 +187,21 @@
     align-items: flex-start;
     padding: var(--sp-4);
   }
-  .sector-card__icon {
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
+  .sector-card__icon { margin-bottom: 0; flex-shrink: 0; }
   .sector-card h3 { font-size: var(--fs-base); }
 
   /* ── Why Amcol ── */
   .why-section       { padding: var(--sp-16) 0; }
   .why-section::before { display: none; }
   .why-left p        { font-size: var(--fs-base); }
+  .why-item:hover    { transform: none; }
 
   /* ── Contact ── */
   .contact-section  { padding: var(--sp-16) 0; }
   .form-row         { grid-template-columns: 1fr; }
   .contact-form-box { padding: var(--sp-6); }
-  .contact-map      { height: 220px; }
+  .contact-map      { margin-top: var(--sp-8); }
+  .contact-map iframe { height: 240px; }
 
   /* ── Footer ── */
   .footer__main {
@@ -258,24 +256,19 @@
 
   .container { padding: 0 0.75rem; }
 
-  .hero__h1 { font-size: clamp(2.2rem, 10vw, 3.2rem); }
+  .hero__h1 { font-size: clamp(2rem, 10vw, 3rem); }
 
   .navbar__logo img { height: 32px; }
 
   .btn {
     font-size: var(--fs-sm);
-    padding: 0.75rem 1.25rem;
+    padding: 0.7rem 1.25rem;
   }
 
-  .hero__stat-num {
-    font-size: var(--fs-xl);
-    min-width: 50px;
-  }
-
-  .svc-card { min-height: 280px; }
+  .hero__mini-stat-num { font-size: var(--fs-xl); }
 
   /* QSA */
-  .qsa-card__title { font-size: 1.4rem; }
+  .qsa-card__title { font-size: 1.35rem; }
 
   /* About stats */
   .about-stats__grid  { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
@@ -286,12 +279,12 @@
   .about-cta__card    { padding: 1.5rem 1rem; }
 
   /* Nosotros hero */
-  .about-hero__title  { font-size: clamp(2.4rem, 11vw, 3.2rem); }
+  .about-hero__title  { font-size: clamp(2.2rem, 11vw, 3rem); }
 
   .about-visual__badge strong { font-size: var(--fs-base); }
 
   /* Footer */
-  .footer-brand__logo { height: 36px; }
+  .footer-brand__logo { height: 34px; }
 }
 
 /* ─── Accessibility: reduced motion ─────────────────────────── */
@@ -306,8 +299,9 @@
 
 /* ─── Print ──────────────────────────────────────────────────── */
 @media print {
-  .navbar, .scroll-top, .hero__scan, .mobile-menu,
-  .contact-form-box, .footer__strip { display: none !important; }
+  .navbar, .scroll-top, .mobile-menu,
+  .contact-form-box, .footer__strip,
+  .hero__bg-pattern, .hero__bg-blob { display: none !important; }
 
   body {
     background: white;
@@ -322,7 +316,4 @@
     background: white;
     color: black;
   }
-  .hero__photo,
-  .hero__vignette,
-  .hero__grid { display: none; }
 }
