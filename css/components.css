@@ -280,9 +280,9 @@
 }
 
 .hero__h1 {
-  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--ink);
   margin: 0;
@@ -726,7 +726,7 @@
   border: 1px solid var(--border);
   border-top: 3px solid var(--red);
   border-radius: var(--r-lg);
-  padding: var(--sp-8);
+  padding: var(--sp-6);
   position: relative;
   overflow: hidden;
   transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
@@ -760,11 +760,11 @@
 
 .qsa-card__img-wrap {
   width: 100%;
-  height: 240px;
+  height: 160px;
   background: var(--surface);
   border-radius: var(--r-md);
   overflow: hidden;
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -785,17 +785,17 @@
 
 .qsa-card__title {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .qsa-card__desc {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: var(--ink-muted);
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .qsa-card__specs {
@@ -1234,92 +1234,123 @@
    CONTACT
    ============================================================ */
 .contact-section {
-  background: var(--surface);
+  background: var(--background);
   padding: var(--sp-24) 0;
 }
 
 .contact-layout {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: var(--sp-16);
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--sp-12);
   align-items: start;
 }
 
-/* Left: info */
+/* Left: info panel */
+.contact-info {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-8);
+}
+
+.contact-location-title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--sp-2);
+  line-height: 1.2;
+}
+
 .contact-info .label { margin-bottom: var(--sp-4); }
-.contact-info h2 { margin-bottom: var(--sp-4); }
-.contact-info > p { font-size: var(--fs-md); margin-bottom: var(--sp-8); }
+.contact-info > p { font-size: var(--fs-sm); margin-bottom: var(--sp-6); color: var(--ink-muted); }
 
 .contact-details {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-5);
-  margin-bottom: var(--sp-8);
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
 }
 
 .contact-item {
   display: flex;
-  gap: var(--sp-4);
-  align-items: flex-start;
+  gap: var(--sp-3);
+  align-items: center;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.contact-item:hover {
+  border-color: rgba(204,20,20,0.25);
+  box-shadow: 0 2px 8px rgba(204,20,20,0.06);
 }
 
 .contact-item__icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   background: var(--red-dim);
-  border: 1px solid rgba(204,20,20,0.15);
-  border-radius: var(--r-md);
+  border-radius: var(--r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .contact-item__icon svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   stroke: var(--red);
 }
 
-.contact-item__text { flex: 1; }
+.contact-item__text { flex: 1; min-width: 0; }
 
 .contact-item__text strong {
   display: block;
   font-family: var(--font-mono);
   font-size: var(--fs-2xs);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-subtle);
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .contact-item__text a,
 .contact-item__text span {
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
+  font-weight: 500;
   color: var(--ink);
   transition: color var(--t-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .contact-item__text a:hover { color: var(--red); }
 
 /* WhatsApp button */
 .btn-wa {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-3);
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   background: #25D366;
   color: var(--white);
-  border-radius: var(--r-sm);
+  border-radius: var(--r-md);
   font-family: var(--font-body);
-  font-size: var(--fs-base);
+  font-size: var(--fs-sm);
   font-weight: 600;
   transition: all var(--t-base) var(--ease-out);
+  width: 100%;
 }
 
 .btn-wa svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: var(--white);
   flex-shrink: 0;
 }
@@ -1327,22 +1358,25 @@
 .btn-wa:hover {
   background: #1ebe5a;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+  box-shadow: 0 8px 20px rgba(37,211,102,0.3);
 }
 
 /* Right: form */
 .contact-form-box {
   background: var(--white);
   border: 1px solid var(--border);
+  border-top: 3px solid var(--red);
   border-radius: var(--r-lg);
   padding: var(--sp-8);
   box-shadow: var(--shadow-card);
 }
 
 .contact-form-box h3 {
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-xl);
+  font-weight: 700;
   margin-bottom: var(--sp-6);
   color: var(--ink);
+  letter-spacing: -0.02em;
 }
 
 .form-row {

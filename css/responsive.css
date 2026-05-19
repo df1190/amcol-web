@@ -24,7 +24,7 @@
 
   .hero__cert { right: var(--sp-4); }
 
-  .hero__h1 { font-size: clamp(2.6rem, 6vw, 4rem); }
+  .hero__h1 { font-size: clamp(1.8rem, 4.5vw, 3rem); white-space: normal; }
 
   /* Services */
   .services-list { grid-template-columns: repeat(2, 1fr); }
@@ -105,7 +105,7 @@
     padding: var(--sp-8) 0 var(--sp-12);
   }
 
-  .hero__h1 { font-size: clamp(2.2rem, 9vw, 3.5rem); }
+  .hero__h1 { font-size: clamp(1.5rem, 5.5vw, 2.2rem); white-space: normal; }
 
   .hero__sub {
     font-size: var(--fs-base);
